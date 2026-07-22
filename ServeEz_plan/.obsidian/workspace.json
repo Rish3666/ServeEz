@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "AI Integration/01 - Predictor Engine.md",
+                "file": "AI Control/02 - MCP Tool Interface.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "01 - Predictor Engine"
+              "title": "02 - MCP Tool Interface"
             }
           }
         ]
@@ -185,12 +185,23 @@
   },
   "active": "93766fadc86a85a6",
   "lastOpenFiles": [
+    "Assets/pg5.jpeg",
+    "Assets/pg5 1.jpeg",
+    "Assets/pg4.jpeg",
+    "Assets/pg4 1.jpeg",
+    "Assets/pg3.jpeg",
+    "Assets/pg3 1.jpeg",
+    "Assets/pg2.jpeg",
+    "Assets/pg2 1.jpeg",
+    "Assets/pg1.jpeg",
+    "Assets/pg1 1.jpeg",
+    "Assets",
+    "AI Integration/02 - Anomaly Detection.md",
+    "AI Integration/01 - Predictor Engine.md",
     "Orchestration/07 - Networking.md",
     "AI Integration/04 - Cost Optimizer.md",
     "AI Integration/03 - Agent Runtime.md",
     "Orchestration/06 - Workload Types.md",
-    "AI Integration/02 - Anomaly Detection.md",
-    "AI Integration/01 - Predictor Engine.md",
     "Orchestration/05 - Container Lifecycle.md",
     "Orchestration/04 - Node Agent.md",
     "Orchestration/03 - AI Scheduler.md",
@@ -214,23 +225,12 @@
     "Business/Roadmap.md",
     "Brainstorming/Flaws & Risks.md",
     "Brainstorming/New Ideas & Features.md",
-    "Architecture/System Overview.md",
     "pg1 1.jpeg",
     "Untitled.base",
     "Untitled 1.base",
     "UI",
     "Brainstorming",
     "Business",
-    "Architecture",
-    "pg5 1.jpeg",
-    "pg4 1.jpeg",
-    "pg3 1.jpeg",
-    "pg2 1.jpeg",
-    "pg4.jpeg",
-    "pg3.jpeg",
-    "pg2.jpeg",
-    "pg1.jpeg",
-    "pg5.jpeg",
     "Untitled.canvas"
   ]
 }

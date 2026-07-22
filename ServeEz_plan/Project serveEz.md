@@ -5,11 +5,11 @@ tags:
 status: reference
 priority: high
 banner:
-  - "![[pg1 1.jpeg]]"
-  - "![[pg2 1.jpeg]]"
-  - "![[pg3 1.jpeg]]"
-  - "![[pg4 1.jpeg]]"
-  - "![[pg5 1.jpeg]]"
+  - "![[Assets/pg1 1.jpeg]]"
+  - "![[Assets/pg2 1.jpeg]]"
+  - "![[Assets/pg3 1.jpeg]]"
+  - "![[Assets/pg4 1.jpeg]]"
+  - "![[Assets/pg5 1.jpeg]]"
 ---
 
 # Project ServeEz — Raw Notes
@@ -43,8 +43,8 @@ An intelligent AI-powered server & cluster management system that makes deployme
 
 ## Raw Images
 
-![[pg1 1.jpeg]]
-![[pg2 1.jpeg]]
-![[pg3 1.jpeg]]
-![[pg4 1.jpeg]]
-![[pg5 1.jpeg]]
+![[Assets/pg1 1.jpeg]]
+![[Assets/pg2 1.jpeg]]
+![[Assets/pg3 1.jpeg]]
+![[Assets/pg4 1.jpeg]]
+![[Assets/pg5 1.jpeg]]

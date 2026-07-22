@@ -4,7 +4,7 @@ tags:
   - index
 status: live
 priority: critical
-banner: "![[pg1 1.jpeg]]"
+banner: "![[Assets/pg1 1.jpeg]]"
 ---
 
 # 🚀 ServeEz — Project Home
