@@ -33,11 +33,13 @@ priority: high
 ## Monetization Models
 | Model | Tier | Why |
 |-------|------|-----|
-| Open-source (AGPL) | Indie | Community trust, adoption |
+| ==Open-source (AGPL)== | Indie | Community trust, adoption |
 | Freemium SaaS | SMB | Low barrier to try |
 | Self-hosted License | SMB/Pro | Data stays on-prem |
 | Enterprise Contract | Enterprise | Custom terms + SLA |
 | Marketplace (coming) | All | Plugins + integrations |
+
+> **License Decision**: AGPL — Strong copyleft ensures enterprises must buy a commercial license for proprietary use. The AI training/tuning logic stays in the enterprise module.
 
 ## Distribution Channels
 - GitHub (open-source core)
@@ -49,7 +51,7 @@ priority: high
 ## Competitive Landscape
 | Competitor | Strength | ServeEz Advantage |
 |------------|----------|-------------------|
-| Kubernetes | Ecosystem, maturity | Simplicity + AI |
+| Kubernetes | Ecosystem, maturity | ==AI-native alternative, no YAML hell== |
 | Terraform | IaC standard | Real-time dynamic infra |
 | Datadog | Monitoring depth | Action (not just observe) |
 | Spot.io | Cost optimization | Broader: heal + scale + cool |

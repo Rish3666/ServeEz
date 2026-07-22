@@ -21,7 +21,7 @@ AI analyses historical traffic patterns, time-of-day trends, and external signal
 
 ## Architecture
 - **Predictor Module** — Lightweight time-series forecasting model (Prophet / LSTM / Transformer)
-- **Orchestrator Hook** — Plugs into Docker Swarm / K8s / Nomad to adjust replicas
+- **Orchestrator Hook** — Plugs into native ServeEz orchestrator (Docker-compatible API) to adjust replicas
 - **Feedback Loop** — Actual traffic vs prediction is logged to continuously refine accuracy
 
 ## Graph Concept

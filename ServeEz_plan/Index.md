@@ -51,21 +51,34 @@ Enterprises (Closed-source Full)
 Adoption + Revenue
 ```
 
-## MVP Mindset
-> ==What is the smallest, most useful thing we can build in 3 months== and put in front of users?
+## MVP Scope (Decided)
+> ==Docker auto-scaling on 3 servers + Multi-cloud cost comparison==
+
+**Focus**: Delivers immediate value = cost savings + performance.
 
 - Single-server agent → metrics + health
 - Basic TUI → server list + status
-- Docker integration → deploy/scale containers
+- Docker integration → auto-scale containers on 3 servers
+- Multi-cloud cost comparison (AWS/Azure/GCP spot pricing)
 - AI chat → read-only commands
 
-## Key Questions (Unresolved)
-1. ==K8s add-on or K8s alternative?==
-2. Open-source license: AGPL vs Apache vs BSL?
-3. ==What's the MVP scope?==
-4. Cloud-only or hybrid (including bare-metal)?
+## ✅ Decisions Made
+
+| Question | Decision |
+|----------|----------|
+| K8s add-on or alternative? | ==K8s alternative — own orchestration, AI-native== |
+| Open-source license? | ==AGPL== |
+| MVP scope? | ==Docker scaling on 3 servers + multi-cloud cost comparison== |
+| Target market? | ==All 3 tiers (Lite/Pro/Enterprise)== |
 
 → See [[Brainstorming/Open Questions & Decisions]] for full discussion
+
+## Still Unresolved
+- Q5: AI auto-remediation or always suggest?
+- Q6: Stateful workload migration scope?
+- Q7: Cloud-only vs hybrid vs on-prem?
+- Q8: Local vs API LLM?
+- Q9: Agent language (Go/Rust/Python)?
 
 ---
 

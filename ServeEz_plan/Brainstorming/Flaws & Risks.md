@@ -51,12 +51,15 @@ priority: critical
 ## 🟡 Medium Risks
 
 ### 4. Kubernetes Exists & Is Free
-**Problem**: K8s already does auto-scaling, self-healing, rolling updates, and service discovery. It's complex but ==deeply entrenched==. Why does ServeEz exist on top of / instead of K8s?
-**Answer**: ServeEz is *smarter*, not just *automated*. AI-driven prediction vs threshold-based scaling, multi-cloud arbitrage, natural language interface. But need to communicate this clearly.
-**Positioning Options**:
-- "An AI layer on top of your existing K8s" (additive)
-- "K8s alternative for people who hate K8s" (replace)
-- ==Both are viable — pick ONE target message.==
+**Problem**: K8s already does auto-scaling, self-healing, rolling updates, and service discovery. It's complex but ==deeply entrenched==. Why does ServeEz exist instead of K8s?
+**Answer**: ServeEz is an ==AI-native K8s alternative== designed from the ground up for simplicity. No YAML hell, no steep learning curve, no control plane overhead. AI replaces manual config.
+**Positioning**: "K8s alternative for people who hate K8s" — simpler, smarter, AI-native.
+
+**Mitigations**:
+- Docker-compatible API for easy migration
+- Import existing Docker Compose files directly
+- Gradual adoption: manage 1 server → grow to cluster
+- Built-in AI handles complexity that K8s pushes to config files
 
 **Risk Level**: 🟡 MEDIUM — Existential competitive threat.
 

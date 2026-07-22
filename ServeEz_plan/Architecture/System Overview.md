@@ -8,6 +8,8 @@ priority: critical
 
 # System Architecture Overview
 
+> **Decision**: Built as a ==lightweight K8s alternative== with AI-native orchestration, not a K8s add-on.
+
 ## High-Level Diagram
 ```
 ┌─────────────────────────────────────────────────────┐
@@ -43,7 +45,7 @@ priority: critical
 - **LLM Agent** — Natural language interface ([[06 - AI Agent & Chat Mode]])
 
 ### Core Platform
-- **Orchestrator** — Container/pod lifecycle management
+- **Orchestrator** — Native container/pod lifecycle management (simpler than K8s, AI-native)
 - **Arbiter** — Cloud pricing analysis & routing ([[03 - Real-Time Cloud Arbitrage]])
 - **Migration Engine** — Live migration of workloads across providers/hardware
 
@@ -71,3 +73,4 @@ Agent → Local Buffer → Stream Processor → AI Engine → Decision → Actio
 - ==**Agent weight**: < 50MB RAM idle target==
 - **Communication**: gRPC + NATS for real-time
 - **AI models**: ONNX runtime for inference, Python for training
+- **Orchestration API**: Docker-compatible API surface for easy migration from Compose/K8s

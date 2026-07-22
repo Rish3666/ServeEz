@@ -11,10 +11,14 @@
             "id": "93766fadc86a85a6",
             "type": "leaf",
             "state": {
-              "type": "graph",
-              "state": {},
-              "icon": "lucide-git-fork",
-              "title": "Graph view"
+              "type": "markdown",
+              "state": {
+                "file": "Brainstorming/Open Questions & Decisions.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Open Questions & Decisions"
             }
           }
         ]
@@ -179,9 +183,11 @@
       "bases:Create new base": false
     }
   },
-  "active": "00c032fc6d89ea45",
+  "active": "93766fadc86a85a6",
   "lastOpenFiles": [
     "Index.md",
+    "UI/TUI Dashboard.md",
+    "UI/GUI Dashboard.md",
     "Business/Target Audience & Monetization.md",
     "Untitled",
     "Business/Roadmap.md",
@@ -190,7 +196,6 @@
     "Brainstorming/New Ideas & Features.md",
     "Architecture/System Overview.md",
     "Project serveEz.md",
-    "UI/GUI Dashboard.md",
     "pg1 1.jpeg",
     "Untitled.base",
     "Untitled 1.base",
@@ -198,7 +203,6 @@
     "Core Features/08 - Predictive Duplicate Container (Blue-Green Pre-Warm).md",
     "Core Features/07 - One-Command Cluster Additions.md",
     "Core Features/03 - Real-Time Cloud Arbitrage.md",
-    "UI/TUI Dashboard.md",
     "Core Features/06 - AI Agent & Chat Mode.md",
     "Core Features/05 - AI Server Management & Cooling.md",
     "Core Features/04 - Hardware Compute Distribution.md",

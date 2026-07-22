@@ -42,3 +42,4 @@ A ==full-access AI agent== that understands natural language commands for server
 ## Related
 - [[Brainstorming/Flaws & Risks|Flaws & Risks]] — AI safety deep-dive
 - [[Architecture/System Overview|System Overview]] — How agent integrates with other modules
+- [[Brainstorming/Open Questions & Decisions|Open Questions]] — Q5 (auto-remediation) still unresolved

@@ -75,12 +75,21 @@ ServeEz is an intelligent infrastructure management system that makes deployment
 
 ---
 
-## Key Decisions (Unresolved)
+## Key Decisions
 
-1. **K8s add-on vs K8s alternative?** — AI layer on existing K8s, or a lightweight replacement?
-2. **Open-source license** — AGPL, Apache 2.0, BSL, or dual?
-3. **AI auto-remediation?** — Always suggest, auto within boundaries, or configurable per action?
-4. **LLM strategy** — Cloud API, local model (Llama/Mistral), or hybrid?
+| Question | Decision |
+|----------|----------|
+| **K8s add-on vs K8s alternative?** | ✅ K8s alternative — own orchestration, AI-native |
+| **Open-source license?** | ✅ AGPL |
+| **MVP scope?** | ✅ Docker scaling on 3 servers + multi-cloud cost comparison |
+| **Target market?** | ✅ All 3 tiers (Lite/Pro/Enterprise) |
+
+### Still Unresolved
+- AI auto-remediation or always suggest?
+- Stateful workload migration scope?
+- Cloud-only vs hybrid vs on-prem?
+- Local vs API LLM?
+- Agent language (Go/Rust/Python)?
 
 ---
 

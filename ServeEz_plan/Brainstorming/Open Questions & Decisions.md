@@ -15,36 +15,30 @@ priority: high
 
 ## 🔴 Must Decide (Pre-Development)
 
-### Q1: K8s Add-on vs K8s Alternative?
-Either:
-- **(A) ServeEz as AI layer on top of K8s** — Works with existing K8s clusters, adds AI prediction/chat/healing. Less ambitious, faster to market, piggybacks on K8s ecosystem.
-- **(B) ServeEz as lightweight K8s alternative** — Own container orchestration, simpler than K8s, AI-native from day one. Harder to build but more differentiated.
+### ✅ Q1: K8s Add-on vs K8s Alternative?
+~~Either:~~
+- ~~(A) ServeEz as AI layer on top of K8s~~
+- ~~(B) ServeEz as lightweight K8s alternative~~
 
-==**Decision**: [ ]==
+==**Decision**: B — Lightweight K8s alternative with native AI== — Own container orchestration, simpler than K8s, AI-native from day one. Harder to build but more differentiated.
 
-### Q2: Open Source License?
-- AGPL (strong copyleft, enterprise must buy commercial license)
-- Apache 2.0 (permissive, harder to monetize)
-- BSL / Source-available (like HashiCorp / Sentry)
-- Dual license (AGPL community + commercial enterprise)
+### ✅ Q2: Open Source License?
+- ~~Apache 2.0, BSL, Dual license~~
 
-**Decision**: [ ]
+==**Decision**: AGPL== — Strong copyleft, enterprises must buy commercial license for proprietary use.
 
-### Q3: ==MVP Scope — What's the smallest useful thing?==
-Possibilities:
-- Single-server monitoring + AI chat (least useful but fastest)
-- Docker auto-scaling on 3 servers (more useful, more work)
-- Multi-cloud cost comparison (useful for SMBs)
-- AI chat with read-only commands (safe intro to the concept)
+### ✅ Q3: MVP Scope — What's the smallest useful thing?
+~~Possibilities:~~
+- ~~Single-server monitoring + AI chat~~
+- ~~Multi-cloud cost comparison~~
+- ~~AI chat with read-only commands~~
 
-**Decision**: [ ]
+==**Decision**: Docker auto-scaling on 3 servers + Multi-cloud cost comparison== — Delivers immediate value: cost savings + performance.
 
-### Q4: Target Market — Startups vs Enterprises first?
-- Startups: Faster sales cycle, lower budget, more risk-tolerant
-- Enterprises: Longer sales cycle, bigger budget, need compliance/SSO/SLA
-- Indie devs: Zero revenue but great for adoption + feedback
+### ✅ Q4: Target Market?
+- ~~Startups vs Enterprises vs Indie devs~~
 
-**Decision**: [ ]
+==**Decision**: All 3 tiers (Lite/Pro/Enterprise)== — Two versions of the app: open-source Lite for indie devs, paid Pro + Enterprise for companies.
 
 ---
 
@@ -117,4 +111,7 @@ Possibilities:
 
 | # | Question | Decision | Date | Rationale |
 |---|----------|----------|------|-----------|
-| — | — | — | — | — |
+| Q1 | K8s Add-on vs Alternative | Lightweight K8s alternative | 2026-07-23 | More differentiated, AI-native from day one |
+| Q2 | Open-source license | AGPL | 2026-07-23 | Strong copyleft, forces enterprise to buy commercial |
+| Q3 | MVP scope | Docker scaling on 3 servers + multi-cloud cost | 2026-07-23 | Delivers both performance + cost value in MVP |
+| Q4 | Target market | All 3 tiers (Lite/Pro/Enterprise) | 2026-07-23 | Two versions of the app serving different segments |
