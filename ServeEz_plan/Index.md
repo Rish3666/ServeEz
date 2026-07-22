@@ -26,6 +26,31 @@ banner: "![[pg1 1.jpeg]]"
 | [[Core Features/08 - Predictive Duplicate Container (Blue-Green Pre-Warm)]] | Zero-downtime container replacement |
 | [[Core Features/09 - Real-Time Monitoring & AI Suggestions]] | AI-driven proactive suggestions |     |
 
+## AI Control (New)
+| Area | Description |
+|------|-------------|
+| [[AI Control/01 - Philosophy & Principles]] | AI-as-Pilot design philosophy |
+| [[AI Control/02 - MCP Tool Interface]] | Every operation as MCP tools |
+| [[AI Control/03 - Intent API]] | High-level semantic API for AI |
+| [[AI Control/04 - State Model for AI]] | Structured, queryable cluster state |
+| [[AI Control/05 - Action Audit & Safety]] | Audit trail, undo, kill switch |
+| [[AI Control/06 - Simulation Sandbox]] | Dry-run mode before any action |
+
+## Orchestration (New)
+| [[Orchestration/01 - Architecture Overview]] | AI-native orchestrator design |
+| [[Orchestration/02 - Control Plane]] | API server, state store, controllers |
+| [[Orchestration/03 - AI Scheduler]] | Predictive placement, continuous re-optimization |
+| [[Orchestration/04 - Node Agent]] | Per-machine daemon, API-driven |
+| [[Orchestration/05 - Container Lifecycle]] | Simplified container management |
+| [[Orchestration/06 - Workload Types]] | Service, stateful, batch, agent sessions |
+| [[Orchestration/07 - Networking]] | Built-in mDNS, DNS, AI-managed routing |
+
+## AI Integration
+| [[AI Integration/01 - Predictor Engine]] | Traffic + resource prediction |
+| [[AI Integration/02 - Anomaly Detection]] | Micro-failure detection |
+| [[AI Integration/03 - Agent Runtime]] | Sandboxed agent sessions (Substrate-inspired) |
+| [[AI Integration/04 - Cost Optimizer]] | Continuous cloud pricing optimization |
+
 ## Architecture & UI
 - [[Architecture/System Overview]] — System design + data flow
 - [[UI/TUI Dashboard]] — Terminal interface

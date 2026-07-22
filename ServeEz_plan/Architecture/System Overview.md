@@ -80,9 +80,16 @@ Agent → Local Buffer → Stream Processor → AI Engine → Decision → Actio
 - Cloud API (OpenAI/Anthropic) for complex chat, multi-step reasoning, deep diagnostics
 - Automatic fallback to local when offline
 
+## Key Architecture Shift
+The architecture has been redesigned around ==AI-as-Pilot==. See [[AI Control/01 - Philosophy & Principles]] for the full design rationale.
+
+The new [[Orchestration/01 - Architecture Overview]] replaces this file as the definitive architecture doc. This page remains as a high-level summary.
+
 ## Tech Stack Considerations
 - **Language**: Go (agent) + Python (AI) + Rust (core)
 - ==**Agent weight**: < 50MB RAM idle target==
-- **Communication**: gRPC + NATS for real-time
+- **Communication**: gRPC + NATS + MCP for real-time
 - **AI models**: ONNX runtime for local inference, cloud API for complex tasks
-- **Orchestration API**: Docker-compatible API surface for easy migration from Compose/K8s
+- **Orchestration API**: Docker-compatible, but all operations exposed as MCP tools ([[AI Control/02 - MCP Tool Interface]])
+- **State store**: SQLite (small) → Postgres (medium) → etcd (large)
+- **Agent runtime**: gVisor sandboxing + session hibernation ([[AI Integration/03 - Agent Runtime]])

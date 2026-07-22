@@ -93,9 +93,19 @@ ServeEz is an intelligent infrastructure management system that makes deployment
 
 ---
 
+## Design Philosophy: AI-as-Pilot
+
+ServeEz is not a traditional orchestrator with AI bolted on. ==The AI is the pilot, the platform is the plane.== Every component is designed for AI consumption:
+
+- **MCP-native**: Every operation is a discoverable tool the AI can call
+- **Intent API**: Express goals, not config — AI figures out the how
+- **Structured state**: AI reads cluster state as JSON, not dashboards
+- **Simulation-first**: Every action dry-runs before execution
+- **Full audit**: Every action logged with before/after state, undo support
+
 ## Brainstorming
 
-The full Obsidian vault lives in `ServeEz_plan/` with detailed docs on every feature, architecture, business model, roadmap, risks, and 17+ brainstormed extension ideas including GitOps integration, carbon-aware scheduling, server health scoring, Slack/Discord bot, and a code-to-deploy pipeline.
+The full Obsidian vault lives in `ServeEz_plan/` with detailed docs on every feature, architecture, orchestration, AI control plane, business model, roadmap, risks, and 17+ brainstormed extension ideas.
 
 ---
 

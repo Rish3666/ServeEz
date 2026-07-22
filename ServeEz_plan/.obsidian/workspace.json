@@ -11,10 +11,14 @@
             "id": "93766fadc86a85a6",
             "type": "leaf",
             "state": {
-              "type": "graph",
-              "state": {},
-              "icon": "lucide-git-fork",
-              "title": "Graph view"
+              "type": "markdown",
+              "state": {
+                "file": "Orchestration/07 - Networking.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "07 - Networking"
             }
           }
         ]
@@ -181,6 +185,26 @@
   },
   "active": "93766fadc86a85a6",
   "lastOpenFiles": [
+    "AI Integration/04 - Cost Optimizer.md",
+    "AI Integration/03 - Agent Runtime.md",
+    "Orchestration/06 - Workload Types.md",
+    "AI Integration/02 - Anomaly Detection.md",
+    "AI Integration/01 - Predictor Engine.md",
+    "Orchestration/05 - Container Lifecycle.md",
+    "Orchestration/04 - Node Agent.md",
+    "Orchestration/03 - AI Scheduler.md",
+    "Orchestration/07 - Networking.md",
+    "Orchestration/02 - Control Plane.md",
+    "Orchestration/01 - Architecture Overview.md",
+    "AI Control/04 - State Model for AI.md",
+    "AI Control/06 - Simulation Sandbox.md",
+    "AI Control/05 - Action Audit & Safety.md",
+    "AI Control/03 - Intent API.md",
+    "AI Control/02 - MCP Tool Interface.md",
+    "AI Control/01 - Philosophy & Principles.md",
+    "AI Integration",
+    "Orchestration",
+    "AI Control",
     "Brainstorming/Open Questions & Decisions.md",
     "Index.md",
     "UI/TUI Dashboard.md",
@@ -191,24 +215,13 @@
     "Brainstorming/Flaws & Risks.md",
     "Brainstorming/New Ideas & Features.md",
     "Architecture/System Overview.md",
-    "Project serveEz.md",
     "pg1 1.jpeg",
     "Untitled.base",
     "Untitled 1.base",
-    "Core Features/09 - Real-Time Monitoring & AI Suggestions.md",
-    "Core Features/08 - Predictive Duplicate Container (Blue-Green Pre-Warm).md",
-    "Core Features/07 - One-Command Cluster Additions.md",
-    "Core Features/03 - Real-Time Cloud Arbitrage.md",
-    "Core Features/06 - AI Agent & Chat Mode.md",
-    "Core Features/05 - AI Server Management & Cooling.md",
-    "Core Features/04 - Hardware Compute Distribution.md",
-    "Core Features/02 - Predictive Self-Healing & Seamless Migration.md",
-    "Core Features/01 - Zero Latency Predictive Scaling.md",
     "UI",
     "Brainstorming",
     "Business",
     "Architecture",
-    "Core Features",
     "pg5 1.jpeg",
     "pg4 1.jpeg",
     "pg3 1.jpeg",
@@ -218,8 +231,6 @@
     "pg2.jpeg",
     "pg1.jpeg",
     "pg5.jpeg",
-    "2026-07-21.md",
-    "Untitled.canvas",
-    "Welcome.md"
+    "Untitled.canvas"
   ]
 }
