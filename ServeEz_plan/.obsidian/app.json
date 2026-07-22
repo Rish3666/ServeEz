@@ -1,3 +1,6 @@
 {
-  "promptDelete": false
+  "promptDelete": false,
+  "vimMode": true,
+  "alwaysUpdateLinks": true,
+  "showUnsupportedFiles": true
 }
