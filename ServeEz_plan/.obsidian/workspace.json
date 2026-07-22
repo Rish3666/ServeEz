@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Orchestration/07 - Networking.md",
+                "file": "AI Integration/01 - Predictor Engine.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "07 - Networking"
+              "title": "01 - Predictor Engine"
             }
           }
         ]
@@ -185,6 +185,7 @@
   },
   "active": "93766fadc86a85a6",
   "lastOpenFiles": [
+    "Orchestration/07 - Networking.md",
     "AI Integration/04 - Cost Optimizer.md",
     "AI Integration/03 - Agent Runtime.md",
     "Orchestration/06 - Workload Types.md",
@@ -193,7 +194,6 @@
     "Orchestration/05 - Container Lifecycle.md",
     "Orchestration/04 - Node Agent.md",
     "Orchestration/03 - AI Scheduler.md",
-    "Orchestration/07 - Networking.md",
     "Orchestration/02 - Control Plane.md",
     "Orchestration/01 - Architecture Overview.md",
     "AI Control/04 - State Model for AI.md",
