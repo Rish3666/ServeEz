@@ -8,7 +8,7 @@ priority: critical
 
 # System Architecture Overview
 
-> **Decision**: Built as a ==lightweight K8s alternative== with AI-native orchestration, not a K8s add-on.
+> **Decisions Applied**: Lightweight K8s alternative | ==Hybrid (cloud + bare-metal)== | ==Hybrid LLM (local + API, user-configurable)==
 
 ## High-Level Diagram
 ```
@@ -68,9 +68,21 @@ Agent → Local Buffer → Stream Processor → AI Engine → Decision → Actio
 | Predictions | SQLite / Postgres | Forever |
 | Audit trail | Postgres / S3 | Forever |
 
+## Infrastructure Model
+- ==**Hybrid** (cloud + bare-metal under one management plane)==
+- Cloud VMs: AWS, Azure, GCP — auto-discovered via API
+- Bare-metal: IPMI/BMC for health, cooling, and power control
+- Edge nodes: lightweight agent for low-resource environments
+
+## LLM Strategy
+- ==**Hybrid, user-configurable toggle**==
+- Local inference (Llama/Mistral, ONNX quantized) for predictions, anomaly detection, basic ops
+- Cloud API (OpenAI/Anthropic) for complex chat, multi-step reasoning, deep diagnostics
+- Automatic fallback to local when offline
+
 ## Tech Stack Considerations
 - **Language**: Go (agent) + Python (AI) + Rust (core)
 - ==**Agent weight**: < 50MB RAM idle target==
 - **Communication**: gRPC + NATS for real-time
-- **AI models**: ONNX runtime for inference, Python for training
+- **AI models**: ONNX runtime for local inference, cloud API for complex tasks
 - **Orchestration API**: Docker-compatible API surface for easy migration from Compose/K8s

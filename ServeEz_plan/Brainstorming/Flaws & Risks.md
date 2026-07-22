@@ -18,12 +18,12 @@ priority: critical
 ### 1. AI Full Access — Safety & Trust
 **Problem**: Giving AI complete `STOP` access (start, terminate, orchestrate, power) to servers is ==genuinely dangerous==. One bad inference, one hallucination, one prompt injection — ==and production is down==.
 **Mitigations**:
-- Mandatory human-in-the-loop for destructive actions (configurable)
+- ==Per-action-type remediation: scaling=auto, migration=manual, killing=manual+confirmation==
 - Tiered permission system (read-only → suggest → auto-scope → full)
+- AI defaults to suggest mode until trust is established
 - Physical/non-revocable kill switch
 - Every action logged with before/after state + diff
 - "Undo" capability (snapshot before mutations)
-- Starting with `suggest` mode only in MVP
 
 **Risk Level**: ==🔴 HIGH — This is the #1 reason enterprises will say no.==
 

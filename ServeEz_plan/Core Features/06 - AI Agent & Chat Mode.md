@@ -13,6 +13,8 @@ priority: high
 ## Concept
 A ==full-access AI agent== that understands natural language commands for server and cluster management. Available through [[UI/TUI Dashboard|TUI]] and [[UI/GUI Dashboard|GUI]].
 
+> **LLM Decision**: Hybrid — ==Local (Llama/Mistral) for predictions and basic ops, cloud API (OpenAI/Anthropic) for complex chat==. Falls back to local when offline. User-configurable toggle.
+
 ## Capabilities
 - **Deploy** — "Deploy 3 containers of nginx with 2GB RAM each"
 - **Diagnose** — "Why is the database slow right now?"
@@ -29,12 +31,14 @@ A ==full-access AI agent== that understands natural language commands for server
 | Monitor (Passive) | AI watches and suggests without acting |
 | Auto (Full trust) | AI acts autonomously, logs everything |
 
+> **Decision**: Configurable per-action-type — ==scaling = auto, migration = manual, killing = manual + confirmation==. AI defaults to suggest mode until trust is established. User can promote per-action as confidence grows.
+
 ## Safety Concerns
 - ==**Prompt injection risk**== — Malicious input could manipulate AI into dangerous actions
 - ==**Permission tiers** needed==:
   - `read-only` — View only
-  - `suggest` — AI suggests, human confirms
-  - `auto-scope` — Auto within defined boundaries
+  - `suggest` — AI suggests, human confirms (==default mode==)
+  - `auto-scope` — Auto within defined boundaries, per-action-type config
   - `full-access` — No restrictions (dangerous)
 - ==**Kill switch**== — Physical or keyboard shortcut that instantly revokes AI access
 - **Audit log** — Every AI action recorded with before/after state

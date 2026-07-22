@@ -83,12 +83,12 @@ ServeEz is an intelligent infrastructure management system that makes deployment
 | **Open-source license?** | ✅ AGPL |
 | **MVP scope?** | ✅ Docker scaling on 3 servers + multi-cloud cost comparison |
 | **Target market?** | ✅ All 3 tiers (Lite/Pro/Enterprise) |
+| **AI auto-remediation?** | ✅ Per-action-type: scaling=auto, migration=manual, killing=manual+confirm |
+| **Cloud vs on-prem?** | ✅ Hybrid (cloud + bare-metal under one plane) |
+| **LLM strategy?** | ✅ Hybrid (local for predictions, cloud API for chat, user toggle) |
 
 ### Still Unresolved
-- AI auto-remediation or always suggest?
 - Stateful workload migration scope?
-- Cloud-only vs hybrid vs on-prem?
-- Local vs API LLM?
 - Agent language (Go/Rust/Python)?
 
 ---

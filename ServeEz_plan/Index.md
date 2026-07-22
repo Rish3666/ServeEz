@@ -70,15 +70,15 @@ Adoption + Revenue
 | Open-source license? | ==AGPL== |
 | MVP scope? | ==Docker scaling on 3 servers + multi-cloud cost comparison== |
 | Target market? | ==All 3 tiers (Lite/Pro/Enterprise)== |
+| AI auto-remediation? | ==Per-action-type: scaling=auto, migration=manual, killing=manual+confirm== |
+| Cloud vs on-prem? | ==Hybrid (cloud + bare-metal under one plane)== |
+| LLM strategy? | ==Hybrid (local for predictions, cloud API for chat, user toggle)== |
 
 → See [[Brainstorming/Open Questions & Decisions]] for full discussion
 
 ## Still Unresolved
-- Q5: AI auto-remediation or always suggest?
-- Q6: Stateful workload migration scope?
-- Q7: Cloud-only vs hybrid vs on-prem?
-- Q8: Local vs API LLM?
-- Q9: Agent language (Go/Rust/Python)?
+- Q6: Stateful workload migration scope? (stateless-only vs DB replication vs full live)
+- Q9: Agent language (Go/Rust/Python hybrid)?
 
 ---
 

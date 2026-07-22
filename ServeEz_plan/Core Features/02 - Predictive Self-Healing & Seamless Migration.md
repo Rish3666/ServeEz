@@ -44,6 +44,8 @@ AI detects ==micro-failures, memory leaks, gradual performance degradation== **b
 - [[Brainstorming/Flaws & Risks]] — AI safety deep-dive
 - [[08 - Predictive Duplicate Container (Blue-Green Pre-Warm)|Duplicate Container]] uses pre-warm for remediation swaps
 
+## Remediation Mode (Decided)
+> Configurable per-action-type: scaling = auto, migration = manual, killing = manual + confirmation. AI defaults to suggest mode until trust is established.
+
 ## Open Questions
 - ==How to handle stateful workloads (databases) during migration?==
-- ==Should AI have **automatic** remediation or always ask for confirmation?== → See [[Brainstorming/Flaws & Risks]]

@@ -44,12 +44,11 @@ priority: high
 
 ## 🟡 Should Decide (During Development)
 
-### Q5: ==Should AI have automatic remediation or always suggest?==
-- **Option 1**: AI suggests → Human confirms (safer, slower)
-- **Option 2**: AI acts within boundaries (need clear "boundary" definition)
-- **Option 3**: Configurable per-action-type (scaling = auto, migration = manual, killing = manual + confirmation)
+### ✅ Q5: ==Should AI have automatic remediation or always suggest?==
+- ~~Option 1: AI suggests → Human confirms~~
+- ~~Option 2: AI acts within boundaries~~
 
-**Decision**: [ ]
+==**Decision**: Option 3 — Configurable per-action-type, but most of it will be AI-driven== — Scaling = auto, migration = manual, killing = manual + confirmation. AI defaults to suggest mode until trust is established.
 
 ### Q6: Stateful workload migration — how far do we go?
 - Skip stateful entirely for MVP (stateless only)
@@ -58,19 +57,16 @@ priority: high
 
 **Decision**: [ ]
 
-### Q7: Cloud-Only vs Hybrid vs On-Prem?
-- Cloud-only (simpler, no hardware cooling, no IPMI)
-- Hybrid (both cloud + bare-metal)
-- On-prem focus (datacenters, colo, homelab)
+### ✅ Q7: Cloud-Only vs Hybrid vs On-Prem?
+- ~~Cloud-only~~
 
-**Decision**: [ ]
+==**Decision**: Hybrid (both cloud + bare-metal)== — ServeEz handles cloud VMs and dedicated hardware under one management plane. Cooling/IPMI features available for bare-metal nodes.
 
-### Q8: ==LLM — Local vs API?==
-- Cloud API (OpenAI, Anthropic, etc.): cheaper inference, privacy concerns, requires internet
-- Local LLM (Llama, Mistral, Qwen): private, offline-capable, needs GPU, slower
-- Hybrid: local for predictions, API for complex chat, fallback for offline
+### ✅ Q8: ==LLM — Local vs API?==
+- ~~Cloud API only~~
+- ~~Local LLM only~~
 
-**Decision**: [ ]
+==**Decision**: Hybrid (user-configurable toggle)== — Local LLM (Llama/Mistral) for predictions and basic ops; cloud API (OpenAI/Anthropic) for complex chat when available. Falls back to local when offline. User chooses default.
 
 ### Q9: What language for the agent?
 - Go: lightweight, great concurrency, huge DevOps ecosystem
@@ -115,3 +111,6 @@ priority: high
 | Q2 | Open-source license | AGPL | 2026-07-23 | Strong copyleft, forces enterprise to buy commercial |
 | Q3 | MVP scope | Docker scaling on 3 servers + multi-cloud cost | 2026-07-23 | Delivers both performance + cost value in MVP |
 | Q4 | Target market | All 3 tiers (Lite/Pro/Enterprise) | 2026-07-23 | Two versions of the app serving different segments |
+| Q5 | AI auto-remediation | Configurable per-action-type, mostly AI-driven | 2026-07-23 | Scaling=auto, migration=manual, killing=manual+confirmation |
+| Q7 | Cloud-only vs Hybrid | Hybrid (cloud + bare-metal) | 2026-07-23 | Both under one management plane |
+| Q8 | LLM Local vs API | Hybrid, user-configurable toggle | 2026-07-23 | Local for predictions, cloud API for complex chat, falls back when offline |
