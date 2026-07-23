@@ -1,0 +1,12 @@
+.DS_Store
+
+# Obsidian workspace (machine-specific)
+.obsidian/workspace.json
+.obsidian/workspace
+
+# Old nested vault config (cleaned up)
+ServeEz_plan/.obsidian/
+
+# OS files
+Thumbs.db
+desktop.ini
