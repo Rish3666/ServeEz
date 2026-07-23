@@ -67,11 +67,11 @@ ServeEz is an intelligent infrastructure management system that makes deployment
 
 | Phase | Timeline | Focus |
 |-------|----------|-------|
-| **0: Foundation** | Now - 3mo | Agent + basic TUI + Docker integration |
-| **1: Core MVP** | 3-6mo | Predictive scaling, AI chat, GUI, one-command joins |
-| **2: Intelligence** | 6-9mo | Self-healing, cloud arbitrage v1, compute distribution, open-source |
-| **3: Advanced** | 9-12mo | Multi-cloud arbitrage, cooling control, enterprise features |
-| **4: Scale** | 12-18mo | Chaos engineering, GitOps, FaaS, cost forecasting |
+| **0: Foundation** | 20 days | Agent + basic TUI + Docker integration |
+| **1: Core MVP** | 1 month | Predictive scaling, AI chat, GUI, one-command joins, multi-cloud cost |
+| **2: Intelligence** | 1 month | Self-healing, cloud arbitrage v1, compute distribution, open-source |
+| **3: Advanced** | 3 months | Multi-cloud arbitrage, cooling control, enterprise features |
+| **4: Scale** | 3 months | Chaos engineering, GitOps, FaaS, cost forecasting |
 
 ---
 

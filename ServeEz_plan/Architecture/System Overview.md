@@ -16,7 +16,7 @@ priority: critical
 │                    AI Engine                        │
 │  ┌──────────┐ ┌──────────┐ ┌──────────────────┐     │
 │  │Predictor │ │ Anomaly  │ │  LLM Agent       │     │
-│  │(Scaling) │ │ Detector │ │  (Chat + Actions) │    │
+│  │(Scaling) │ │ Detector │ │  (Chat + Actions)│     │
 │  └──────────┘ └──────────┘ └──────────────────┘     │
 └──────────────────────┬──────────────────────────────┘
                        │

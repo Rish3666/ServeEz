@@ -9,8 +9,9 @@ priority: critical
 # ServeEz Roadmap
 
 > Decisions applied: Lightweight K8s alternative | AGPL | MVP = Docker scaling on 3 servers + multi-cloud cost | All 3 tiers
+> Total timeline: **~8 months** (20 days Phase 0 → 1mo Phase 1 → 1mo Phase 2 → 3mo Phase 3 → 3mo Phase 4)
 
-## Phase 0: Foundation (Now — 3 months)
+## Phase 0: Foundation (Now — 20 days)
 - [x] ==Define MVP scope (what NOT to build is as important)==
 - [ ] Choose tech stack (Go vs Rust vs Python)
 - [ ] Design agent architecture
@@ -19,7 +20,7 @@ priority: critical
 - [ ] Deploy to a single server (dogfood)
 - [ ] Lock container orchestration API (Docker-compatible)
 
-## Phase 1: Core MVP (3–6 months)
+## Phase 1: Core MVP (1 month)
 - [ ] **Own orchestrator** — Lightweight container lifecycle (Docker-compatible API)
 - [ ] **Predictive Scaling** — Basic time-series model, pre-warm containers on 3 servers
 - [ ] **Multi-cloud cost comparison** — AWS/Azure/GCP spot pricing scraper + savings report
@@ -29,7 +30,7 @@ priority: critical
 - [ ] **One-command cluster additions** — [[Core Features/07 - One-Command Cluster Additions]]
 - [ ] **Real-time monitoring dashboard** — [[Core Features/09 - Real-Time Monitoring & AI Suggestions]]
 
-## Phase 2: Intelligence (6–9 months)
+## Phase 2: Intelligence (1 month)
 - [ ] **Predictive Self-Healing** — Anomaly detection + auto-migration
 - [ ] **Cloud Arbitrage v1** — Spot instance optimization (one provider)
 - [ ] **Compute Distribution** — Workload placement engine
@@ -37,7 +38,7 @@ priority: critical
 - [ ] Open-source release (AGPL)
 - [ ] Enterprise tier: SSO, RBAC basics
 
-## Phase 3: Advanced (9–12 months)
+## Phase 3: Advanced (3 months)
 - [ ] **Multi-cloud Arbitrage** — Across providers
 - [ ] **Hardware Cooling Control** — IPMI integration
 - [ ] **Full enterprise features**: SSO, RBAC, audit compliance
@@ -45,7 +46,7 @@ priority: critical
 - [ ] **Plugin marketplace**
 - [ ] **Carbon-aware scheduling**
 
-## Phase 4: Scale (12–18 months)
+## Phase 4: Scale (3 months)
 - [ ] **Chaos Engineering Mode** — AI-proactive failure testing
 - [ ] **GitOps integration**
 - [ ] **Serverless FaaS layer**
@@ -54,13 +55,13 @@ priority: critical
 - [ ] **Full closed-source Enterprise version**
 
 ## Key Milestones
-| Month | Milestone | Success Metric |
-|-------|-----------|----------------|
-| 3 | Agent + orchestrator runs on 1 server | < 50MB RAM idle, container starts |
-| 6 | MVP on 3 servers with cost comparison | Scaling works + cost report generated |
-| 9 | Open-source launch (AGPL) | 100 GitHub stars |
-| 12 | First paying enterprise customer | $10k MRR |
-| 18 | Multi-cloud GA | 50+ clusters managed |
+| Timeline | Milestone                             | Success Metric                        |
+| -------- | ------------------------------------- | ------------------------------------- |
+| Month 1  | Agent + orchestrator runs on 1 server | < 50MB RAM idle, container starts     |
+| Month 2  | MVP on 3 servers with cost comparison | Scaling works + cost report generated |
+| Month 3  | Open-source launch (AGPL)             | 100 GitHub stars                      |
+| Month 6  | First paying enterprise customer      | $10k MRR                              |
+| Month 8  | Multi-cloud GA                        | 50+ clusters managed                  |
 
 ## Immediate Next Steps
 1. ==Build a prototype agent (collect metrics, report health)==
