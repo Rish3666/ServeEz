@@ -111,3 +111,4 @@ MCP Server: { status: "completed", before: {...}, after: {...} }
 ## Related
 - [[03 - Intent API]] — Higher-level abstraction over raw MCP tools
 - [[05 - Action Audit & Safety]] — How every tool call is audited
+ 
