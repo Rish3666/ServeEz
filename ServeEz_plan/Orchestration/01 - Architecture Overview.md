@@ -42,7 +42,7 @@ ServeEz is a ==lightweight K8s alternative built AI-native from day one==. Unlik
 ## Key Differences from Kubernetes
 | Aspect | Kubernetes | ServeEz |
 |--------|-----------|---------|
-| Configuration | YAML manifests | API calls / MCP tools |
+| Configuration | YAML manifests | YAML for humans → parsed to API for AI |
 | Scheduling | Resource fit + constraints | AI predictive placement |
 | Scaling | Threshold-based (HPA) | ML prediction + pre-warm |
 | Healing | Pod restart (reactive) | Micro-failure pred + pre-migrate |

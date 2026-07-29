@@ -16,7 +16,7 @@ ServeEz is not a traditional orchestrator with AI bolted on. ==The AI is the pil
 ## Principles
 
 ### 1. Everything is an API
-No SSH, no config files, no YAML manifests, no `kubectl apply -f`. Every single operation — deploy, scale, heal, migrate, configure — is exposed through a structured API (REST/gRPC/MCP). The AI never reads or writes config files.
+No SSH, no raw `kubectl apply -f`. Every operation — deploy, scale, heal, migrate, configure — is exposed through a structured API (REST/gRPC/MCP). The AI never reads or writes config files. Humans can use YAML as a declarative source of truth — the system parses it into API calls internally.
 
 ### 2. Intent-based, not Config-based
 Humans (and AI) tell ServeEz ==what they want==, not ==how to do it==.
@@ -74,9 +74,12 @@ AI Self-Correction
 ```
 
 ## What This Eliminates
-- YAML files
-- Config file editing
-- SSH access
-- Manual `kubectl` commands
-- Dashboard-driven ops
+- SSH access for routine operations
+- Manual `kubectl`-style imperative commands
+- Dashboard-driven manual ops
 - Runbooks (AI generates them)
+
+## What This Keeps
+- YAML as declarative source of truth (humans write, system parses to API calls)
+- GitOps workflows (commit YAML → auto-deploy)
+- Config file editing for infrastructure-as-code

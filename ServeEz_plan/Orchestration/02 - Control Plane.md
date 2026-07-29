@@ -13,7 +13,8 @@ priority: critical
 ### API Server
 - Single entry point for all operations
 - Exposes REST + gRPC + MCP endpoints
-- ==No YAML parsing== — only structured API calls
+- Parses YAML into structured API calls for human-facing workflows
+- Exposes raw API for AI (MCP tools) and programmatic access
 - Handles auth, validation, admission control
 - MCP tool discovery endpoint
 
@@ -50,12 +51,26 @@ GET    /v1/audit         ← Query audit log
 POST   /v1/emergency/kill ← Kill switch
 ```
 
-## No YAML Policy
-- There is no `kubectl apply -f` equivalent
-- All config changes happen through API calls
-- Humans use the TUI/GUI which makes API calls
-- AI uses MCP tools which make API calls
-- For GitOps: API calls are recorded as IaC → replayed
+## YAML + API Dual Interface
+
+### How It Works
+- **Humans write YAML** (declarative, git-ops friendly, reviewable in PRs)
+- **System parses YAML → structured API calls** internally
+- **AI uses MCP tools / API** — never touches YAML directly
+- **YAML is the source of truth** — AI optimizes on top of it
+
+### Flow
+```
+Human commits YAML → API server parses → validates → simulates → applies
+AI calls MCP tools → API server executes → logs audit trail
+Both paths hit the same internal API
+```
+
+### GitOps
+- Watch git repos for YAML changes
+- Parse, validate, simulate before applying
+- AI can suggest YAML changes as PR comments
+- Rollback by reverting the git commit
 
 ## Related
 - [[03 - AI Scheduler]] — Sits inside control plane

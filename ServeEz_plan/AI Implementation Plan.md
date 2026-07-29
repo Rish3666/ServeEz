@@ -290,6 +290,100 @@ Your state model (AI Control/04) is excellent. Build it first. Everything else d
 
 ---
 
+---
+
+## 7. YAML + API Dual Interface (Correction to Original Plan)
+
+The original plan had a "No YAML" policy — every operation must be an API call. This was wrong.
+
+### The Real Design
+
+```
+┌──────────────┐    ┌──────────────────┐    ┌──────────────────┐
+│   Human      │    │  ServeEz System  │    │    AI Engine     │
+│  writes      │───►│  YAML → API      │◄───│  MCP Tools       │
+│  YAML        │    │  parser          │    │  (never YAML)    │
+└──────────────┘    └────────┬─────────┘    └──────────────────┘
+                             │
+                    ┌────────▼─────────┐
+                    │  Orchestration   │
+                    │  API (internal)  │
+                    └──────────────────┘
+```
+
+### Why YAML Matters for Humans
+
+| Need | Solution |
+|------|----------|
+| Declarative config | YAML files committed to git |
+| PR review | "Show me what changed in this deploy" |
+| GitOps | `git push` triggers deployment |
+| Disaster recovery | Re-apply known-good config |
+| Team collaboration | Configs are files, not API history |
+
+### Why AI Should Never Touch YAML
+
+| Problem | Why |
+|---------|-----|
+| YAML parsing errors | AI generates invalid YAML constantly |
+| Whitespace sensitivity | One bad indent = cluster down |
+| Multi-doc files | AI doesn't understand document boundaries |
+| No structured feedback | AI can't tell if its YAML was applied correctly |
+| No simulation | Can't dry-run YAML, only API calls |
+
+### The Split
+
+| Interface | Who Uses It | Format |
+|-----------|-------------|--------|
+| **Declarative** | Humans, GitOps, CI/CD | YAML (parsed to API by system) |
+| **Operational** | AI Engine, TUI, GUI | REST/gRPC/MCP |
+| **Intent** | AI + power users | POST /intent (high-level goals) |
+
+### Concrete Example
+
+**Human writes YAML:**
+```yaml
+service: web-frontend
+image: nginx:1.25
+replicas: 3
+resources:
+  cpu: 500m
+  memory: 512Mi
+ports:
+  - container: 80
+    protocol: tcp
+```
+
+**System parses YAML → creates resources via internal API:**
+```
+POST /v1/services { "name": "web-frontend", ... }
+```
+
+**AI never reads the YAML. It reads structured state:**
+```
+GET /v1/state?type=service&name=web-frontend
+→ { "replicas": 3, "cpu_util": "54%", "latency_p99": "124ms" }
+```
+
+**AI optimizes by calling the same internal API:**
+```
+POST /v1/execute { "action": "scale_service", "service": "web-frontend", "replicas": 5 }
+```
+
+The YAML stays as the human source of truth. The AI operates on the live state. The system translates between them.
+
+### What This Changes From The Original Plan
+
+- Remove "No YAML" policy from Control Plane docs
+- Add YAML parser to API server (converts YAML → API calls)
+- Keep AI on MCP tools only
+- YAML validation + simulation before applying
+- GitOps: watch git repo → parse YAML → simulate → apply
+
+This is strictly better than the original "API-only" design. Humans get declarative configs. AI gets structured APIs. Both get what they need.
+
+---
+
 ## Summary
 
 | Question | Answer |
@@ -301,3 +395,4 @@ Your state model (AI Control/04) is excellent. Build it first. Everything else d
 | Biggest technical risk? | Stateful live migration across providers |
 | Biggest non-technical risk? | Enterprise trust in AI control |
 | MVP worth building? | Yes — predictive scaling + cost comparison alone saves money |
+| YAML or no YAML? | **YAML for humans, APIs for AI — both** |
