@@ -84,7 +84,4 @@ The AI engine can spawn agent sessions to:
 - Run diagnostic agents during incidents
 - Coordinate multi-step remediation plans
 
-## Related
-- [[05 - Container Lifecycle]] — All workload types use container lifecycle
-- [[AI Integration/03 - Agent Runtime]] — How agent sessions are managed
-- [[03 - AI Scheduler]] — Different scheduling rules per type
+← [[Index]]

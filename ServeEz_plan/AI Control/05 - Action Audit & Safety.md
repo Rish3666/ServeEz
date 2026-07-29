@@ -90,6 +90,4 @@ GET /audit?initiator=ai-agent&status=failed
 → "I failed 3 times this week. Most common failure: confidence_threshold_too_low"
 ```
 
-## Related
-- [[02 - MCP Tool Interface]] — Every tool call generates audit entries
-- [[06 - Simulation Sandbox]] — Simulation results are stored with audit
+← [[Index]]

@@ -58,3 +58,5 @@ More native, user-friendly interface for ==visual thinkers, managers, and less t
 - Read-only mode for on-call
 - Push notifications for critical alerts
 - Quick "acknowledge" / "escalate" actions
+
+← [[Index]]

@@ -83,3 +83,5 @@ AI Self-Correction
 - YAML as AI-generated record + human override path (Helm-style)
 - GitOps workflows (AI pushes commits, human PRs are overrides)
 - Config file editing when humans need to override AI decisions
+
+← [[Index]]

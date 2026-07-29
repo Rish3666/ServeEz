@@ -43,7 +43,4 @@ A ==full-access AI agent== that understands natural language commands for server
 - ==**Kill switch**== — Physical or keyboard shortcut that instantly revokes AI access
 - **Audit log** — Every AI action recorded with before/after state
 
-## Related
-- [[Brainstorming/Flaws & Risks|Flaws & Risks]] — AI safety deep-dive
-- [[Architecture/System Overview|System Overview]] — How agent integrates with other modules
-- [[Brainstorming/Open Questions & Decisions|Open Questions]] — Q5 (auto-remediation) still unresolved
+← [[Index]]

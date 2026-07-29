@@ -47,6 +47,4 @@ On master:
 - Auto-approve only within trusted subnets
 - Manual approval required for external IPs
 
-## Related
-- [[04 - Hardware Compute Distribution|Compute Distribution]] decides workload placement on new nodes
-- [[09 - Real-Time Monitoring & AI Suggestions|Monitoring]] tracks new node health after join
+← [[Index]]

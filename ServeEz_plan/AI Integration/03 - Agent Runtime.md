@@ -84,7 +84,4 @@ Standard container orchestration (K8s, Nomad) treats every workload as a long-ru
 - **OPS agents**: "Deploy this, verify health, report back"
 - **Chat agents**: Interactive troubleshooting sessions
 
-## Related
-- [[Orchestration/06 - Workload Types#Agent Session]] — Type definition
-- [[AI Control/02 - MCP Tool Interface]] — Tools exposed to agents
-- [[AI Control/04 - State Model for AI]] — Agent state in cluster overview
+← [[Index]]

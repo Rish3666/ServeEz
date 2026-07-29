@@ -53,6 +53,4 @@ Base-metal control with AI insights. The TUI is the ==**primary**== interface fo
 3. AI chat prompt
 4. Service deployment command
 
-## Related
-- [[GUI Dashboard]]
-- [[06 - AI Agent & Chat Mode]]
+← [[Index]]

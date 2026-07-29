@@ -134,3 +134,5 @@ priority: critical
 | Licensing confusion | Medium | Low | 🟢 P2 |
 | Cooling niche feature | Low | Low | 🟢 P3 |
 | LLM inference cost | Medium | Low | 🟢 P2 |
+
+← [[Index]]

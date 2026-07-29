@@ -65,7 +65,4 @@ For [[06 - Workload Types#Agent Sessions|Agent workloads]], the scheduler additi
 - Agent-to-agent affinity (co-locate communicating agents)
 - GPU/memory for model inference
 
-## Related
-- [[AI Integration/01 - Predictor Engine]] — Feeds traffic predictions
-- [[AI Integration/02 - Anomaly Detection]] — Feeds failure probability
-- [[AI Control/06 - Simulation Sandbox]] — Scheduler simulates placements before assigning
+← [[Index]]

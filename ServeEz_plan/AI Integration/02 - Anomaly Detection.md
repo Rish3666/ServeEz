@@ -81,7 +81,4 @@ If not → Escalate to human + detailed report
 - Service with frequent restarts → schedule on more reliable hardware
 - Detected capacity bottleneck → trigger predictive scale-up
 
-## Related
-- [[Core Features/02 - Predictive Self-Healing & Seamless Migration]]
-- [[Orchestration/03 - AI Scheduler]] — Feeds failure probability to scheduler
-- [[AI Control/04 - State Model for AI]] — Anomaly scores in state API
+← [[Index]]

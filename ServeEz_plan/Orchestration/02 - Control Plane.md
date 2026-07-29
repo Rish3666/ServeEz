@@ -71,7 +71,4 @@ Human edits values.yaml → PR → system validates → simulates → applies vi
 - Parse, validate, simulate before applying human edits
 - Rollback by reverting git commit
 
-## Related
-- [[03 - AI Scheduler]] — Sits inside control plane
-- [[04 - Node Agent]] — Communicates with control plane via MCP
-- [[AI Control/02 - MCP Tool Interface]] — How tools are exposed
+← [[Index]]

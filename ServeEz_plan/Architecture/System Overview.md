@@ -93,3 +93,5 @@ The new [[Orchestration/01 - Architecture Overview]] replaces this file as the d
 - **Orchestration API**: Docker-compatible, but all operations exposed as MCP tools ([[AI Control/02 - MCP Tool Interface]])
 - **State store**: SQLite (small) → Postgres (medium) → etcd (large)
 - **Agent runtime**: gVisor sandboxing + session hibernation ([[AI Integration/03 - Agent Runtime]])
+
+← [[Index]]

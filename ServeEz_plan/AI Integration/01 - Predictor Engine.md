@@ -72,7 +72,4 @@ Prediction made → Action taken → Actual observed → Compare → Retrain
                                             If error > 10% → adjust model
 ```
 
-## Related
-- [[Orchestration/03 - AI Scheduler]] — Consumes predictions for placement
-- [[Core Features/01 - Zero Latency Predictive Scaling]]
-- [[AI Control/04 - State Model for AI]] — Predictions exposed via state API
+← [[Index]]

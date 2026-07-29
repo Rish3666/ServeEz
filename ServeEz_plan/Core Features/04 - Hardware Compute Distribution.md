@@ -56,6 +56,4 @@ AI intelligently ==splits workload across available hardware== — local servers
 | Cold data (archive) | ❌ | ✅ | — |
 | Temp/scratch | — | ✅ | — |
 
-## Related
-- [[03 - Real-Time Cloud Arbitrage|Cloud Arbitrage]] handles cost, this handles placement
-- [[05 - AI Server Management & Cooling|Server Management]] handles health of local hardware
+← [[Index]]

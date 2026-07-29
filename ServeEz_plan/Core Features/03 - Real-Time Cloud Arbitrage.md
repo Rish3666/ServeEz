@@ -50,6 +50,4 @@ THEN → execute arbitrage migration
 - Works with any Docker-compatible runtime via the ServeEz orchestrator
 - No vendor lock-in to a specific cloud's native tooling
 
-## Related
-- [[01 - Zero Latency Predictive Scaling|Predictive Scaling]] handles capacity, this handles cost
-- [[04 - Hardware Compute Distribution|Compute Distribution]] decides *where* workloads run
+← [[Index]]

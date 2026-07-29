@@ -164,3 +164,5 @@ AI generates ==entire deployment pipeline from source code analysis==:
 | Backup as Code | Med | Med | P2 |
 | FaaS Layer | V High | High | P4 |
 | Chaos Engineering | High | Med | P4 |
+
+← [[Index]]

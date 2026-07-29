@@ -40,5 +40,4 @@ Before killing or restarting a live container, AI ==spins up a fully-warmed dupl
 | [[01 - Zero Latency Predictive Scaling|Predictive Scaling]] | Adds capacity *before* demand spikes |
 | Predictive Duplicate | Replaces *existing* container with zero downtime |
 
-## Related
-- [[02 - Predictive Self-Healing & Seamless Migration|Self-Healing]] triggers duplicate creation for degraded containers
+← [[Index]]

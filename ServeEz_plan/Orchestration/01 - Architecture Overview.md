@@ -63,8 +63,4 @@ Intent → API Server → AI Scheduler → Node Agent → Container Runtime
 - **Small cluster**: 1 control plane + N workers (homelab / SMB)
 - **Large cluster**: HA control plane + N workers + dedicated AI nodes (enterprise)
 
-## Related
-- [[Orchestration/02 - Control Plane]]
-- [[Orchestration/03 - AI Scheduler]]
-- [[Orchestration/04 - Node Agent]]
-- [[AI Control/01 - Philosophy & Principles]]
+← [[Index]]

@@ -56,3 +56,5 @@ priority: high
 | Datadog | Monitoring depth | Action (not just observe) |
 | Spot.io | Cost optimization | Broader: heal + scale + cool |
 | AWS Auto Scaling | Native cloud | Multi-cloud + prediction |
+
+← [[Index]]

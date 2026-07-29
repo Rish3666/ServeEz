@@ -91,6 +91,4 @@ Simulation executed → Compare predicted vs actual → Refine models
               If prediction was wrong → Flag for retraining
 ```
 
-## Related
-- [[03 - Intent API]] — Every intent is simulated before execution
-- [[05 - Action Audit & Safety]] — Simulation results stored in audit trail
+← [[Index]]

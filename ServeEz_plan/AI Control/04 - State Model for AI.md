@@ -135,6 +135,4 @@ AI doesn't need the full state every time — it gets ==diffs==:
 }
 ```
 
-## Related
-- [[02 - MCP Tool Interface]] — Read tools query this state
-- [[05 - Action Audit & Safety]] — State diffs feed audit trail
+← [[Index]]

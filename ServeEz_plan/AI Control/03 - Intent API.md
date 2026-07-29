@@ -94,6 +94,4 @@ If all pass → execute sequence
 If any fails → rollback + report
 ```
 
-## Related
-- [[02 - MCP Tool Interface]] — Low-level tools that execute intent
-- [[06 - Simulation Sandbox]] — How intents are tested before execution
+← [[Index]]

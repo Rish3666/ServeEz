@@ -42,5 +42,4 @@ Workload Scheduled → AI predicts thermal output → Pre-cool server → Worklo
 - ✅ Works on dedicated servers, colocation, DIY datacenters
 - Requires motherboard/IPMI compatibility list
 
-## Related
-- [[04 - Hardware Compute Distribution|Compute Distribution]] decides which hardware gets which workload (and thus heat)
+← [[Index]]

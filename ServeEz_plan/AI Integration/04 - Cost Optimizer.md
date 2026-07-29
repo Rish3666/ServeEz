@@ -92,7 +92,4 @@ Savings are prioritized against:
 - Data residency (can't migrate across legal boundaries)
 - Stability (new providers get gradual traffic, not all-at-once)
 
-## Related
-- [[Core Features/03 - Real-Time Cloud Arbitrage]] — Execution layer
-- [[Orchestration/03 - AI Scheduler]] — Cost data feeds placement decisions
-- [[AI Control/04 - State Model for AI]] — Cost metrics in state API
+← [[Index]]

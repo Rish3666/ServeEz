@@ -69,3 +69,5 @@ priority: critical
 3. Build basic orchestrator (Docker-compatible, single server)
 4. Scrape AWS/Azure/GCP spot prices for cost comparison
 5. Add AI chat with basic actions (read-only first)
+
+← [[Index]]

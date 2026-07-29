@@ -114,3 +114,5 @@ priority: high
 | Q5 | AI auto-remediation | Configurable per-action-type, mostly AI-driven | 2026-07-23 | Scaling=auto, migration=manual, killing=manual+confirmation |
 | Q7 | Cloud-only vs Hybrid | Hybrid (cloud + bare-metal) | 2026-07-23 | Both under one management plane |
 | Q8 | LLM Local vs API | Hybrid, user-configurable toggle | 2026-07-23 | Local for predictions, cloud API for complex chat, falls back when offline |
+
+← [[Index]]

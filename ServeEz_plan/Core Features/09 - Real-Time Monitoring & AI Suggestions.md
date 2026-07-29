@@ -43,6 +43,4 @@ AI detects pattern → Generates suggestion → User reviews → Apply/Dismiss
                                       Auto-apply (configurable)
 ```
 
-## Related
-- [[06 - AI Agent & Chat Mode|AI Agent]] can explain any suggestion in natural language
-- [[Brainstorming/New Ideas & Features|New Ideas]] has Cost Forecasting which pairs with this
+← [[Index]]

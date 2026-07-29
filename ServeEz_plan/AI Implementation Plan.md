@@ -437,3 +437,5 @@ AI uses templates + values (structured data), not raw YAML generation.
 | Biggest non-technical risk? | Enterprise trust in AI control |
 | MVP worth building? | Yes — predictive scaling + cost comparison alone saves money |
 | YAML role? | **AI generates Helm-style YAML as record; humans edit to override** |
+
+← [[Index]]

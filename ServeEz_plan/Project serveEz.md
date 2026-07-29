@@ -48,3 +48,5 @@ An intelligent AI-powered server & cluster management system that makes deployme
 ![[Assets/pg3 1.jpeg]]
 ![[Assets/pg4 1.jpeg]]
 ![[Assets/pg5 1.jpeg]]
+
+← [[Index]]

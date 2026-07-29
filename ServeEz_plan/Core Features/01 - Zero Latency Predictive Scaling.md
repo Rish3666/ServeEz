@@ -43,3 +43,5 @@ Traffic ▲
 - [[02 - Predictive Self-Healing & Seamless Migration|Self-Healing]] shares the ML inference pipeline
 - [[06 - AI Agent & Chat Mode|AI Agent]] provides manual override via natural language
 - [[08 - Predictive Duplicate Container (Blue-Green Pre-Warm)|Duplicate Container]] handles zero-downtime replacement during scale-down
+
+← [[Index]]

@@ -68,6 +68,4 @@ POST /v1/network/policy
 - AI can isolate compromised workloads automatically
 - AI detects and blocks anomalous traffic patterns
 
-## Related
-- [[04 - Node Agent]] — Applies network rules on each node
-- [[AI Control/02 - MCP Tool Interface]] — Network config as MCP tools
+← [[Index]]

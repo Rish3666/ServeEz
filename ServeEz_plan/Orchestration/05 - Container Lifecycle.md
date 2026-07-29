@@ -73,7 +73,4 @@ Node agent supports any OCI-compatible runtime:
 
 Chosen at node registration time — reported to control plane.
 
-## Related
-- [[04 - Node Agent]] — Executes container lifecycle on each machine
-- [[06 - Workload Types]] — Different lifecycle rules per type
-- [[Core Features/08 - Predictive Duplicate Container (Blue-Green Pre-Warm)]]
+← [[Index]]

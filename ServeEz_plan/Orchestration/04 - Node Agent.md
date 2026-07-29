@@ -71,7 +71,4 @@ Every 10 seconds, or on state change:
 }
 ```
 
-## Related
-- [[05 - Container Lifecycle]] — What the agent manages
-- [[Orchestration/07 - Networking]] — Network config the agent applies
-- [[AI Control/02 - MCP Tool Interface]] — Agent exposes its capabilities as MCP tools
+← [[Index]]
