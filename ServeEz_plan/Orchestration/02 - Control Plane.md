@@ -54,23 +54,22 @@ POST   /v1/emergency/kill ← Kill switch
 ## YAML + API Dual Interface
 
 ### How It Works
-- **Humans write YAML** (declarative, git-ops friendly, reviewable in PRs)
-- **System parses YAML → structured API calls** internally
-- **AI uses MCP tools / API** — never touches YAML directly
-- **YAML is the source of truth** — AI optimizes on top of it
+- **AI manages cluster via MCP/API** as the primary interface
+- **AI exports current state as Helm-style YAML** to git (backup/record)
+- **System parses YAML → structured API calls** when humans override
+- **AI uses MCP tools / API** — never generates raw YAML directly (uses templates)
 
 ### Flow
 ```
-Human commits YAML → API server parses → validates → simulates → applies
-AI calls MCP tools → API server executes → logs audit trail
-Both paths hit the same internal API
+AI calls MCP tools → executes → exports state as Helm YAML → git commit
+Human edits values.yaml → PR → system validates → simulates → applies via API
 ```
 
 ### GitOps
-- Watch git repos for YAML changes
-- Parse, validate, simulate before applying
-- AI can suggest YAML changes as PR comments
-- Rollback by reverting the git commit
+- AI pushes state changes as commits after every operation
+- Human PRs to values.yaml are treated as overrides
+- Parse, validate, simulate before applying human edits
+- Rollback by reverting git commit
 
 ## Related
 - [[03 - AI Scheduler]] — Sits inside control plane
