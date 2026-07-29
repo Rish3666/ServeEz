@@ -20,10 +20,10 @@ AI intelligently ==splits workload across available hardware== — local servers
 
 ## Example Topologies
 ```
-┌─────────────┐     ┌──────────────┐
-│  Local DB   │     │  Cloud GPU   │
-│  (Low latency)│◄───►│  (Compute)   │
-└─────────────┘     └──────────────┘
+┌─────────────┐       ┌──────────────┐
+│  Local DB   │       │  Cloud GPU   │
+│(Low latency)│ ◄───► │  (Compute)   │
+└─────────────┘       └──────────────┘
        │
        ▼
 ┌─────────────────┐

@@ -15,20 +15,20 @@ Base-metal control with AI insights. The TUI is the ==**primary**== interface fo
 ## Layout Concept
 ```
 ┌─────────────────────────────────────────────────────────┐
-│ ServeEz v0.1 │ 🔵 Healthy (12 nodes)    │ 💰 $342/mo  │
-├──────────┬──────────┬──────────┬────────────────────────┤
-│ Cluster  │ Services │  Alerts  │  AI Chat               │
-│ Map      │ List     │  (3 new) │  ┌──────────────────┐  │
-│          │          │          │  │ "scale up web    │  │
-│  🟢🟢🟢 │ web     │ 🟡 mem  │  │  servers by 2"   │  │
-│  🟢🟡🟢 │ api     │  leak   │  │                  │  │
-│  🟢🔴🟢 │ db      │   in    │  │  ✓ Scaling web   │  │
-│          │ cache   │  api    │  │    from 3→5       │  │
-│          │ worker  │   svc   │  │                  │  │
-│          │         │ 🔴 cpu  │  └──────────────────┘  │
-│          │         │  spike  │  [Ask anything...]     │
-├──────────┴──────────┴──────────┴────────────────────────┤
-│ 📊 web: requests 2.3k/s │ p95 45ms │ CPU 62% │ Mem 4.2G│
+│ ServeEz v0.1 │ 🔵 Healthy (12 nodes)    │ 💰 $342/mo    │
+├──────────┬─────────┬──────────┬────────────────────────-┤
+│ Cluster  │ Services│  Alerts  │  AI Chat                │
+│ Map      │ List    │  (3 new) │  ┌──────────────────┐   │
+│          │         │          │  │ "scale up web    │   │
+│  🟢🟢🟢  │ web     │ 🟡 mem   │  │  servers by 2"   │   │
+│  🟢🟡🟢  │ api     │  leak    │  │                  │   │
+│  🟢🔴🟢  │ db      │   in     │  │  ✓ Scaling web   │   │
+│          │ cache   │  api     │  │    from 3→5      │   │
+│          │ worker  │   svc    │  │                  │   │
+│          │         │ 🔴 cpu   │  └──────────────────┘   │
+│          │         │  spike   │  [Ask anything...]      │
+├──────────┴─────────┴──────────┴────────────────────────-┤
+│ 📊 web: requests 2.3k/s │ p95 45ms │ CPU 62% │ Mem 4.2G │
 └─────────────────────────────────────────────────────────┘
 ```
 

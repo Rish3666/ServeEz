@@ -29,7 +29,7 @@ AI analyses historical traffic patterns, time-of-day trends, and external signal
 Traffic ▲
         |   ╱╲────────── Actual
         |  ╱  ╲╱╲─────── Predicted
-        | ╱        ╲
+        | ╱       ╲
         |╱          ╲╱─── Pre-scaled capacity
         └─────────────────────► Time
 ```
