@@ -1,5 +1,10 @@
 .DS_Store
 
+# Go build artifacts
+/servez
+/servez-agent
+/servez-control
+
 # Obsidian workspace (machine-specific)
 .obsidian/workspace.json
 .obsidian/workspace

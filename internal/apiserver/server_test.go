@@ -58,6 +58,32 @@ func doJSON(t *testing.T, h http.Handler, method, path string, body any) *httpte
 	return rec
 }
 
+// waitForScheduled polls /v1/state until the workload has an assigned node.
+// Status arrives over HTTP as map[string]any, so inspect it generically.
+func waitForScheduled(t *testing.T, h http.Handler, name string) {
+	t.Helper()
+	deadline := time.Now().Add(5 * time.Second)
+	for time.Now().Before(deadline) {
+		rec := doJSON(t, h, "GET", "/v1/state?type=Workload", nil)
+		var resp struct {
+			Objects []*api.Object `json:"objects"`
+		}
+		_ = json.NewDecoder(rec.Body).Decode(&resp)
+		for _, o := range resp.Objects {
+			if o.Name != name {
+				continue
+			}
+			if wst, ok := o.Status.(map[string]any); ok {
+				if node, _ := wst["assigned_node"].(string); node != "" {
+					return
+				}
+			}
+		}
+		time.Sleep(10 * time.Millisecond)
+	}
+	t.Fatalf("workload %q was not scheduled within timeout", name)
+}
+
 func TestRegisterRejectsBadToken(t *testing.T) {
 	_, h := newTestServer(t)
 	rec := doJSON(t, h, "POST", "/v1/nodes/register", api.RegisterRequest{NodeID: "n1", Token: "wrong"})
@@ -117,7 +143,10 @@ func TestFullFlow(t *testing.T) {
 		t.Fatalf("create workload: %d %s", rec.Code, rec.Body.String())
 	}
 
-	// Simulate a scale action to confirm confidence gate + queuing.
+	// Simulate a scale action to confirm confidence gate + queuing. The
+	// reconciler assigns a node asynchronously, so poll until scheduled.
+	waitForScheduled(t, h, "web")
+
 	rec = doJSON(t, h, "POST", "/v1/execute", api.Action{
 		Type: "scale", Target: "workload:web", Reason: "test", Initiator: "human",
 		Confidence: 0.5,

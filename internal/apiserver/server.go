@@ -27,7 +27,9 @@ import (
 
 	"github.com/Rish3666/ServeEz/internal/api"
 	"github.com/Rish3666/ServeEz/internal/audit"
+	"github.com/Rish3666/ServeEz/internal/mcp"
 	"github.com/Rish3666/ServeEz/internal/orchestrator"
+	"github.com/Rish3666/ServeEz/internal/simulate"
 	"github.com/Rish3666/ServeEz/internal/state"
 )
 
@@ -37,6 +39,8 @@ type Server struct {
 	reg        *state.Registry
 	audit      audit.Log
 	scheduler  *orchestrator.Scheduler
+	simulator  *simulate.Engine
+	mcp        *mcp.Server
 	joinToken  string
 	killSwitch bool
 
@@ -52,6 +56,7 @@ func New(st state.Store, reg *state.Registry, al audit.Log, sched *orchestrator.
 		reg:       reg,
 		audit:     al,
 		scheduler: sched,
+		simulator: simulate.New(st),
 		joinToken: joinToken,
 		pending:   map[string]api.Action{},
 		nodeCmds:  map[string][]string{},
@@ -71,6 +76,8 @@ func (s *Server) Handler() http.Handler {
 	mux.HandleFunc("POST /v1/simulate", s.handleSimulate)
 	mux.HandleFunc("GET /v1/audit", s.handleAudit)
 	mux.HandleFunc("POST /v1/emergency/kill", s.handleKill)
+	mux.HandleFunc("GET /v1/mcp/tools", s.handleMCPTools)
+	mux.HandleFunc("POST /v1/mcp/call", s.handleMCPCall)
 	return withLogging(mux)
 }
 
@@ -348,22 +355,7 @@ func (s *Server) handleSimulate(w http.ResponseWriter, r *http.Request) {
 		writeError(w, http.StatusBadRequest, "invalid simulate request")
 		return
 	}
-	// v1 Tier-1 statistical simulation: rule-of-thumb estimates. The AI engine
-	// replaces this in Phase 1.
-	res := api.SimulationResult{
-		ID:          "sim_" + fmt.Sprint(time.Now().UnixNano()),
-		RiskScore:   0.1,
-		Confidence:  0.8,
-		Predicted:   map[string]any{"impact": "low"},
-		Recommendation: "proceed",
-	}
-	switch req.Action.Type {
-	case "kill", "stop", "remove":
-		res.RiskScore = 0.7
-		res.Confidence = 0.85
-		res.Recommendation = "requires_approval"
-		res.FailureScenarios = []api.Scenario{{Scenario: "service_interruption", Probability: 0.2, Impact: "workload downtime"}}
-	}
+	res := s.simulator.Simulate(r.Context(), req.Action)
 	writeJSON(w, http.StatusOK, res)
 }
 

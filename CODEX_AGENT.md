@@ -1,61 +1,70 @@
-# CODEX TASKS — Node Agent (Sprint 1)
+# CODEX TASKS — Sprint 2-3: Agent Join + mTLS (Agent Side)
 
-You are the second agent on the ServeEz build. You own the **node agent** module. A parallel agent owns the control plane. **Do not touch anything outside your directories.** Everything compiles against the shared contract in `internal/api/types.go` (read-only — do not edit it).
+You own the **agent-side** work for Sprint 2-3. A parallel agent owns the control-plane/CLI/MCP/simulation work. **Do not touch anything outside your directories.** The shared contract lives in `internal/api/types.go` and `internal/config/config.go` (read-only for you).
 
 ## Your deliverables
 
 ```
-cmd/servez-agent/main.go        — daemon entrypoint
-internal/agent/                 — agent core: run loop, registration, reporting
-internal/agent/agent.go         — orchestration: collect → report → listen
-internal/agent/register.go      — mTLS registration flow
-internal/metrics/               — collectors + local 5min buffer
-internal/metrics/collector.go   — CPU/mem/disk/net sampling @5s
-internal/metrics/buffer.go      — ring buffer (5 min) for offline tolerance
-internal/container/             — OCI runtime manager
-internal/container/manager.go   — interface + Docker implementation
-internal/container/docker.go    — Docker API impl (create/start/stop/remove, probes)
-internal/agentnet/              — HTTP client to control plane
-internal/agentnet/client.go     — Register / Report / poll commands
+cmd/servez/join.go            — the `servez join` command (register via command registry)
+internal/agent/tls.go         — mTLS identity + cert handling for the agent
+internal/agentnet/client.go   — (EDIT ALLOWED) add TLS client config wiring
+internal/agent/*_test.go      — end-to-end test vs a running control plane
 ```
 
-## Design constraints (from planning docs)
+## 1. The `servez join` command
 
-- Pure Go, zero external runtime deps, **idle RAM target < 50MB**.
-- Uses `internal/api` types only (`RegisterRequest`, `RegisterResponse`, `NodeReport`, `ReportAck`, `Usage`, `HardwareInfo`, `ContainerStatus`).
-- Push-based, not polling: collect metrics every 5s, **report every 10s** (or immediately on state change) to the control plane.
-- Local 5-minute metrics buffer for offline tolerance; replay on reconnect.
-- Container management via the **Docker Engine API** (v1) — use `github.com/docker/docker/client`. Abstract behind an interface so containerd/runc can be added later.
-- mTLS certificate auth: generate a self-signed cert on first run, register with the control plane, use the returned node identity.
-- Health probing: liveness/readiness/startup probes per `WorkloadSpec.Probes`; report `ContainerStatus.Health`.
-- Node state is one of: `pending`, `healthy`, `degraded`, `unhealthy`, `cordoned`, `disconnected`.
+The CLI now uses a **command registry**. `cmd/servez/main.go` is owned by the other agent and is **read-only for you**. You add ONE new file: `cmd/servez/join.go` that registers a command. The registry pattern:
 
-## The control-plane contract you must implement against
+```go
+package main
 
-Plain HTTP/JSON (gRPC comes later). The control-plane API server (being built in parallel) exposes:
+func init() {
+    registerCommand(Command{
+        Name:  "join",
+        Usage: "servez join <url> --token=<tok> [--provider=local]",
+        Run:   runJoin,
+    })
+}
+```
 
-| Endpoint | Request | Response | When |
-|----------|---------|----------|------|
-| `POST /v1/nodes/register` | `RegisterRequest` | `RegisterResponse` | Agent boot |
-| `POST /v1/nodes/{id}/report` | `NodeReport` | `ReportAck` | Every 10s / on change |
-| `GET /v1/nodes/{id}/commands` | — | `[]Action` (pending) | Agent polls every 5s |
-| `POST /v1/nodes/{id}/commands/{action_id}/ack` | `{status: "completed"\|"failed", result: {...}}` | `{}` | After executing an action |
+The `Command` struct and `registerCommand` are defined in `cmd/servez/commands.go` (owned by the other agent, read-only). `runJoin` has signature `func(args []string) error`.
 
-Register with a join token (`Token` field in `RegisterRequest`). If `RegisterResponse.Approved` is false, log the reason and retry with backoff (max 5 attempts, exponential). After approval, send reports and poll for commands.
+### Join flow to implement (from `Core Features/07 - One-Command Cluster Additions`)
 
-**Action types you must handle** (from `internal/api.Action.Type`): `start`, `stop`, `restart`, `remove`, `deploy`, `scale`. For `scale`, the target is a workload; increase/decrease its container count on this node. Return structured `ActionResult`-shaped ack bodies.
+1. Parse `--token`, `--provider`, `--runtime` (default `docker`), optional `--node-id`.
+2. Generate a stable node ID (hostname-based or persisted in `~/.servez/node-id`).
+3. Create an `internal/agentnet.Client` pointed at `<url>`.
+4. Build a `api.RegisterRequest` (node ID, token, runtime, provider, capacity auto-detected via `internal/metrics`).
+5. Call `Register`. If `Approved == false`, print the reason and exit non-zero.
+6. On success: print a friendly summary ("✓ Node registered", "✓ Agent started", "✓ Ready") and return nil. The actual daemon start is handled by the caller (`cmd/servez-agent`); `join` is the bootstrap command that validates + registers + prints next step.
+7. Join token auth errors (401) must print "invalid or expired join token".
 
-## Acceptance criteria
+Keep it dependency-light: only `internal/agentnet`, `internal/api`, `internal/metrics`, `internal/config`, and stdlib.
 
-1. `go build ./...` and `go vet ./...` pass for the whole module.
-2. `cmd/servez-agent` runs standalone with `--control-plane <url> --token <tok> --node-id <id>`.
-3. With a stub control plane, the agent: registers once, sends a `NodeReport` every 10s with real CPU/mem/disk percentages, and buffers metrics when the plane is unreachable.
-4. Idle RSS < 50MB (verify with `ps -o rss= -p <pid>`).
-5. `go test ./internal/...` — unit tests for metrics collector + buffer + at least one container manager path (use a fake client).
+## 2. mTLS for agent ↔ control plane
+
+The control plane will gain TLS (the other agent's task). Wire the agent side:
+
+- In `internal/agent/tls.go`: helper to load-or-generate a self-signed client cert in the agent data dir, returning a `*tls.Config` suitable for `agentnet.New(baseURL, tlsConfig)`.
+- **Do not break plain-HTTP operation**: if the control plane URL is `http://`, skip TLS config entirely. Only use mTLS when the scheme is `https://`.
+- If `https` is used but cert generation fails, log a warning and continue with system TLS pool (fallback), so local dev keeps working.
+
+## 3. End-to-end test (highest value)
+
+Add `internal/agent/agent_test.go` that:
+1. Spins up an in-process control plane using `internal/apiserver.New(...)` + `internal/state.NewMemStoreWithRegistry(...)` + `internal/audit.OpenSQLite(":memory:")` + `internal/orchestrator.NewScheduler(...)` — all already exist, wired in `internal/apiserver/server_test.go` if you need a reference (read-only).
+2. Runs the real `Agent` loop against it with a fake `container.Manager` (implement the interface from `internal/container/manager.go`).
+3. Asserts: agent registers, reports state every 10s, polls commands, executes a `start` action, and acks.
+
+Test must pass with `go test ./internal/agent/`.
+
+## 4. Also fix: report workload status after actions
+
+In `internal/agent/agent.go` (EDIT ALLOWED): after executing `deploy`/`scale`/`start`/`stop`, refresh the container list and include it in the next `NodeReport.Workloads` so the control plane sees running instances. The `container.Manager.List` method already returns `[]api.ContainerStatus`.
 
 ## Rules
 
-- Edit only files under `cmd/servez-agent/`, `internal/agent/`, `internal/metrics/`, `internal/container/`, `internal/agentnet/`. If you need a new file there, create it.
-- Do NOT edit `internal/api/`, `internal/state/`, `internal/apiserver/`, `internal/orchestrator/`, `cmd/servez-control/`, `cmd/servez/`, `internal/config/`, `internal/mcp/`, `go.mod`, or `go.sum` without checking with the user first.
-- No comments explaining obvious code; match the concise Go style in `internal/api`.
-- When done: `go build ./...`, `go vet ./...`, `go test ./internal/...`, then report back a summary of what you built and any deviations from this spec.
+- Edit only: `cmd/servez/join.go`, `internal/agent/`, `internal/agentnet/`. If you need new files there, create them.
+- Do NOT edit: `cmd/servez/main.go`, `cmd/servez/commands.go`, `cmd/servez/init.go`, `cmd/servez/status.go`, `cmd/servez/deploy.go`, `cmd/servez/token.go`, `internal/apiserver/`, `internal/mcp/`, `internal/simulate/`, `internal/state/`, `internal/orchestrator/`, `internal/api/`, `internal/config/`, `internal/audit/`, `go.mod`, `go.sum`.
+- `registerCommand` and `Command` may not exist yet when you start — the other agent is creating them in parallel. If `go build` fails because of a missing `cmd/servez/commands.go`, that is expected mid-sprint; your `join.go` must be compatible with the registry above once it exists.
+- When done: `go build ./...`, `go vet ./...`, `go test ./internal/agent/ ./internal/agentnet/`, then report back a summary.
