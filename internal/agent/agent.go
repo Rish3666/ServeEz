@@ -2,7 +2,6 @@ package agent
 
 import (
 	"context"
-	"crypto/tls"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -40,6 +39,12 @@ type Agent struct {
 	health    int
 }
 
+var (
+	collectInterval = 5 * time.Second
+	reportInterval  = 10 * time.Second
+	commandInterval = 5 * time.Second
+)
+
 func New(cfg Config, collector *metrics.Collector, buffer *metrics.Buffer, manager container.Manager, logger *log.Logger) *Agent {
 	if logger == nil {
 		logger = log.Default()
@@ -56,23 +61,23 @@ func New(cfg Config, collector *metrics.Collector, buffer *metrics.Buffer, manag
 }
 
 func (a *Agent) Run(ctx context.Context) error {
-	tlsConfig, err := a.identityTLSConfig()
-	if err != nil {
-		return err
+	client := a.client
+	if client == nil {
+		var err error
+		client, err = agentnet.New(a.cfg.ControlPlaneURL, tlsConfigForControlPlane(a.cfg.ControlPlaneURL, a.cfg.DataDir, a.cfg.NodeID, a.logger))
+		if err != nil {
+			return err
+		}
+		a.client = client
 	}
-	client, err := agentnet.New(a.cfg.ControlPlaneURL, tlsConfig)
-	if err != nil {
-		return err
-	}
-	a.client = client
 
 	if err := a.register(ctx); err != nil {
 		return err
 	}
 
-	collectTicker := time.NewTicker(5 * time.Second)
-	reportTicker := time.NewTicker(10 * time.Second)
-	commandTicker := time.NewTicker(5 * time.Second)
+	collectTicker := time.NewTicker(collectInterval)
+	reportTicker := time.NewTicker(reportInterval)
+	commandTicker := time.NewTicker(commandInterval)
 	defer collectTicker.Stop()
 	defer reportTicker.Stop()
 	defer commandTicker.Stop()
@@ -112,14 +117,6 @@ func (a *Agent) Run(ctx context.Context) error {
 			}
 		}
 	}
-}
-
-func (a *Agent) identityTLSConfig() (*tls.Config, error) {
-	cert, err := ensureIdentity(a.cfg.DataDir, a.cfg.NodeID)
-	if err != nil {
-		return nil, err
-	}
-	return &tls.Config{Certificates: []tls.Certificate{*cert}, MinVersion: tls.VersionTLS12}, nil
 }
 
 func (a *Agent) register(ctx context.Context) error {
@@ -338,6 +335,9 @@ func (a *Agent) executeAction(ctx context.Context, action api.Action) (api.Actio
 
 func actionID(action api.Action) string {
 	if action.Parameters != nil {
+		if id, ok := action.Parameters["action_id"].(string); ok && id != "" {
+			return id
+		}
 		if id, ok := action.Parameters["id"].(string); ok && id != "" {
 			return id
 		}

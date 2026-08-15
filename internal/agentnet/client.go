@@ -25,21 +25,49 @@ type CommandAck struct {
 	Result any    `json:"result,omitempty"`
 }
 
+type HTTPError struct {
+	Method     string
+	Path       string
+	StatusCode int
+	Message    string
+}
+
+func (e *HTTPError) Error() string {
+	if e == nil {
+		return ""
+	}
+	if e.Message == "" {
+		return fmt.Sprintf("%s %s: http %d", e.Method, e.Path, e.StatusCode)
+	}
+	return fmt.Sprintf("%s %s: %s", e.Method, e.Path, e.Message)
+}
+
 func New(baseURL string, tlsConfig *tls.Config) (*Client, error) {
+	return NewWithHTTPClient(baseURL, nil, tlsConfig)
+}
+
+func NewWithHTTPClient(baseURL string, httpClient *http.Client, tlsConfig *tls.Config) (*Client, error) {
 	u, err := url.Parse(baseURL)
 	if err != nil {
 		return nil, err
 	}
-	transport := &http.Transport{}
-	if tlsConfig != nil {
-		transport.TLSClientConfig = tlsConfig
-	}
-	return &Client{
-		baseURL: strings.TrimRight(u.String(), "/"),
-		httpClient: &http.Client{
+	if httpClient == nil {
+		transport := &http.Transport{}
+		if tlsConfig != nil {
+			transport.TLSClientConfig = tlsConfig
+		}
+		httpClient = &http.Client{
 			Timeout:   15 * time.Second,
 			Transport: transport,
-		},
+		}
+	} else if tlsConfig != nil {
+		if transport, ok := httpClient.Transport.(*http.Transport); ok && transport != nil {
+			transport.TLSClientConfig = tlsConfig
+		}
+	}
+	return &Client{
+		baseURL:    strings.TrimRight(u.String(), "/"),
+		httpClient: httpClient,
 	}, nil
 }
 
@@ -97,7 +125,12 @@ func (c *Client) do(ctx context.Context, method, path string, in any, out any) e
 	defer res.Body.Close()
 	if res.StatusCode >= 300 {
 		data, _ := io.ReadAll(res.Body)
-		return fmt.Errorf("%s %s: %s", method, path, strings.TrimSpace(string(data)))
+		return &HTTPError{
+			Method:     method,
+			Path:       path,
+			StatusCode: res.StatusCode,
+			Message:    strings.TrimSpace(string(data)),
+		}
 	}
 	if out == nil {
 		return nil
