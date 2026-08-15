@@ -1,70 +1,71 @@
-# CODEX TASKS — Sprint 2-3: Agent Join + mTLS (Agent Side)
+# CODEX TASKS — Sprint 4: TUI Chat + Alerts Panes
 
-You own the **agent-side** work for Sprint 2-3. A parallel agent owns the control-plane/CLI/MCP/simulation work. **Do not touch anything outside your directories.** The shared contract lives in `internal/api/types.go` and `internal/config/config.go` (read-only for you).
+You own the **chat + alerts panes** for the terminal dashboard. A parallel agent owns the app shell (`internal/tui/app.go`, `panel.go`, `snapshot.go`, `cluster.go`, `services.go`, `status.go`) and the `cmd/servez-tui` entrypoint — **do not edit those files.** Your work lives in two new files that register themselves via `RegisterPanel`.
 
-## Your deliverables
+## What exists already (read-only for you)
 
-```
-cmd/servez/join.go            — the `servez join` command (register via command registry)
-internal/agent/tls.go         — mTLS identity + cert handling for the agent
-internal/agentnet/client.go   — (EDIT ALLOWED) add TLS client config wiring
-internal/agent/*_test.go      — end-to-end test vs a running control plane
-```
+- `internal/tui/panel.go` — the panel contract + registry you build against.
+- `internal/tui/snapshot.go` — the `Snapshot` struct the shell pushes to your panes every ~2s via `SetSnapshot`.
+- `internal/tui/app.go` — the shell: polls `/v1/state`, handles tab/q keys, renders a 2x2 grid. Key messages are forwarded to the focused panel.
+- `internal/apiclient` — HTTP client for the control plane (has `Execute`, `Deploy`, `Simulate`, `State`). Use it for any action your panes trigger.
+- `internal/mcp` — MCP tool server, already wired into the control plane at `POST /v1/mcp/call` (use if you want tool-style invocation).
 
-## 1. The `servez join` command
-
-The CLI now uses a **command registry**. `cmd/servez/main.go` is owned by the other agent and is **read-only for you**. You add ONE new file: `cmd/servez/join.go` that registers a command. The registry pattern:
+## The panel contract (from `internal/tui/panel.go`)
 
 ```go
-package main
+type Env struct {
+    Client     *apiclient.Client
+    ControlURL string
+    Logger     *log.Logger
+}
 
+type Panel interface {
+    tea.Model
+    Title() string
+    SetSnapshot(*Snapshot)
+    Focused() bool
+    SetFocused(bool)
+}
+
+func RegisterPanel(name string, f func(env Env) Panel)
+```
+
+A panel is a Bubble Tea model: `Init() tea.Cmd`, `Update(tea.Msg) (tea.Model, tea.Cmd)`, `View() string`. Register it from `init()`:
+
+```go
 func init() {
-    registerCommand(Command{
-        Name:  "join",
-        Usage: "servez join <url> --token=<tok> [--provider=local]",
-        Run:   runJoin,
-    })
+    RegisterPanel("Chat", func(env Env) Panel { return &chatPane{env: env} })
 }
 ```
 
-The `Command` struct and `registerCommand` are defined in `cmd/servez/commands.go` (owned by the other agent, read-only). `runJoin` has signature `func(args []string) error`.
+## Your deliverables
 
-### Join flow to implement (from `Core Features/07 - One-Command Cluster Additions`)
+### 1. `internal/tui/chat.go` — AI Chat sidebar (Core Features/06, AI Control/03 Intent API)
 
-1. Parse `--token`, `--provider`, `--runtime` (default `docker`), optional `--node-id`.
-2. Generate a stable node ID (hostname-based or persisted in `~/.servez/node-id`).
-3. Create an `internal/agentnet.Client` pointed at `<url>`.
-4. Build a `api.RegisterRequest` (node ID, token, runtime, provider, capacity auto-detected via `internal/metrics`).
-5. Call `Register`. If `Approved == false`, print the reason and exit non-zero.
-6. On success: print a friendly summary ("✓ Node registered", "✓ Agent started", "✓ Ready") and return nil. The actual daemon start is handled by the caller (`cmd/servez-agent`); `join` is the bootstrap command that validates + registers + prints next step.
-7. Join token auth errors (401) must print "invalid or expired join token".
+- A focused chat input (text field) + message history rendered in `View()`.
+- Enter submits the typed command; Esc/arrows toggle between history scroll and input.
+- **MVP intent handling (no LLM yet)**: parse the command into an action and execute it via `env.Client.Execute(...)`, mirroring `servez` CLI behavior. Support at minimum:
+  - `scale <workload> <n>` → `api.Action{Type:"scale", Target:"workload:<name>", Parameters:{replicas:n}, Confidence:0.9, Initiator:"human:tui"}` then print the `ActionResult.Status` as a chat reply.
+  - `deploy <name> image=<img>` → build an `api.WorkloadSpec` and call `env.Client.Deploy(...)`.
+  - `status` / `help` → print node/workload summary from the latest `Snapshot`.
+  - Unknown command → reply with the help text.
+- Each submitted action should first be dry-run through `env.Client.Simulate(...)` and shown as "simulated: <recommendation>" before executing, when the action type is one the simulate engine gates (kill/stop/remove/restart/migrate/scale). If the recommendation is `requires_approval` and the user didn't confirm (reply `yes`/`confirm`), do NOT execute.
+- Store the message history in the pane (ring buffer, ~100 entries).
 
-Keep it dependency-light: only `internal/agentnet`, `internal/api`, `internal/metrics`, `internal/config`, and stdlib.
+### 2. `internal/tui/alerts.go` — Alerts pane
 
-## 2. mTLS for agent ↔ control plane
-
-The control plane will gain TLS (the other agent's task). Wire the agent side:
-
-- In `internal/agent/tls.go`: helper to load-or-generate a self-signed client cert in the agent data dir, returning a `*tls.Config` suitable for `agentnet.New(baseURL, tlsConfig)`.
-- **Do not break plain-HTTP operation**: if the control plane URL is `http://`, skip TLS config entirely. Only use mTLS when the scheme is `https://`.
-- If `https` is used but cert generation fails, log a warning and continue with system TLS pool (fallback), so local dev keeps working.
-
-## 3. End-to-end test (highest value)
-
-Add `internal/agent/agent_test.go` that:
-1. Spins up an in-process control plane using `internal/apiserver.New(...)` + `internal/state.NewMemStoreWithRegistry(...)` + `internal/audit.OpenSQLite(":memory:")` + `internal/orchestrator.NewScheduler(...)` — all already exist, wired in `internal/apiserver/server_test.go` if you need a reference (read-only).
-2. Runs the real `Agent` loop against it with a fake `container.Manager` (implement the interface from `internal/container/manager.go`).
-3. Asserts: agent registers, reports state every 10s, polls commands, executes a `start` action, and acks.
-
-Test must pass with `go test ./internal/agent/`.
-
-## 4. Also fix: report workload status after actions
-
-In `internal/agent/agent.go` (EDIT ALLOWED): after executing `deploy`/`scale`/`start`/`stop`, refresh the container list and include it in the next `NodeReport.Workloads` so the control plane sees running instances. The `container.Manager.List` method already returns `[]api.ContainerStatus`.
+- Derives alerts from the latest `Snapshot` (read-only, no HTTP): 
+  - node state in {unhealthy, disconnected, cordoned} → red alert "node X is <state>".
+  - node state `degraded` → yellow alert.
+  - workload state `unschedulable` → red alert.
+  - workload state `declared`/`pending` for more than 0 poll cycles → informational "workload X not yet scheduled" (track first-seen cycles in the pane).
+- Render newest-first, capped at ~20, each prefixed by a `●` colored by severity.
+- Make the pane scrollable with j/k when focused.
 
 ## Rules
 
-- Edit only: `cmd/servez/join.go`, `internal/agent/`, `internal/agentnet/`. If you need new files there, create them.
-- Do NOT edit: `cmd/servez/main.go`, `cmd/servez/commands.go`, `cmd/servez/init.go`, `cmd/servez/status.go`, `cmd/servez/deploy.go`, `cmd/servez/token.go`, `internal/apiserver/`, `internal/mcp/`, `internal/simulate/`, `internal/state/`, `internal/orchestrator/`, `internal/api/`, `internal/config/`, `internal/audit/`, `go.mod`, `go.sum`.
-- `registerCommand` and `Command` may not exist yet when you start — the other agent is creating them in parallel. If `go build` fails because of a missing `cmd/servez/commands.go`, that is expected mid-sprint; your `join.go` must be compatible with the registry above once it exists.
-- When done: `go build ./...`, `go vet ./...`, `go test ./internal/agent/ ./internal/agentnet/`, then report back a summary.
+- Edit only: `internal/tui/chat.go` and `internal/tui/alerts.go`. If you need a helper, put it in one of those files.
+- Do NOT edit: `internal/tui/app.go`, `panel.go`, `snapshot.go`, `cluster.go`, `services.go`, `status.go`, `tui_test.go`, `cmd/`, `internal/apiserver/`, `internal/apiclient/`, `internal/mcp/`, `internal/state/`, `internal/api/`, `internal/config/`, `internal/orchestrator/`, `internal/audit/`, `internal/agent/`, `internal/agentnet/`, `internal/metrics/`, `internal/container/`, `go.mod`, `go.sum`.
+- `go.mod` already has `bubbletea` + `lipgloss`; you may use `github.com/charmbracelet/bubbles` for the text input if it's available, otherwise implement a minimal text field in `chat.go`.
+- Your panes must render an empty state when `Snapshot` is nil (first poll hasn't arrived).
+- When done: `go build ./internal/tui/ ./cmd/servez-tui/`, `go vet ./internal/tui/`, `go test ./internal/tui/`, then report back a summary.

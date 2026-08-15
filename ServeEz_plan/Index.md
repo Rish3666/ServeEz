@@ -56,6 +56,9 @@ banner: "![[Assets/pg1 1.jpeg]]"
 - [[UI/TUI Dashboard]] — Terminal interface
 - [[UI/GUI Dashboard]] — Web interface
 
+## Obsidian Vault Map
+- [[Obsidian/00 - Vault Map]] — Navigation hub for the implementation structure
+
 ## Business
 - [[Business/Target Audience & Monetization]] — Pricing + go-to-market
 - [[Business/Roadmap]] — Development phases + milestones
