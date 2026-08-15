@@ -108,4 +108,11 @@ MCP Server: { status: "completed", before: {...}, after: {...} }
 - Deprecated tools return warnings
 - Custom tools from plugins are auto-discovered
 
+## Object Store Backing
+
+MCP tools don't read and write files — they ==read and write directly to the typed object store== (Postgres/etcd-style, JSON Schema-validated). Every tool call is a transaction against stored objects, so what the AI reads, what it writes, and what is persisted are always the same thing.
+
+- **Optimistic concurrency.** Each object carries a ==resourceVersion-style token==. Concurrent writes from multiple agents or humans include the version they based their change on; the store rejects stale writes with a conflict response so the writer can re-read and retry. No last-writer-wins blind overwrites.
+- **Schema registration (CRD-equivalent).** New object types are added via ==schema registration==, not core code changes. Third-party tools and plugins register their own object types and validation rules, extending the type system without touching the core — the store, the MCP tool layer, and the state model pick them up automatically.
+
 ← [[Index]]

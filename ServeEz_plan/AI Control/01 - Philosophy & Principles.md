@@ -84,4 +84,12 @@ AI Self-Correction
 - GitOps workflows (AI pushes commits, human PRs are overrides)
 - Config file editing when humans need to override AI decisions
 
+## No-YAML Object Model
+
+The ==object store is the single source of truth== — not YAML manifests, not config files, not dashboards. All desired and observed state lives in a typed, JSON Schema-validated store (Postgres/etcd-style) that both AI and humans read and write through the same structured interfaces.
+
+- **YAML is an export, never an input.** Manifests are ==generated FROM the object store== as an audit/export format (Helm-style charts, human-readable snapshots). There is no `kubectl apply -f`, no "import this YAML" flow — files are never accepted as an input path.
+- **One validated write path for everyone.** Even the human override path (under "What This Keeps") must ==re-enter the system through the same MCP tool validation as AI writes== — same schemas, same simulation checks, same audit trail, same confidence gates. A human override is a human-authored change made through a validated tool call, not a free-form file edit.
+- **Why this matters:** if files could be edited directly, the object store, the AI state model ([[AI Control/04 - State Model for AI]]), and the audit trail ([[AI Control/05 - Action Audit & Safety]]) would drift out of sync. ==A single source of truth only works if there's a single way in.==
+
 ← [[Index]]

@@ -56,4 +56,9 @@ AI intelligently ==splits workload across available hardware== — local servers
 | Cold data (archive) | ❌ | ✅ | — |
 | Temp/scratch | — | ✅ | — |
 
+## Deployment Model
+Same ==open-core pattern as GitLab/Grafana/Supabase==:
+- **Lite (fully self-hosted)** — agent + orchestrator + AI engine all run on customer infrastructure. ==No SaaS component at all.==
+- **Pro / Enterprise (centrally-hosted control plane)** — orchestrator + AI engine + dashboards are hosted by us. A ==lightweight agent== installs on customer infra and phones home to the hosted control plane. The hosted control plane is the SaaS component; ==the agent itself is not.==
+
 ← [[Index]]

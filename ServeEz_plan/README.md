@@ -61,6 +61,11 @@ ServeEz is an intelligent infrastructure management system that makes deployment
 | **Pro** | SMB / Startups (10-100 servers) | $99-$499/mo | Full AI, multi-cloud |
 | **Enterprise** | 100+ servers, compliance | Custom ($2k-$20k/mo) | SSO, RBAC, SLA, dedicated model |
 
+### Deployment Model
+- **Lite** — fully self-hosted: agent + orchestrator + AI engine on customer infrastructure. ==No SaaS component at all.==
+- **Pro / Enterprise** — centrally-hosted control plane (orchestrator + AI engine + dashboards hosted by us) with a ==lightweight agent== on customer infra that phones home. The hosted control plane is the SaaS component; ==the agent itself is not.==
+- Same ==open-core pattern as GitLab/Grafana/Supabase==.
+
 ---
 
 ## Roadmap
@@ -89,7 +94,8 @@ ServeEz is an intelligent infrastructure management system that makes deployment
 
 ### Still Unresolved
 - Stateful workload migration scope?
-- Agent language (Go/Rust/Python)?
+- Schema evolution/versioning strategy for the object store?
+- Concurrent-write conflict resolution across multiple AI agents?
 
 ---
 
