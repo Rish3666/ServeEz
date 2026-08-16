@@ -3,11 +3,20 @@ tags:
   - feature
   - scaling
   - ai
-status: idea
+status: implemented
 priority: critical
 ---
 
 # Zero Latency Predictive Scaling
+
+## Implementation Status: ✅ Fast Tier Live (2026-08-16)
+
+- `internal/history` — SQLite time-series store (CPU% samples from every node report).
+- `internal/predictor` — linear-trend forecast with r² confidence + replica recommendation (fast tier, <100ms, no ML deps).
+- `GET /v1/predict` + MCP `predict.scale` tool.
+- `cmd/servez-autoscale` — standing loop: predict → simulate dry-run → decision gate → up-only scale with cooldown.
+- `internal/prewarm` — scale lead-time measurement.
+- See [[Obsidian/09 - Predictive Scaling]] for the full implementation doc.
 
 ## Concept
 AI analyses historical traffic patterns, time-of-day trends, and external signals to predict traffic spikes ==**before they happen**==. Containers/pods are pre-warmed so capacity is ready the instant demand hits — achieving ==near-zero latency scaling==.

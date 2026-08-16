@@ -12,6 +12,8 @@
 //	POST /v1/simulate
 //	GET  /v1/audit
 //	POST /v1/emergency/kill
+//	GET  /v1/predict
+//	POST /v1/cost/compare
 package apiserver
 
 import (
@@ -44,6 +46,7 @@ type Server struct {
 	simulator  *simulate.Engine
 	predictor  *predictor.Engine
 	hist       *history.Store
+	cost       api.CostComparer
 	mcp        *mcp.Server
 	joinToken  string
 	killSwitch bool
@@ -75,6 +78,12 @@ func (s *Server) WithHistory(h *history.Store) *Server {
 	return s
 }
 
+// WithCost attaches the pricing engine and enables /v1/cost/compare.
+func (s *Server) WithCost(c api.CostComparer) *Server {
+	s.cost = c
+	return s
+}
+
 // Handler returns the root HTTP handler.
 func (s *Server) Handler() http.Handler {
 	mux := http.NewServeMux()
@@ -91,6 +100,7 @@ func (s *Server) Handler() http.Handler {
 	mux.HandleFunc("GET /v1/mcp/tools", s.handleMCPTools)
 	mux.HandleFunc("POST /v1/mcp/call", s.handleMCPCall)
 	mux.HandleFunc("GET /v1/predict", s.handlePredict)
+	mux.HandleFunc("POST /v1/cost/compare", s.handleCostCompare)
 	return withLogging(mux)
 }
 
@@ -204,14 +214,13 @@ func (s *Server) handleCommands(w http.ResponseWriter, r *http.Request) {
 	s.mu.Lock()
 	ids := append([]string(nil), s.nodeCmds[nodeID]...)
 	s.nodeCmds[nodeID] = nil
-	s.mu.Unlock()
-
 	out := make([]api.Action, 0, len(ids))
 	for _, id := range ids {
 		if a, ok := s.pending[id]; ok {
 			out = append(out, a)
 		}
 	}
+	s.mu.Unlock()
 	writeJSON(w, http.StatusOK, out)
 }
 

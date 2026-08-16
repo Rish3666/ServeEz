@@ -143,6 +143,9 @@ func mustRegisterTestKind(t *testing.T, reg *state.Registry) {
 func queueAction(t *testing.T, srv *apiserver.Server, nodeID, actionID string, act api.Action) {
 	t.Helper()
 	v := reflect.ValueOf(srv).Elem()
+	mu := makeSettableValue(v.FieldByName("mu")).Addr().Interface().(*sync.Mutex)
+	mu.Lock()
+	defer mu.Unlock()
 	pending := makeSettableMap(v.FieldByName("pending"))
 	nodeCmds := makeSettableMap(v.FieldByName("nodeCmds"))
 	pending.SetMapIndex(reflect.ValueOf(actionID), reflect.ValueOf(act))
@@ -156,6 +159,10 @@ func queueAction(t *testing.T, srv *apiserver.Server, nodeID, actionID string, a
 }
 
 func makeSettableMap(v reflect.Value) reflect.Value {
+	return reflect.NewAt(v.Type(), unsafe.Pointer(v.UnsafeAddr())).Elem()
+}
+
+func makeSettableValue(v reflect.Value) reflect.Value {
 	return reflect.NewAt(v.Type(), unsafe.Pointer(v.UnsafeAddr())).Elem()
 }
 

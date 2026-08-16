@@ -106,8 +106,20 @@ Adoption + Revenue
 
 ## Still Unresolved
 - Q6: Stateful workload migration scope? (stateless-only vs DB replication vs full live)
-- Q9: Agent language (Go/Rust/Python hybrid)?
+- Q9: Agent language — ==RESOLVED: Go for agent/control plane/TUI, Python for AI engine (see [[Obsidian/00 - Vault Map]])==
+
+## ✅ Build Status (2026-08-16)
+| Area | Status |
+|------|--------|
+| CLI + control plane + agent | ✅ Live |
+| MCP surface + simulation sandbox | ✅ Live |
+| TUI (cluster/services/status/chat/alerts) | ✅ Live |
+| Predictive scaling (forecast + autoscale loop) | ✅ Live |
+| Multi-cloud cost comparison | ✅ Live |
+| GUI | 🚧 Next |
+
+See [[Business/Roadmap]] and [[Obsidian/00 - Vault Map]].
 
 ---
 
-*Last updated: 2026-07-22*
+*Last updated: 2026-08-16*

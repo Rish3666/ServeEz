@@ -4,11 +4,20 @@ tags:
   - cloud
   - cost-optimization
   - arbitrage
-status: idea
+status: in-progress
 priority: high
 ---
 
 # Real-Time Cloud Arbitrage (Cost Routing)
+
+## Implementation Status: 🚧 Cost Comparison Live (2026-08-16)
+
+The Phase 1 **cost comparison** piece is implemented:
+
+- `internal/cost` — offline baseline 2026 pricing catalog (AWS/Azure/GCP) + `Compare` engine (fast tier, <10ms benchmark).
+- `POST /v1/cost/compare` + `servez cost --vcpu=N --mem-gb=N` CLI.
+- `api.CostCompareRequest` / `api.CostReport` / `api.CostRecommendation` wire types.
+- Live scraping of spot APIs + the migration/arbitrage loop remain Phase 2.
 
 ## Concept
 Cloud pricing changes constantly (spot instances, reserved vs on-demand, regional pricing). AI continuously scans pricing across providers and ==**seamlessly migrates live containers**== to the ==cheapest + lowest-latency provider== in real-time with zero downtime.

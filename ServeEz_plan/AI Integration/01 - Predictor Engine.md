@@ -3,11 +3,19 @@ tags:
   - ai
   - prediction
   - scaling
-status: draft
+status: implemented
 priority: critical
 ---
 
 # Predictor Engine
+
+## Implementation Status: ✅ Fast Tier Live (2026-08-16)
+
+- `internal/predictor` — least-squares linear-trend forecast with r² confidence (fast tier, <100ms, no ML deps). Cold-start guard (12 samples).
+- `internal/history` — SQLite time-series store recording node CPU% from every report.
+- `GET /v1/predict` + MCP `predict.scale` + `cmd/servez-autoscale` loop.
+- Prophet/LSTM time-series models, anomaly detection, and cross-tenant transfer learning remain the slow-tier / Phase 2 path.
+- See [[Obsidian/09 - Predictive Scaling]] for the implementation doc.
 
 ## Role
 The brain behind ==predictive scaling and proactive scheduling==. Feeds every AI decision with forward-looking data.

@@ -4,7 +4,10 @@
 // ServeEz data model. Do not add runtime logic here — pure types only.
 package api
 
-import "time"
+import (
+	"context"
+	"time"
+)
 
 // ===== Object Store =====
 
@@ -382,4 +385,49 @@ type PredictResponse struct {
 	Confidence          float64 `json:"confidence"`
 	Recommendation      string  `json:"recommendation"`
 	Reason              string  `json:"reason"`
+}
+
+// ===== Cost Comparison (Core Features/03, AI Integration/04) =====
+
+// CostComparer is implemented by the pricing engine (internal/cost) and
+// consumed by the control plane's /v1/cost/compare route. Kept structural so
+// internal/cost can satisfy it without importing apiserver or mcp.
+type CostComparer interface {
+	Compare(ctx context.Context, req CostCompareRequest) (CostReport, error)
+}
+
+// CostCompareRequest is the workload shape to price out across providers.
+type CostCompareRequest struct {
+	// VCPU is the requested CPU cores (required).
+	VCPU int `json:"vcpu"`
+	// MemGB is the requested memory in GB (required).
+	MemGB int `json:"mem_gb"`
+	// RuntimePct is the % of the month the instance runs (default 100).
+	RuntimePct float64 `json:"runtime_pct,omitempty"`
+	// Region defaults to "us-east-1".
+	Region string `json:"region,omitempty"`
+}
+
+// CostReport is the comparison result across providers.
+type CostReport struct {
+	Request CostCompareRequest `json:"request"`
+	// Best is the overall cheapest recommendation across all providers.
+	Best *CostRecommendation `json:"best,omitempty"`
+	// Providers is one recommendation per provider, cheapest-to-expensive.
+	Providers []CostRecommendation `json:"providers,omitempty"`
+	// PotentialSavingsPct is best vs most-expensive provider monthly spend.
+	PotentialSavingsPct float64 `json:"potential_savings_pct"`
+}
+
+// CostRecommendation is the cheapest matching instance offer for one provider.
+type CostRecommendation struct {
+	Provider      string  `json:"provider"` // "aws" | "azure" | "gcp"
+	InstanceType  string  `json:"instance_type"`
+	Region        string  `json:"region"`
+	VCPU          int     `json:"vcpu"`
+	MemGB         int     `json:"mem_gb"`
+	OnDemandPerMo float64 `json:"on_demand_per_mo"`
+	SpotPerMo     float64 `json:"spot_per_mo"`
+	Recommended   string  `json:"recommended"` // "spot" | "on_demand"
+	EstMonthly    float64 `json:"est_monthly"`
 }

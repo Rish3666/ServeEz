@@ -20,6 +20,7 @@ import (
 	"github.com/Rish3666/ServeEz/internal/apiserver"
 	"github.com/Rish3666/ServeEz/internal/audit"
 	"github.com/Rish3666/ServeEz/internal/config"
+	"github.com/Rish3666/ServeEz/internal/cost"
 	"github.com/Rish3666/ServeEz/internal/history"
 	"github.com/Rish3666/ServeEz/internal/mcp"
 	"github.com/Rish3666/ServeEz/internal/orchestrator"
@@ -94,6 +95,7 @@ func run(cfg *config.Config, token string) error {
 
 	srv := apiserver.New(store, reg, auditLog, sched, token)
 	srv.WithHistory(hist)
+	srv.WithCost(cost.New())
 	srv.WithMCP(mcp.NewWithPredictor(store, auditLog, srv, srv))
 	httpSrv := &http.Server{
 		Addr:              cfg.ListenAddr,

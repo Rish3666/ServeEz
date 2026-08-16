@@ -3,11 +3,15 @@ tags:
   - ai-control
   - control-loop
   - design
-status: draft
+status: implemented
 priority: critical
 ---
 
 # Native Control Loop
+
+## Implementation Status: ✅ Fast Tier Live (2026-08-16)
+
+The fast tier of the native loop is implemented as `cmd/servez-autoscale` (see [[Obsidian/09 - Predictive Scaling]]): a standing process that continuously forecasts workloads, dry-runs via the simulation sandbox, passes a confidence decision gate, and executes up-only scale actions with cooldown. The push-based NATS delta stream and LLM escalation (slow tier) remain future work.
 
 ## Bolted-On vs Native AI
 

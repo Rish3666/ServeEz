@@ -3,11 +3,17 @@ tags:
   - ui
   - tui
   - terminal
-status: idea
+status: implemented
 priority: high
 ---
 
 # TUI Dashboard (Terminal User Interface)
+
+## Implementation Status: ✅ Live (2026-08-16)
+
+- `servez-tui` + `internal/tui` (Bubble Tea + Lipgloss), polls `/v1/state` every 2s.
+- 5 panes: Cluster, Services, Status, Chat (intent parsing + simulate-then-confirm), Alerts.
+- See [[Obsidian/10 - TUI Dashboard]] for the implementation doc.
 
 ## Philosophy
 Base-metal control with AI insights. The TUI is the ==**primary**== interface for power users, sysadmins, and those who live in the terminal. It should feel like ==`htop` meets `k9s` meets ChatGPT==.

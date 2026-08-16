@@ -70,13 +70,15 @@ ServeEz is an intelligent infrastructure management system that makes deployment
 
 ## Roadmap
 
-| Phase | Timeline | Focus |
-|-------|----------|-------|
-| **0: Foundation** | 20 days | Agent + basic TUI + Docker integration |
-| **1: Core MVP** | 1 month | Predictive scaling, AI chat, GUI, one-command joins, multi-cloud cost |
-| **2: Intelligence** | 1 month | Self-healing, cloud arbitrage v1, compute distribution, open-source |
-| **3: Advanced** | 3 months | Multi-cloud arbitrage, cooling control, enterprise features |
-| **4: Scale** | 3 months | Chaos engineering, GitOps, FaaS, cost forecasting |
+| Phase | Timeline | Focus | Status |
+|-------|----------|-------|--------|
+| **0: Foundation** | 20 days | Agent + basic TUI + Docker integration | ✅ Done |
+| **1: Core MVP** | 1 month | Predictive scaling, AI chat, GUI, one-command joins, multi-cloud cost | 🚧 In progress (~60%) |
+| **2: Intelligence** | 1 month | Self-healing, cloud arbitrage v1, compute distribution, open-source | ⛔ |
+| **3: Advanced** | 3 months | Multi-cloud arbitrage, cooling control, enterprise features | ⛔ |
+| **4: Scale** | 3 months | Chaos engineering, GitOps, FaaS, cost forecasting | ⛔ |
+
+See [[Business/Roadmap]] for the granular checklist.
 
 ---
 
@@ -115,22 +117,29 @@ The full Obsidian vault lives in `ServeEz_plan/` with detailed docs on every fea
 
 ---
 
-## Getting Started (Coming Soon)
+## Getting Started
 
-After MVP release:
+> Phase 0/1 control plane, CLI, agent, TUI, and predictive scaling are implemented. See the [[Obsidian/00 - Vault Map]] for the code map and the live build status in [[Business/Roadmap]].
 
 ```bash
 # On the master node
-serveez init
+servez init --dir=./cluster --addr=:9443
+serveez-control --config ./cluster/control.json
 
 # On worker nodes
-servez join https://master:8443 --token=$(serveez token)
+servez join https://master:8443 --token=$(servez token)
 
 # Deploy an app
-serveez deploy ./my-app
+servez deploy web --image=nginx:1.25 --replicas=2
+
+# Watch the cluster live
+serveez-tui --url=http://localhost:9443
 
 # Chat with your cluster
-serveez chat
+servez chat  # read-only intent parsing (TUI chat pane)
+
+# Fast-tier autoscaling (standing control loop)
+serveez-autoscale --config ./cluster/control.json
 ```
 
 [[Index]]

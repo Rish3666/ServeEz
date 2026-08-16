@@ -110,6 +110,15 @@ func (c *Client) Predict(ctx context.Context, workload string) (*api.PredictResp
 	return &out, nil
 }
 
+// CostCompare prices a workload shape across providers.
+func (c *Client) CostCompare(ctx context.Context, req api.CostCompareRequest) (*api.CostReport, error) {
+	var out api.CostReport
+	if err := c.do(ctx, http.MethodPost, "/v1/cost/compare", req, &out); err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
 func (c *Client) do(ctx context.Context, method, path string, in, out any) error {
 	var body io.Reader
 	if in != nil {

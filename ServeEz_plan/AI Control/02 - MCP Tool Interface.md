@@ -3,11 +3,19 @@ tags:
   - ai-control
   - mcp
   - interface
-status: draft
+status: implemented
 priority: critical
 ---
 
 # MCP Tool Interface
+
+## Implementation Status: ✅ Live (2026-08-16)
+
+- `internal/mcp` server with tools: `state.list`, `workload.create`, `simulate.action`, `state.subscribe`, `audit.query`, `predict.scale`.
+- HTTP surface: `GET /v1/mcp/tools` (discovery) + `POST /v1/mcp/call` (invocation).
+- Shared simulation + prediction engines via `apiserver` adapter methods.
+- See [[Obsidian/08 - Simulation and MCP]] for the implementation doc.
+- Full JSON-Schema tool schemas, SSE streaming, and plugin tool registration remain future work (the current Tool model uses a flat `Parameters map[string]string`).
 
 ## Overview
 Every operation in ServeEz is an ==MCP (Model Context Protocol) tool==. The AI discovers available tools dynamically, reads their schemas, and calls them with structured arguments. No hardcoded API knowledge needed.

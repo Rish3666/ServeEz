@@ -3,11 +3,15 @@ tags:
   - ai
   - cost
   - cloud-arbitrage
-status: draft
+status: in-progress
 priority: high
 ---
 
 # Cost Optimizer
+
+## Implementation Status: 🚧 Comparison Live, Optimization Pending (2026-08-16)
+
+The Phase 1 **cost comparison** is implemented: `internal/cost` offline baseline catalog + `Compare` engine, `POST /v1/cost/compare`, `servez cost` CLI, and `api.Cost*` wire types. The continuous optimization loop (scan → analyze → score → recommend → simulate → execute) remains Phase 2.
 
 ## Role
 Continuously analyzes cloud pricing across providers and ==recommends (or auto-executes) cost-saving actions==. The engine behind [[Core Features/03 - Real-Time Cloud Arbitrage]].
