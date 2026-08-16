@@ -317,8 +317,8 @@ func (s *Server) handleExecute(w http.ResponseWriter, r *http.Request) {
 		writeError(w, http.StatusForbidden, err.Error())
 		return
 	}
-	// Scale actions resolve to a node and get queued for its agent.
-	if act.Type == "scale" {
+	// Scale/replace actions resolve to a node and get queued for its agent.
+	if act.Type == "scale" || act.Type == "replace" {
 		if err := s.queueScale(r.Context(), &act); err != nil {
 			writeError(w, http.StatusBadRequest, err.Error())
 			return
@@ -339,6 +339,7 @@ func (s *Server) applyConfidenceGate(act api.Action) error {
 		"scale_up": 0.70,
 		"scale":    0.70,
 		"restart":  0.80,
+		"replace":  0.85,
 		"migrate":  0.90,
 		"kill":     0.95,
 		"stop":     0.95,

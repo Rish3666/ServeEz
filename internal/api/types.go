@@ -286,7 +286,8 @@ type ReportAck struct {
 
 // Action is a concrete operation request. Mirrors the MCP write tools.
 type Action struct {
-	// Type is one of: "start", "stop", "restart", "scale", "remove", "deploy", "migrate", "kill".
+	// Type is one of: "start", "stop", "restart", "scale", "remove", "deploy", "replace", "migrate", "kill".
+	// "replace" performs a blue-green warm-clone swap (zero-downtime); see prewarm.Swapper.
 	Type string `json:"type"`
 
 	// Target identifies the workload or container.

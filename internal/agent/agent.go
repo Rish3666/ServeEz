@@ -15,6 +15,7 @@ import (
 	"github.com/Rish3666/ServeEz/internal/api"
 	"github.com/Rish3666/ServeEz/internal/container"
 	"github.com/Rish3666/ServeEz/internal/metrics"
+	"github.com/Rish3666/ServeEz/internal/prewarm"
 )
 
 type Config struct {
@@ -287,6 +288,10 @@ func (a *Agent) executeAction(ctx context.Context, action api.Action) (api.Actio
 		if err := a.manager.Remove(ctx, action.Target); err != nil {
 			return res, err
 		}
+	case "replace":
+		if err := a.replace(ctx, action, &res); err != nil {
+			return res, err
+		}
 	case "deploy":
 		spec, replicas, err := specFromAction(action)
 		if err != nil {
@@ -346,6 +351,40 @@ func actionID(action api.Action) string {
 		return action.Type + ":" + action.Target
 	}
 	return action.Type
+}
+
+// replace performs a blue-green swap of one instance of action.Target. The
+// target is either a workload ("web" or "workload:web") — the oldest running
+// instance is replaced — or a specific container via parameters["instance"].
+// The old container is only removed after a warm clone is healthy, so the
+// operation has zero downtime (rolled back otherwise).
+func (a *Agent) replace(ctx context.Context, action api.Action, res *api.ActionResult) error {
+	target := strings.TrimPrefix(action.Target, "workload:")
+	spec, _, err := specFromAction(action)
+	if err != nil {
+		return err
+	}
+	oldID := ""
+	if action.Parameters != nil {
+		if id, ok := action.Parameters["instance"].(string); ok && id != "" {
+			oldID = id
+		}
+	}
+	swapper := prewarm.NewSwapper(a.manager, a.cfg.Runtime, prewarm.LeadTime)
+	if fb, ok := action.Parameters["fallback_seconds"].(float64); ok && fb >= 0 {
+		swapper.SetFallback(time.Duration(fb) * time.Second)
+	}
+	out, err := swapper.Swap(ctx, target, spec, oldID)
+	if err != nil {
+		return err
+	}
+	res.Before = map[string]any{"instance": out.OldID}
+	res.After = map[string]any{"instance": out.NewID, "status": out.Status}
+	res.Message = out.Message
+	if out.Status == "rolled_back" {
+		return fmt.Errorf("replace rolled back: %s", out.Message)
+	}
+	return nil
 }
 
 func replicasFromAction(action api.Action) (int, error) {

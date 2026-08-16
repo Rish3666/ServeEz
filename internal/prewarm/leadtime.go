@@ -1,5 +1,6 @@
 // Package prewarm estimates the time needed to make additional workload
-// replicas ready on a node.
+// replicas ready on a node, and orchestrates blue-green (warm-clone)
+// replacement for zero-downtime operations (Core Features/08).
 package prewarm
 
 import (
