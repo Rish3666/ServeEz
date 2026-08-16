@@ -34,6 +34,8 @@ priority: critical
 - `SimulationResult`
 - `PredictResponse` — forecast payload for `/v1/predict`:
   `workload, available, current_replicas, recommended_replicas, current_cpu_pct, forecast_15m_pct, forecast_1h_pct, confidence, recommendation, reason`
+- `CostCompareRequest` / `CostReport` / `CostRecommendation` — pricing engine contract for `/v1/cost/compare`
+- `CostComparer` — structural interface satisfied by `internal/cost`
 
 ## Practical Rule
 
