@@ -24,6 +24,7 @@ This note is the navigation hub for the current implementation structure.
 - [[Obsidian/09 - Predictive Scaling]]
 - [[Obsidian/10 - TUI Dashboard]]
 - [[Obsidian/11 - Cost Comparison]]
+- [[Obsidian/12 - GUI Dashboard]]
 
 ## Design Docs
 
@@ -41,6 +42,7 @@ This note is the navigation hub for the current implementation structure.
 - [[Core Features/07 - One-Command Cluster Additions]]
 - [[Core Features/01 - Zero Latency Predictive Scaling]]
 - [[UI/TUI Dashboard]]
+- [[UI/GUI Dashboard]]
 
 ## Code Map
 
@@ -58,6 +60,7 @@ This note is the navigation hub for the current implementation structure.
 - [[cmd/servez-agent/main.go]]
 - [[cmd/servez-tui/main.go]]
 - [[cmd/servez-autoscale/main.go]]
+- [[cmd/servez-gui/main.go]]
 - [[internal/api/types.go]]
 - [[internal/apiserver/server.go]]
 - [[internal/apiserver/mcp.go]]
@@ -102,4 +105,4 @@ This note is the navigation hub for the current implementation structure.
 7. Use [[Obsidian/09 - Predictive Scaling]] for the forecast + autoscale path.
 8. Use [[Obsidian/10 - TUI Dashboard]] for the live terminal UI.
 9. Use [[Obsidian/11 - Cost Comparison]] for the pricing engine.
-
+10. Use [[Obsidian/12 - GUI Dashboard]] for the web dashboard and proxy.

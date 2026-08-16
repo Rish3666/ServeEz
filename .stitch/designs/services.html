@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ServeEz - Services</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=JetBrains+Mono:wght@400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed": "#271900",
+                        "tertiary-container": "#bd8708",
+                        "secondary-fixed": "#83fc89",
+                        "on-error-container": "#ffdad6",
+                        "inverse-surface": "#e1e2e9",
+                        "primary-container": "#4e8eff",
+                        "secondary-container": "#27a640",
+                        "error-container": "#93000a",
+                        "surface-container-high": "#272a30",
+                        "on-surface": "#e1e2e9",
+                        "tertiary": "#fabc45",
+                        "on-error": "#690005",
+                        "outline": "#8c909f",
+                        "surface-container-lowest": "#0b0e13",
+                        "primary": "#aec6ff",
+                        "on-tertiary-container": "#392600",
+                        "on-secondary-fixed-variant": "#005317",
+                        "on-primary-container": "#00275d",
+                        "on-secondary-fixed": "#002105",
+                        "secondary": "#67df70",
+                        "tertiary-fixed-dim": "#fabc45",
+                        "primary-fixed": "#d8e2ff",
+                        "on-secondary-container": "#00320a",
+                        "on-primary-fixed": "#001a42",
+                        "surface-variant": "#32353a",
+                        "surface-tint": "#aec6ff",
+                        "surface-container-low": "#191c21",
+                        "surface-dim": "#111319",
+                        "on-tertiary": "#422c00",
+                        "secondary-fixed-dim": "#67df70",
+                        "on-primary": "#002e6a",
+                        "on-surface-variant": "#c2c6d6",
+                        "background": "#111319",
+                        "surface-bright": "#36393f",
+                        "primary-fixed-dim": "#aec6ff",
+                        "on-primary-fixed-variant": "#004395",
+                        "tertiary-fixed": "#ffdeaa",
+                        "surface": "#111319",
+                        "outline-variant": "#424753",
+                        "surface-container-highest": "#32353a",
+                        "inverse-primary": "#005ac3",
+                        "inverse-on-surface": "#2e3036",
+                        "on-background": "#e1e2e9",
+                        "on-tertiary-fixed-variant": "#5f4100",
+                        "surface-container": "#1d2025",
+                        "on-secondary": "#00390d",
+                        "error": "#ffb4ab"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "padding-container": "24px",
+                        "gap-tight": "8px",
+                        "gap-base": "16px",
+                        "header-height": "48px",
+                        "gap-xs": "4px",
+                        "sidebar-width": "220px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "data-mono": ["JetBrains Mono"],
+                        "body-sm": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "data-mono-sm": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "body-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0px", "fontWeight": "400" }],
+                        "data-mono": ["13px", { "lineHeight": "18px", "fontWeight": "400" }],
+                        "body-sm": ["13px", { "lineHeight": "18px", "letterSpacing": "0px", "fontWeight": "400" }],
+                        "headline-lg": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "label-caps": ["11px", { "lineHeight": "16px", "letterSpacing": "0.06em", "fontWeight": "600" }],
+                        "headline-md": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "data-mono-sm": ["11px", { "lineHeight": "14px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-sm antialiased h-screen w-full overflow-hidden flex">
+<!-- SideNavBar -->
+<nav class="fixed left-0 top-0 h-full w-[220px] bg-surface-container border-r border-outline flex flex-col py-4 z-20">
+<div class="px-4 mb-6">
+<h1 class="font-headline-md text-headline-md font-bold text-on-surface">ServeEz</h1>
+<p class="font-data-mono-sm text-data-mono-sm text-on-surface-variant mt-1">Orchestrator v1.0</p>
+</div>
+<div class="flex-1 overflow-y-auto">
+<ul class="space-y-1">
+<li>
+<a class="flex items-center h-[36px] text-on-surface-variant px-4 hover:bg-surface-container-high transition-colors cursor-pointer active:opacity-80" href="#">
+<span class="material-symbols-outlined mr-3 text-[18px]">dashboard</span>
+<span class="font-body-sm text-body-sm">Dashboard</span>
+</a>
+</li>
+<li>
+<a class="flex items-center h-[36px] text-on-surface-variant px-4 hover:bg-surface-container-high transition-colors cursor-pointer active:opacity-80" href="#">
+<span class="material-symbols-outlined mr-3 text-[18px]">developer_board</span>
+<span class="font-body-sm text-body-sm">Nodes</span>
+</a>
+</li>
+<li>
+<a class="flex items-center h-[36px] bg-surface-container-high text-primary border-l-[3px] border-primary px-4 hover:bg-surface-container-high transition-colors cursor-pointer active:opacity-80" href="#">
+<span class="material-symbols-outlined mr-3 text-[18px]" style="font-variation-settings: 'FILL' 1;">deployed_code</span>
+<span class="font-body-sm text-body-sm font-semibold">Workloads</span>
+</a>
+</li>
+<li>
+<a class="flex items-center h-[36px] text-on-surface-variant px-4 hover:bg-surface-container-high transition-colors cursor-pointer active:opacity-80" href="#">
+<span class="material-symbols-outlined mr-3 text-[18px]">storage</span>
+<span class="font-body-sm text-body-sm">Storage</span>
+</a>
+</li>
+<li>
+<a class="flex items-center h-[36px] text-on-surface-variant px-4 hover:bg-surface-container-high transition-colors cursor-pointer active:opacity-80" href="#">
+<span class="material-symbols-outlined mr-3 text-[18px]">settings</span>
+<span class="font-body-sm text-body-sm">Settings</span>
+</a>
+</li>
+</ul>
+</div>
+<div class="mt-auto px-4 pt-4 border-t border-outline">
+<div class="flex items-center text-on-surface-variant">
+<span class="material-symbols-outlined mr-2 text-[14px] text-secondary">check_circle</span>
+<span class="font-label-caps text-label-caps uppercase">3 nodes · healthy</span>
+</div>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col ml-[220px] max-w-[calc(100%-220px)] h-screen overflow-hidden">
+<!-- TopNavBar -->
+<header class="flex items-center justify-between w-full px-6 h-[48px] bg-surface border-b border-outline z-10 shrink-0">
+<div class="flex items-center">
+<h2 class="font-headline-md text-headline-md font-bold text-on-surface">Services</h2>
+</div>
+<div class="flex items-center space-x-4">
+<span class="font-data-mono-sm text-data-mono-sm bg-surface-container-high px-2 py-0.5 rounded border border-outline text-on-surface-variant">prod</span>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-2 top-1/2 transform -translate-y-1/2 text-[16px] text-on-surface-variant">search</span>
+<input class="bg-surface-container-high border border-outline text-on-surface font-body-sm rounded pl-8 pr-3 py-1 h-[28px] w-[240px] focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary placeholder-on-surface-variant/50 transition-colors" placeholder="Search..." type="text"/>
+</div>
+<button class="text-on-surface-variant hover:text-on-surface transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:text-on-surface transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-[24px]">account_circle</span>
+</button>
+</div>
+</header>
+<!-- Canvas -->
+<main class="flex-1 overflow-y-auto p-[20px] bg-background">
+<!-- Toolbar -->
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center space-x-2">
+<button class="font-body-sm text-body-sm px-3 py-1 rounded bg-surface-container-high border border-outline text-on-surface hover:bg-surface-variant transition-colors active">
+                        All (8)
+                    </button>
+<button class="font-body-sm text-body-sm px-3 py-1 rounded border border-transparent text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors">
+                        Running (7)
+                    </button>
+<button class="font-body-sm text-body-sm px-3 py-1 rounded border border-transparent text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors">
+                        Scaled (1)
+                    </button>
+</div>
+<button class="font-body-sm text-body-sm font-semibold bg-primary text-on-primary-container px-4 h-[32px] rounded hover:opacity-90 transition-opacity flex items-center">
+<span class="material-symbols-outlined text-[16px] mr-1">add</span>
+                    Deploy Service
+                </button>
+</div>
+<!-- Data Table -->
+<div class="bg-surface-container-high rounded border border-outline overflow-hidden flex flex-col">
+<table class="w-full text-left border-collapse whitespace-nowrap">
+<thead>
+<tr class="border-b border-outline bg-surface-container">
+<th class="font-label-caps text-label-caps text-on-surface-variant py-2 px-4 font-semibold uppercase w-[20%]">NAME</th>
+<th class="font-label-caps text-label-caps text-on-surface-variant py-2 px-4 font-semibold uppercase w-[25%]">IMAGE</th>
+<th class="font-label-caps text-label-caps text-on-surface-variant py-2 px-4 font-semibold uppercase w-[8%] text-right">REPLICAS</th>
+<th class="font-label-caps text-label-caps text-on-surface-variant py-2 px-4 font-semibold uppercase w-[12%]">NODE</th>
+<th class="font-label-caps text-label-caps text-on-surface-variant py-2 px-4 font-semibold uppercase w-[10%] text-right">CPU</th>
+<th class="font-label-caps text-label-caps text-on-surface-variant py-2 px-4 font-semibold uppercase w-[10%] text-right">MEMORY</th>
+<th class="font-label-caps text-label-caps text-on-surface-variant py-2 px-4 font-semibold uppercase w-[15%]">STATE</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-variant transition-colors group">
+<td class="py-3 px-4 font-data-mono text-data-mono text-on-surface">api-gateway</td>
+<td class="py-3 px-4 font-data-mono text-data-mono text-on-surface-variant truncate max-w-[200px]" title="ghcr.io/acme/gateway:2.1.0">ghcr.io/acme/gateway:2.1.0</td>
+<td class="py-3 px-4 font-data-mono text-data-mono text-on-surface text-right">4</td>
+<td class="py-3 px-4 font-body-sm text-body-sm text-on-surface">node-a1</td>
+<td class="py-3 px-4 font-data-mono text-data-mono text-on-surface text-right">31.2%</td>
+<td class="py-3 px-4 font-data-mono text-data-mono text-on-surface text-right">420 MB</td>
+<td class="py-3 px-4">
+<div class="flex items-center text-secondary font-body-sm text-body-sm">
+<span class="w-2 h-2 rounded-full bg-secondary mr-2"></span> Running
+                                </div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-variant transition-colors group">
+<td class="py-3 px-4 font-data-mono text-data-mono text-on-surface">payments-svc</td>
+<td class="py-3 px-4 font-data-mono text-data-mono text-on-surface-variant truncate max-w-[200px]" title="ghcr.io/acme/payments:3.4.2">ghcr.io/acme/payments:3.4.2</td>
+<td class="py-3 px-4 font-data-mono text-data-mono text-on-surface text-right">3</td>
+<td class="py-3 px-4 font-body-sm text-body-sm text-on-surface">node-a2</td>
+<td class="py-3 px-4 font-data-mono text-data-mono text-on-surface text-right">12.8%</td>
+<td class="py-3 px-4 font-data-mono text-data-mono text-on-surface text-right">210 MB</td>
+<td class="py-3 px-4">
+<div class="flex items-center text-secondary font-body-sm text-body-sm">
+<span class="w-2 h-2 rounded-full bg-secondary mr-2"></span> Running
+                                </div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-variant transition-colors group">
+<td class="py-3 px-4 font-data-mono text-data-mono text-on-surface">web-frontend</td>
+<td class="py-3 px-4 font-data-mono text-data-mono text-on-surface-variant truncate max-w-[200px]" title="ghcr.io/acme/web:1.8.7">ghcr.io/acme/web:1.8.7</td>
+<td class="py-3 px-4 font-data-mono text-data-mono text-on-surface text-right">2</td>
+<td class="py-3 px-4 font-body-sm text-body-sm text-on-surface">node-a2</td>
+<td class="py-3 px-4 font-data-mono text-data-mono text-on-surface text-right">8.4%</td>
+<td class="py-3 px-4 font-data-mono text-data-mono text-on-surface text-right">180 MB</td>
+<td class="py-3 px-4">
+<div class="flex items-center text-secondary font-body-sm text-body-sm">
+<span class="w-2 h-2 rounded-full bg-secondary mr-2"></span> Running
+                                </div>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-variant transition-colors group">
+<td class="py-3 px-4 font-data-mono text-data-mono text-on-surface">auth-svc</td>
+<td class="py-3 px-4 font-data-mono text-data-mono text-on-surface-variant truncate max-w-[200px]" title="ghcr.io/acme/auth:1.2.1">ghcr.io/acme/auth:1.2.1</td>
+<td class="py-3 px-4 font-data-mono text-data-mono text-on-surface text-right">3</td>
+<td class="py-3 px-4 font-body-sm text-body-sm text-on-surface">node-b2</td>
+<td class="py-3 px-4 font-data-mono text-data-mono text-on-surface text-right">45.6%</td>
+<td class="py-3 px-4 font-data-mono text-data-mono text-on-surface text-right">310 MB</td>
+<td class="py-3 px-4">
+<div class="flex items-center text-secondary font-body-sm text-body-sm">
+<span class="w-2 h-2 rounded-full bg-secondary mr-2"></span> Running
+                                </div>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="hover:bg-surface-variant transition-colors group">
+<td class="py-3 px-4 font-data-mono text-data-mono text-on-surface">workers</td>
+<td class="py-3 px-4 font-data-mono text-data-mono text-on-surface-variant truncate max-w-[200px]" title="ghcr.io/acme/workers:0.9.4">ghcr.io/acme/workers:0.9.4</td>
+<td class="py-3 px-4 font-data-mono text-data-mono text-on-surface text-right">5</td>
+<td class="py-3 px-4 font-body-sm text-body-sm text-on-surface">node-a1</td>
+<td class="py-3 px-4 font-data-mono text-data-mono text-on-surface text-right">27.9%</td>
+<td class="py-3 px-4 font-data-mono text-data-mono text-on-surface text-right">540 MB</td>
+<td class="py-3 px-4">
+<div class="flex items-center text-secondary font-body-sm text-body-sm">
+<span class="w-2 h-2 rounded-full bg-secondary mr-2"></span> Running
+                                </div>
+</td>
+</tr>
+<!-- Row 6 -->
+<tr class="hover:bg-surface-variant transition-colors group">
+<td class="py-3 px-4 font-data-mono text-data-mono text-on-surface">ml-inference</td>
+<td class="py-3 px-4 font-data-mono text-data-mono text-on-surface-variant truncate max-w-[200px]" title="ghcr.io/acme/inference:2.0.3">ghcr.io/acme/inference:2.0.3</td>
+<td class="py-3 px-4 font-data-mono text-data-mono text-on-surface text-right">1</td>
+<td class="py-3 px-4 font-body-sm text-body-sm text-on-surface">node-b2</td>
+<td class="py-3 px-4 font-data-mono text-data-mono text-error text-right">91.4%</td>
+<td class="py-3 px-4 font-data-mono text-data-mono text-on-surface text-right">1.8 GB</td>
+<td class="py-3 px-4">
+<div class="flex items-center text-tertiary font-body-sm text-body-sm">
+<span class="w-2 h-2 rounded-full bg-tertiary mr-2"></span> Degraded
+                                </div>
+</td>
+</tr>
+<!-- Row 7 -->
+<tr class="hover:bg-surface-variant transition-colors group">
+<td class="py-3 px-4 font-data-mono text-data-mono text-on-surface">observability</td>
+<td class="py-3 px-4 font-data-mono text-data-mono text-on-surface-variant truncate max-w-[200px]" title="ghcr.io/acme/otel:1.5.0">ghcr.io/acme/otel:1.5.0</td>
+<td class="py-3 px-4 font-data-mono text-data-mono text-on-surface text-right">2</td>
+<td class="py-3 px-4 font-body-sm text-body-sm text-on-surface">node-a1</td>
+<td class="py-3 px-4 font-data-mono text-data-mono text-on-surface text-right">6.2%</td>
+<td class="py-3 px-4 font-data-mono text-data-mono text-on-surface text-right">90 MB</td>
+<td class="py-3 px-4">
+<div class="flex items-center text-secondary font-body-sm text-body-sm">
+<span class="w-2 h-2 rounded-full bg-secondary mr-2"></span> Running
+                                </div>
+</td>
+</tr>
+<!-- Row 8 -->
+<tr class="hover:bg-surface-variant transition-colors group">
+<td class="py-3 px-4 font-data-mono text-data-mono text-on-surface-variant">billing-worker</td>
+<td class="py-3 px-4 font-data-mono text-data-mono text-on-surface-variant/70 truncate max-w-[200px]" title="ghcr.io/acme/billing:0.3.1">ghcr.io/acme/billing:0.3.1</td>
+<td class="py-3 px-4 font-data-mono text-data-mono text-on-surface-variant text-right">0</td>
+<td class="py-3 px-4 font-body-sm text-body-sm text-on-surface-variant">—</td>
+<td class="py-3 px-4 font-data-mono text-data-mono text-on-surface-variant text-right">—</td>
+<td class="py-3 px-4 font-data-mono text-data-mono text-on-surface-variant text-right">—</td>
+<td class="py-3 px-4">
+<div class="inline-flex items-center bg-surface-container-low border border-outline px-2 py-0.5 rounded text-on-surface-variant font-body-sm text-[11px]">
+                                    Scaled to 0
+                                </div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</main>
+</div>
+</body></html>

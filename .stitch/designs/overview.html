@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ServeEz - Cluster Overview</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container": "#1d2025",
+                        "secondary-container": "#27a640",
+                        "surface-variant": "#32353a",
+                        "inverse-on-surface": "#2e3036",
+                        "surface": "#111319",
+                        "tertiary-fixed-dim": "#fabc45",
+                        "on-primary": "#002e6a",
+                        "secondary": "#67df70",
+                        "outline-variant": "#424753",
+                        "background": "#111319",
+                        "primary-container": "#4e8eff",
+                        "inverse-surface": "#e1e2e9",
+                        "inverse-primary": "#005ac3",
+                        "on-secondary-fixed-variant": "#005317",
+                        "surface-container-high": "#272a30",
+                        "surface-container-low": "#191c21",
+                        "tertiary-fixed": "#ffdeaa",
+                        "surface-container-highest": "#32353a",
+                        "on-tertiary-fixed-variant": "#5f4100",
+                        "on-background": "#e1e2e9",
+                        "surface-bright": "#36393f",
+                        "primary-fixed": "#d8e2ff",
+                        "on-surface-variant": "#c2c6d6",
+                        "on-surface": "#e1e2e9",
+                        "on-secondary-container": "#00320a",
+                        "on-error-container": "#ffdad6",
+                        "on-tertiary-fixed": "#271900",
+                        "primary-fixed-dim": "#aec6ff",
+                        "on-error": "#690005",
+                        "tertiary-container": "#bd8708",
+                        "surface-tint": "#aec6ff",
+                        "on-tertiary-container": "#392600",
+                        "on-primary-container": "#00275d",
+                        "primary": "#aec6ff",
+                        "outline": "#8c909f",
+                        "error": "#ffb4ab",
+                        "surface-container-lowest": "#0b0e13",
+                        "on-primary-fixed": "#001a42",
+                        "on-secondary": "#00390d",
+                        "surface-dim": "#111319",
+                        "secondary-fixed-dim": "#67df70",
+                        "on-secondary-fixed": "#002105",
+                        "on-tertiary": "#422c00",
+                        "tertiary": "#fabc45",
+                        "on-primary-fixed-variant": "#004395",
+                        "error-container": "#93000a",
+                        "secondary-fixed": "#83fc89"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gap-xs": "4px",
+                        "gap-tight": "8px",
+                        "header-height": "48px",
+                        "sidebar-width": "220px",
+                        "gap-base": "16px",
+                        "padding-container": "24px"
+                    },
+                    "fontFamily": {
+                        "data-mono-sm": ["JetBrains Mono"],
+                        "label-caps": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "data-mono": ["JetBrains Mono"],
+                        "body-sm": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "data-mono-sm": ["11px", { "lineHeight": "14px", "fontWeight": "400" }],
+                        "label-caps": ["11px", { "lineHeight": "16px", "letterSpacing": "0.06em", "fontWeight": "600" }],
+                        "headline-lg": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "headline-md": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "data-mono": ["13px", { "lineHeight": "18px", "fontWeight": "400" }],
+                        "body-sm": ["13px", { "lineHeight": "18px", "letterSpacing": "0px", "fontWeight": "400" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-surface text-on-surface h-screen w-full flex overflow-hidden selection:bg-primary-container selection:text-on-primary-container">
+<!-- SideNavBar (Shared Component) -->
+<nav class="fixed left-0 top-0 h-full w-[220px] bg-surface-container dark:bg-surface-container border-r border-outline flex flex-col py-4 z-20">
+<div class="px-4 mb-8">
+<h1 class="font-headline-md text-headline-md font-bold text-on-surface">ServeEz</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Orchestrator v1.0</p>
+</div>
+<div class="flex-1 space-y-1">
+<!-- Active Tab: Dashboard (maps to Cluster Overview in intent) -->
+<a class="flex items-center h-[36px] bg-primary-container/20 text-primary border-l-[3px] border-primary px-4 cursor-pointer active:opacity-80" href="#">
+<span class="material-symbols-outlined mr-3 text-[18px]">dashboard</span>
+<span class="font-label-caps text-label-caps uppercase">Dashboard</span>
+</a>
+<!-- Inactive Tabs -->
+<a class="flex items-center h-[36px] text-on-surface-variant px-4 hover:bg-surface-container-high transition-colors cursor-pointer active:opacity-80" href="#">
+<span class="material-symbols-outlined mr-3 text-[18px]">developer_board</span>
+<span class="font-label-caps text-label-caps uppercase">Nodes</span>
+</a>
+<a class="flex items-center h-[36px] text-on-surface-variant px-4 hover:bg-surface-container-high transition-colors cursor-pointer active:opacity-80" href="#">
+<span class="material-symbols-outlined mr-3 text-[18px]">deployed_code</span>
+<span class="font-label-caps text-label-caps uppercase">Workloads</span>
+</a>
+<a class="flex items-center h-[36px] text-on-surface-variant px-4 hover:bg-surface-container-high transition-colors cursor-pointer active:opacity-80" href="#">
+<span class="material-symbols-outlined mr-3 text-[18px]">storage</span>
+<span class="font-label-caps text-label-caps uppercase">Storage</span>
+</a>
+<a class="flex items-center h-[36px] text-on-surface-variant px-4 hover:bg-surface-container-high transition-colors cursor-pointer active:opacity-80" href="#">
+<span class="material-symbols-outlined mr-3 text-[18px]">settings</span>
+<span class="font-label-caps text-label-caps uppercase">Settings</span>
+</a>
+</div>
+<div class="px-4 mt-auto">
+<div class="flex items-center text-on-surface-variant opacity-70">
+<span class="material-symbols-outlined mr-2 text-[14px]">check_circle</span>
+<span class="font-body-sm text-body-sm">3 nodes · healthy</span>
+</div>
+</div>
+</nav>
+<!-- Main Content Area Wrapper -->
+<div class="flex-1 flex flex-col ml-[220px] max-w-[calc(100%-220px)] h-full">
+<!-- TopNavBar (Shared Component) -->
+<header class="docked full-width top-0 h-[48px] bg-surface dark:bg-surface border-b border-outline flex items-center justify-between w-full px-6 flex-shrink-0 z-10">
+<div class="flex items-center">
+<h2 class="font-headline-md text-headline-md font-bold text-on-surface">Cluster Overview</h2>
+</div>
+<div class="flex items-center space-x-4">
+<span class="px-2 py-1 bg-surface-container-high border border-outline rounded text-data-mono-sm font-data-mono-sm text-on-surface-variant">prod</span>
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-2 top-1/2 -translate-y-1/2 text-on-surface-variant text-[16px]">search</span>
+<input class="bg-surface-container-high border border-outline rounded pl-8 pr-3 py-1 text-body-sm font-body-sm text-on-surface placeholder:text-on-surface-variant focus:border-primary focus:ring-0 focus:outline-none w-48 transition-all duration-200" placeholder="Search..." type="text"/>
+</div>
+<div class="flex items-center space-x-2 text-on-surface-variant">
+<button class="hover:text-on-surface transition-colors cursor-pointer active:opacity-80">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+</button>
+<button class="hover:text-on-surface transition-colors cursor-pointer active:opacity-80">
+<span class="material-symbols-outlined text-[20px]">account_circle</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="flex-1 overflow-y-auto p-5 bg-surface text-on-surface space-y-4">
+<!-- Metric Cards (TOP ROW) -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+<div class="bg-surface-container-high border border-outline rounded p-4 flex flex-col">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase mb-2">NODES</span>
+<span class="font-data-mono text-[24px] leading-tight text-on-surface mb-1">3</span>
+<span class="font-body-sm text-body-sm text-secondary">all healthy</span>
+</div>
+<div class="bg-surface-container-high border border-outline rounded p-4 flex flex-col">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase mb-2">WORKLOADS</span>
+<span class="font-data-mono text-[24px] leading-tight text-on-surface mb-1">8</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">7 running · 1 scaled</span>
+</div>
+<div class="bg-surface-container-high border border-outline rounded p-4 flex flex-col">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase mb-2">UPTIME</span>
+<span class="font-data-mono text-[24px] leading-tight text-on-surface mb-1">99.98%</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">30 day rolling</span>
+</div>
+<div class="bg-surface-container-high border border-outline rounded p-4 flex flex-col">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase mb-2">EST. COST</span>
+<span class="font-data-mono text-[24px] leading-tight text-on-surface mb-1">$0.42/hr</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">3 clouds · 5 regions</span>
+</div>
+</div>
+<!-- NODE HEALTH Panel (MIDDLE) -->
+<div class="bg-surface-container-high border border-outline rounded flex flex-col">
+<div class="flex items-center justify-between p-4 border-b border-outline">
+<h3 class="font-label-caps text-label-caps uppercase text-on-surface">NODE HEALTH</h3>
+<div class="font-body-sm text-body-sm text-on-surface-variant flex items-center space-x-2">
+<span class="flex items-center"><span class="w-2 h-2 rounded-full bg-secondary mr-1"></span> healthy</span>
+<span>·</span>
+<span class="flex items-center"><span class="w-2 h-2 rounded-full bg-tertiary mr-1"></span> degraded</span>
+<span>·</span>
+<span class="flex items-center"><span class="w-2 h-2 rounded-full bg-error mr-1"></span> down</span>
+</div>
+</div>
+<div class="p-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+<!-- Node Tile 1 -->
+<div class="bg-surface-container border border-outline rounded p-3 flex flex-col h-[120px] relative">
+<div class="w-2 h-2 rounded-full bg-secondary absolute top-3 right-3"></div>
+<span class="font-data-mono text-data-mono font-bold text-on-surface">node-a1</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant mb-auto">worker</span>
+<div class="flex flex-col space-y-1 mt-2">
+<div class="flex justify-between font-data-mono-sm text-data-mono-sm text-on-surface-variant">
+<span>cpu</span><span>34.2%</span>
+</div>
+<div class="flex justify-between font-data-mono-sm text-data-mono-sm text-on-surface-variant">
+<span>mem</span><span>1.2/4 GB</span>
+</div>
+<div class="flex justify-between font-data-mono-sm text-data-mono-sm text-on-surface-variant">
+<span>net</span><span>82 MB/s</span>
+</div>
+</div>
+</div>
+<!-- Node Tile 2 -->
+<div class="bg-surface-container border border-outline rounded p-3 flex flex-col h-[120px] relative">
+<div class="w-2 h-2 rounded-full bg-secondary absolute top-3 right-3"></div>
+<span class="font-data-mono text-data-mono font-bold text-on-surface">node-a2</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant mb-auto">worker</span>
+<div class="flex flex-col space-y-1 mt-2">
+<div class="flex justify-between font-data-mono-sm text-data-mono-sm text-on-surface-variant">
+<span>cpu</span><span>21.5%</span>
+</div>
+<div class="flex justify-between font-data-mono-sm text-data-mono-sm text-on-surface-variant">
+<span>mem</span><span>0.8/4 GB</span>
+</div>
+<div class="flex justify-between font-data-mono-sm text-data-mono-sm text-on-surface-variant">
+<span>net</span><span>45 MB/s</span>
+</div>
+</div>
+</div>
+<!-- Node Tile 3 -->
+<div class="bg-surface-container border border-outline rounded p-3 flex flex-col h-[120px] relative">
+<div class="w-2 h-2 rounded-full bg-tertiary absolute top-3 right-3"></div>
+<span class="font-data-mono text-data-mono font-bold text-on-surface">node-b2</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant mb-auto">master</span>
+<div class="flex flex-col space-y-1 mt-2">
+<div class="flex justify-between font-data-mono-sm text-data-mono-sm text-tertiary">
+<span>cpu</span><span>91.4%</span>
+</div>
+<div class="flex justify-between font-data-mono-sm text-data-mono-sm text-on-surface-variant">
+<span>mem</span><span>3.8/4 GB</span>
+</div>
+<div class="flex justify-between font-data-mono-sm text-data-mono-sm text-on-surface-variant">
+<span>net</span><span>112 MB/s</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- BOTTOM ROW (50/50 Split) -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- RECENT ACTIVITY -->
+<div class="bg-surface-container-high border border-outline rounded flex flex-col">
+<div class="p-4 border-b border-outline">
+<h3 class="font-label-caps text-label-caps uppercase text-on-surface">RECENT ACTIVITY</h3>
+</div>
+<ul class="flex flex-col divide-y divide-outline">
+<li class="p-3 flex justify-between items-center hover:bg-surface-container transition-colors">
+<span class="font-data-mono text-body-sm text-on-surface">scaled svc api-gateway 2 → 4 replicas</span>
+<span class="font-data-mono-sm text-data-mono-sm text-on-surface-variant">2m ago</span>
+</li>
+<li class="p-3 flex justify-between items-center hover:bg-surface-container transition-colors">
+<span class="font-data-mono text-body-sm text-on-surface">deployed image ghcr.io/acme/api:1.4.2 to node-a2</span>
+<span class="font-data-mono-sm text-data-mono-sm text-on-surface-variant">9m ago</span>
+</li>
+<li class="p-3 flex justify-between items-center hover:bg-surface-container transition-colors">
+<span class="font-data-mono text-body-sm text-on-surface">cost comparison ran · AWS vs GCP vs Azure</span>
+<span class="font-data-mono-sm text-data-mono-sm text-on-surface-variant">34m ago</span>
+</li>
+<li class="p-3 flex justify-between items-center hover:bg-surface-container transition-colors">
+<span class="font-data-mono text-body-sm text-on-surface">auto-scale forecast: scale 5 replicas (conf 0.85)</span>
+<span class="font-data-mono-sm text-data-mono-sm text-on-surface-variant">1h ago</span>
+</li>
+</ul>
+</div>
+<!-- ACTIVE ALERTS -->
+<div class="bg-surface-container-high border border-outline rounded flex flex-col">
+<div class="p-4 border-b border-outline">
+<h3 class="font-label-caps text-label-caps uppercase text-on-surface">ACTIVE ALERTS</h3>
+</div>
+<ul class="flex flex-col divide-y divide-outline flex-1">
+<li class="p-3 flex items-start hover:bg-surface-container transition-colors">
+<div class="w-2 h-2 rounded-full bg-tertiary mt-1.5 mr-3 flex-shrink-0"></div>
+<span class="font-data-mono text-body-sm text-tertiary">node-b2 cpu > 90% for 15m</span>
+</li>
+<li class="p-3 flex items-center justify-center flex-1 h-full min-h-[100px] text-center">
+<span class="font-body-sm text-body-sm text-on-surface-variant italic">No other active alerts</span>
+</li>
+</ul>
+</div>
+</div>
+</main>
+</div>
+</body></html>
