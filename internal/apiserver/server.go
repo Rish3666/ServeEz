@@ -27,8 +27,10 @@ import (
 
 	"github.com/Rish3666/ServeEz/internal/api"
 	"github.com/Rish3666/ServeEz/internal/audit"
+	"github.com/Rish3666/ServeEz/internal/history"
 	"github.com/Rish3666/ServeEz/internal/mcp"
 	"github.com/Rish3666/ServeEz/internal/orchestrator"
+	"github.com/Rish3666/ServeEz/internal/predictor"
 	"github.com/Rish3666/ServeEz/internal/simulate"
 	"github.com/Rish3666/ServeEz/internal/state"
 )
@@ -40,6 +42,8 @@ type Server struct {
 	audit      audit.Log
 	scheduler  *orchestrator.Scheduler
 	simulator  *simulate.Engine
+	predictor  *predictor.Engine
+	hist       *history.Store
 	mcp        *mcp.Server
 	joinToken  string
 	killSwitch bool
@@ -63,6 +67,14 @@ func New(st state.Store, reg *state.Registry, al audit.Log, sched *orchestrator.
 	}
 }
 
+// WithHistory attaches the time-series store (used for forecasts) and enables
+// /v1/predict.
+func (s *Server) WithHistory(h *history.Store) *Server {
+	s.hist = h
+	s.predictor = predictor.New(h)
+	return s
+}
+
 // Handler returns the root HTTP handler.
 func (s *Server) Handler() http.Handler {
 	mux := http.NewServeMux()
@@ -78,6 +90,7 @@ func (s *Server) Handler() http.Handler {
 	mux.HandleFunc("POST /v1/emergency/kill", s.handleKill)
 	mux.HandleFunc("GET /v1/mcp/tools", s.handleMCPTools)
 	mux.HandleFunc("POST /v1/mcp/call", s.handleMCPCall)
+	mux.HandleFunc("GET /v1/predict", s.handlePredict)
 	return withLogging(mux)
 }
 
@@ -170,6 +183,16 @@ func (s *Server) handleReport(w http.ResponseWriter, r *http.Request) {
 	if _, err := s.store.Update(ctx, obj); err != nil {
 		writeError(w, http.StatusInternalServerError, err.Error())
 		return
+	}
+
+	// Record utilization into the time-series store for the predictor.
+	if s.hist != nil && rep.Usage.CPUPercent > 0 {
+		_ = s.hist.Record(ctx, "node:"+nodeID, history.Sample{
+			At:       time.Now().UTC(),
+			CPU:      rep.Usage.CPUPercent,
+			MemPct:   rep.Usage.MemPercent,
+			MemBytes: 0,
+		})
 	}
 	writeJSON(w, http.StatusOK, api.ReportAck{OK: true})
 }
@@ -345,6 +368,54 @@ func (s *Server) queueForNode(nodeID string, act api.Action) {
 	id := fmt.Sprintf("act-%d", time.Now().UnixNano())
 	s.pending[id] = act
 	s.nodeCmds[nodeID] = append(s.nodeCmds[nodeID], id)
+}
+
+// ===== Prediction (AI Integration/01) =====
+
+func (s *Server) handlePredict(w http.ResponseWriter, r *http.Request) {
+	if s.predictor == nil {
+		writeError(w, http.StatusNotFound, "predictor not enabled")
+		return
+	}
+	workload := r.URL.Query().Get("workload")
+	if workload == "" {
+		writeError(w, http.StatusBadRequest, "workload query param required")
+		return
+	}
+	ctx := r.Context()
+
+	obj, err := s.store.Get(ctx, "Workload", "default", workload)
+	if err != nil {
+		writeError(w, http.StatusNotFound, "workload not found")
+		return
+	}
+	ws, ok := obj.Spec.(*api.WorkloadSpec)
+	if !ok || ws == nil {
+		writeError(w, http.StatusInternalServerError, "corrupt workload spec")
+		return
+	}
+	wst, ok := obj.Status.(*api.WorkloadStatus)
+	if !ok || wst == nil || wst.AssignedNode == "" {
+		writeJSON(w, http.StatusOK, api.PredictResponse{
+			Workload: workload, Available: false, Reason: "workload not yet scheduled",
+		})
+		return
+	}
+
+	// Forecast the assigned node's CPU series. Fall back to 0 cpuNow so the
+	// model uses the last recorded sample.
+	cpuNow := 0.0
+	if n, err := s.store.Get(ctx, "Node", "default", wst.AssignedNode); err == nil {
+		if ns, ok := n.Status.(*api.NodeStatus); ok && ns != nil {
+			cpuNow = ns.Resources.CPUPercent
+		}
+	}
+	res, err := s.predictor.Predict(ctx, "node:"+wst.AssignedNode, workload, ws.Replicas, cpuNow)
+	if err != nil {
+		writeError(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+	writeJSON(w, http.StatusOK, res)
 }
 
 // ===== Simulation =====

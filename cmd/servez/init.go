@@ -33,6 +33,7 @@ func runInit(args []string) error {
 	cfg.ListenAddr = *addr
 	cfg.StatePath = filepath.Join(*dir, "state.db")
 	cfg.AuditPath = filepath.Join(*dir, "audit.db")
+	cfg.HistoryPath = filepath.Join(*dir, "history.db")
 	cfg.TokenFile = filepath.Join(*dir, "join-token.txt")
 
 	cfgPath := filepath.Join(*dir, "control.json")

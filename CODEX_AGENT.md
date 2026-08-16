@@ -1,71 +1,84 @@
-# CODEX TASKS — Sprint 4: TUI Chat + Alerts Panes
+# CODEX TASKS — Sprint 5: Autoscale Control Loop (Fast Tier)
 
-You own the **chat + alerts panes** for the terminal dashboard. A parallel agent owns the app shell (`internal/tui/app.go`, `panel.go`, `snapshot.go`, `cluster.go`, `services.go`, `status.go`) and the `cmd/servez-tui` entrypoint — **do not edit those files.** Your work lives in two new files that register themselves via `RegisterPanel`.
+You own the **autoscale daemon** for Predictive Scaling (Core Features/01, AI Control/07 Native Control Loop, AI Integration/01). A parallel agent owns the history store + forecast engine + predict API (all read-only for you).
 
-## What exists already (read-only for you)
+## What the parallel agent is building (read-only, will exist)
 
-- `internal/tui/panel.go` — the panel contract + registry you build against.
-- `internal/tui/snapshot.go` — the `Snapshot` struct the shell pushes to your panes every ~2s via `SetSnapshot`.
-- `internal/tui/app.go` — the shell: polls `/v1/state`, handles tab/q keys, renders a 2x2 grid. Key messages are forwarded to the focused panel.
-- `internal/apiclient` — HTTP client for the control plane (has `Execute`, `Deploy`, `Simulate`, `State`). Use it for any action your panes trigger.
-- `internal/mcp` — MCP tool server, already wired into the control plane at `POST /v1/mcp/call` (use if you want tool-style invocation).
+- `internal/history` — SQLite time-series store; recorded automatically from every node report.
+- `internal/predictor` — statistical forecast model (fast tier, <100ms, no ML deps) producing scale recommendations.
+- `GET /v1/predict?workload=<name>` on the control plane — returns the forecast + recommendation (below).
+- `internal/apiclient` gets `Predict(ctx, workload)` + `Simulate(ctx, act)` + `Execute(ctx, act)` — you use these.
 
-## The panel contract (from `internal/tui/panel.go`)
+### `/v1/predict` response shape
 
-```go
-type Env struct {
-    Client     *apiclient.Client
-    ControlURL string
-    Logger     *log.Logger
-}
-
-type Panel interface {
-    tea.Model
-    Title() string
-    SetSnapshot(*Snapshot)
-    Focused() bool
-    SetFocused(bool)
-}
-
-func RegisterPanel(name string, f func(env Env) Panel)
-```
-
-A panel is a Bubble Tea model: `Init() tea.Cmd`, `Update(tea.Msg) (tea.Model, tea.Cmd)`, `View() string`. Register it from `init()`:
-
-```go
-func init() {
-    RegisterPanel("Chat", func(env Env) Panel { return &chatPane{env: env} })
+```json
+{
+  "workload": "web",
+  "current_replicas": 2,
+  "recommended_replicas": 4,
+  "current_cpu_pct": 61.5,
+  "forecast_15m_pct": 74.0,
+  "forecast_1h_pct": 88.2,
+  "confidence": 0.87,
+  "recommendation": "scale to 4 replicas",
+  "reason": "cpu trending up: 55.1 -> 88.2 pct by 1h",
+  "available": true
 }
 ```
+
+`available:false` means there is not enough history yet (cold start) or the workload is not scheduled — do not act.
 
 ## Your deliverables
 
-### 1. `internal/tui/chat.go` — AI Chat sidebar (Core Features/06, AI Control/03 Intent API)
+### 1. `cmd/servez-autoscale/main.go` — the standing control loop
 
-- A focused chat input (text field) + message history rendered in `View()`.
-- Enter submits the typed command; Esc/arrows toggle between history scroll and input.
-- **MVP intent handling (no LLM yet)**: parse the command into an action and execute it via `env.Client.Execute(...)`, mirroring `servez` CLI behavior. Support at minimum:
-  - `scale <workload> <n>` → `api.Action{Type:"scale", Target:"workload:<name>", Parameters:{replicas:n}, Confidence:0.9, Initiator:"human:tui"}` then print the `ActionResult.Status` as a chat reply.
-  - `deploy <name> image=<img>` → build an `api.WorkloadSpec` and call `env.Client.Deploy(...)`.
-  - `status` / `help` → print node/workload summary from the latest `Snapshot`.
-  - Unknown command → reply with the help text.
-- Each submitted action should first be dry-run through `env.Client.Simulate(...)` and shown as "simulated: <recommendation>" before executing, when the action type is one the simulate engine gates (kill/stop/remove/restart/migrate/scale). If the recommendation is `requires_approval` and the user didn't confirm (reply `yes`/`confirm`), do NOT execute.
-- Store the message history in the pane (ring buffer, ~100 entries).
+This is the **fast tier** of the native control loop (AI Control/07). It must run forever, continuously, not on user request:
 
-### 2. `internal/tui/alerts.go` — Alerts pane
+- Every `--interval` (default 60s):
+  1. `env.Client.Predict(ctx, workload)` for each workload in the cluster (fetch via `State(ctx,"Workload")`).
+  2. If `available` is false, skip (cold start / unscheduled).
+  3. If `recommended_replicas > current_replicas` (scale up only for MVP):
+     - Dry-run: `Simulate(ctx, Action{Type:"scale", Target:"workload:"+name, Parameters:{replicas}, Confidence:forecast.Confidence, Initiator:"ai-agent:autoscale"})`.
+     - Decision gate: only proceed if `sim.Recommendation != "reject"` and the action's confidence passes the API's per-action threshold (scale = 0.70). If the simulation says `requires_approval`, log and skip (no human in the loop yet).
+     - Execute: `Execute(ctx, ...)` the scale action.
+  4. Cooldown: never scale the same workload twice within `--cooldown` (default 10m), and never scale down (up-only MVP keeps it safe).
+- Graceful shutdown on SIGINT/SIGTERM.
+- Log every decision to stdout via `log/slog`: action, replicas, confidence, reason.
 
-- Derives alerts from the latest `Snapshot` (read-only, no HTTP): 
-  - node state in {unhealthy, disconnected, cordoned} → red alert "node X is <state>".
-  - node state `degraded` → yellow alert.
-  - workload state `unschedulable` → red alert.
-  - workload state `declared`/`pending` for more than 0 poll cycles → informational "workload X not yet scheduled" (track first-seen cycles in the pane).
-- Render newest-first, capped at ~20, each prefixed by a `●` colored by severity.
-- Make the pane scrollable with j/k when focused.
+### 2. Pre-warm lead-time measurement (Core Features/01)
+
+Predictive scaling needs to know how far ahead to act. Measure and expose the **scale lead time**:
+
+- Add `internal/agent` (EDIT ALLOWED on this one method) support or, if you prefer, do it in your own package `internal/prewarm`:
+  - `LeadTime(runtime)` returns estimated time from "scale N→M" until all M replicas are ready.
+  - For the MVP, use a default table (docker: ~15s/image pull + 5s startup, tuned per `image` size class) but structure it so real timings can be recorded later.
+- Expose it as `GET /v1/prewarm/leadtime?image=<ref>` — but since the control-plane handler is the parallel agent's file, instead:
+  - Print the lead-time estimate in your loop's decision log (e.g. `"pre-warm lead ~20s, scaling 5m before forecast peak"`).
+  - If the forecast peak is sooner than `lead_time`, act immediately; otherwise you may wait one more interval.
+
+### 3. Tests
+
+`cmd/servez-autoscale/` should have a test that runs the loop against an **in-process control plane** (same pattern as `internal/agent/agent_test.go` — spin up `apiserver.New` + mem store + reconciler, register a node, deploy a workload, seed history via the predictor path, and assert the loop issues a scale action). If seeding the history store from a test is awkward because it's the parallel agent's package, test your loop logic against a stub `Predictor` interface instead (see below).
+
+### Recommended structure
+
+```go
+type Predictor interface {
+    Predict(ctx context.Context, workload string) (api.PredictResponse, error)
+}
+type Loop struct {
+    client   *apiclient.Client // or your own
+    interval time.Duration
+    cooldown time.Duration
+    lastScale map[string]time.Time
+}
+```
+
+Test `Loop.tick` against a stub `Predictor` + a fake execute/simulate sink. Full e2e against the real control plane is a bonus.
 
 ## Rules
 
-- Edit only: `internal/tui/chat.go` and `internal/tui/alerts.go`. If you need a helper, put it in one of those files.
-- Do NOT edit: `internal/tui/app.go`, `panel.go`, `snapshot.go`, `cluster.go`, `services.go`, `status.go`, `tui_test.go`, `cmd/`, `internal/apiserver/`, `internal/apiclient/`, `internal/mcp/`, `internal/state/`, `internal/api/`, `internal/config/`, `internal/orchestrator/`, `internal/audit/`, `internal/agent/`, `internal/agentnet/`, `internal/metrics/`, `internal/container/`, `go.mod`, `go.sum`.
-- `go.mod` already has `bubbletea` + `lipgloss`; you may use `github.com/charmbracelet/bubbles` for the text input if it's available, otherwise implement a minimal text field in `chat.go`.
-- Your panes must render an empty state when `Snapshot` is nil (first poll hasn't arrived).
-- When done: `go build ./internal/tui/ ./cmd/servez-tui/`, `go vet ./internal/tui/`, `go test ./internal/tui/`, then report back a summary.
+- Edit only: `cmd/servez-autoscale/`, and — if you need it — a new `internal/prewarm/` package. Do NOT edit `internal/apiserver/`, `internal/history/`, `internal/predictor/`, `internal/apiclient/`, `internal/api/`, `internal/state/`, `internal/mcp/`, `internal/tui/`, `internal/agent/` (except the single pre-warm helper if you put it there — prefer your own `internal/prewarm`), `internal/agentnet/`, `internal/container/`, `internal/metrics/`, `internal/config/`, `go.mod`, `go.sum`.
+- `internal/api` will gain a `PredictResponse` type from the parallel agent (read-only). If it's not there yet, define a compatible local struct in your package and the parallel agent will align the JSON shape.
+- The API server already exposes `/v1/predict`; if `apiclient.Predict` doesn't exist yet when you start, call `GET /v1/predict?workload=` directly with `net/http` in your own client helper.
+- When done: `go build ./...`, `go vet ./cmd/servez-autoscale/`, `go test ./cmd/servez-autoscale/`, then report back a summary.

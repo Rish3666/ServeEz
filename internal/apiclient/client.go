@@ -100,6 +100,16 @@ func (c *Client) KillSwitch(ctx context.Context) error {
 	return c.do(ctx, http.MethodPost, "/v1/emergency/kill", nil, nil)
 }
 
+// Predict returns the forecast + scale recommendation for a workload.
+func (c *Client) Predict(ctx context.Context, workload string) (*api.PredictResponse, error) {
+	path := "/v1/predict?workload=" + url.QueryEscape(workload)
+	var out api.PredictResponse
+	if err := c.do(ctx, http.MethodGet, path, nil, &out); err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
 func (c *Client) do(ctx context.Context, method, path string, in, out any) error {
 	var body io.Reader
 	if in != nil {

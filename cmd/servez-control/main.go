@@ -20,6 +20,7 @@ import (
 	"github.com/Rish3666/ServeEz/internal/apiserver"
 	"github.com/Rish3666/ServeEz/internal/audit"
 	"github.com/Rish3666/ServeEz/internal/config"
+	"github.com/Rish3666/ServeEz/internal/history"
 	"github.com/Rish3666/ServeEz/internal/mcp"
 	"github.com/Rish3666/ServeEz/internal/orchestrator"
 	"github.com/Rish3666/ServeEz/internal/state"
@@ -73,6 +74,12 @@ func run(cfg *config.Config, token string) error {
 	}
 	defer auditLog.Close()
 
+	hist, err := history.Open(cfg.HistoryPath)
+	if err != nil {
+		return err
+	}
+	defer hist.Close()
+
 	sched := orchestrator.NewScheduler(store)
 	reconciler := orchestrator.NewReconciler(store, sched)
 
@@ -86,7 +93,8 @@ func run(cfg *config.Config, token string) error {
 	<-reconciler.Ready
 
 	srv := apiserver.New(store, reg, auditLog, sched, token)
-	srv.WithMCP(mcp.New(store, auditLog, srv))
+	srv.WithHistory(hist)
+	srv.WithMCP(mcp.NewWithPredictor(store, auditLog, srv, srv))
 	httpSrv := &http.Server{
 		Addr:              cfg.ListenAddr,
 		Handler:           srv.Handler(),

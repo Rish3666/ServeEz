@@ -365,3 +365,21 @@ type Scenario struct {
 	Impact      string  `json:"impact"`
 	Probability float64 `json:"probability"`
 }
+
+// ===== Prediction (AI Integration/01) =====
+
+// PredictResponse is the forecast + scale recommendation for a workload,
+// produced by the fast-tier statistical model (internal/predictor) and
+// consumed by the autoscale control loop (cmd/servez-autoscale).
+type PredictResponse struct {
+	Workload            string  `json:"workload"`
+	Available           bool    `json:"available"`
+	CurrentReplicas     int     `json:"current_replicas"`
+	RecommendedReplicas int     `json:"recommended_replicas"`
+	CurrentCPUPercent   float64 `json:"current_cpu_pct"`
+	Forecast15mPercent  float64 `json:"forecast_15m_pct"`
+	Forecast1hPercent   float64 `json:"forecast_1h_pct"`
+	Confidence          float64 `json:"confidence"`
+	Recommendation      string  `json:"recommendation"`
+	Reason              string  `json:"reason"`
+}

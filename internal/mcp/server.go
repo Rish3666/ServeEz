@@ -45,18 +45,32 @@ type Server struct {
 
 // New creates an MCP server wired to the given store/log.
 func New(st state.Store, al audit.Log, sim Simulator) *Server {
+	return NewWithPredictor(st, al, sim, nil)
+}
+
+// NewWithPredictor is New plus an optional predictor engine for the
+// predict.scale tool.
+func NewWithPredictor(st state.Store, al audit.Log, sim Simulator, pred Predictor) *Server {
 	s := &Server{}
 	s.register(readTools(st)...)
 	s.register(simulateTools(sim)...)
 	s.register(writeTools(st)...)
 	s.register(subscribeTools(st)...)
 	s.register(auditTools(al)...)
+	if pred != nil {
+		s.register(predictTools(pred)...)
+	}
 	return s
 }
 
 // Simulator is the dry-run surface the MCP expose.
 type Simulator interface {
 	Simulate(ctx context.Context, act api.Action) api.SimulationResult
+}
+
+// Predictor is the forecast surface the MCP expose.
+type Predictor interface {
+	Predict(ctx context.Context, workload string) (api.PredictResponse, error)
 }
 
 func (s *Server) register(ts ...*Tool) {
@@ -156,6 +170,24 @@ func simulateTools(sim Simulator) []*Tool {
 					return nil, fmt.Errorf("mcp: simulate.action requires an action")
 				}
 				return sim.Simulate(ctx, act), nil
+			},
+		},
+	}
+}
+
+func predictTools(pred Predictor) []*Tool {
+	return []*Tool{
+		{
+			Name:        "predict.scale",
+			Description: "Forecast a workload's CPU trend and recommend a replica count.",
+			Category:    CatSimulate,
+			Parameters:  map[string]string{"workload": "workload name"},
+			Handler: func(ctx context.Context, p map[string]any) (any, error) {
+				name, _ := p["workload"].(string)
+				if name == "" {
+					return nil, fmt.Errorf("mcp: predict.scale requires a workload")
+				}
+				return pred.Predict(ctx, name)
 			},
 		},
 	}

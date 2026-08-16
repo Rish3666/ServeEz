@@ -19,6 +19,9 @@ type Config struct {
 	// AuditPath is the SQLite audit-log path.
 	AuditPath string `json:"audit_path"`
 
+	// HistoryPath is the SQLite time-series store path (predictor input).
+	HistoryPath string `json:"history_path"`
+
 	// JoinToken is the shared registration secret. If empty, a random one is
 	// generated on first boot and persisted to TokenFile.
 	JoinToken string `json:"join_token"`
@@ -40,6 +43,7 @@ func Default() *Config {
 		ListenAddr:    ":8443",
 		StatePath:     "./servez.db",
 		AuditPath:     "./servez-audit.db",
+		HistoryPath:   "./servez-history.db",
 		TokenFile:     "./join-token.txt",
 		WatchInterval: 500 * time.Millisecond,
 	}
