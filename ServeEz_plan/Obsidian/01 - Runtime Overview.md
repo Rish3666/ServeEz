@@ -35,16 +35,16 @@ autoscale -> control plane (/v1/predict -> /v1/simulate -> /v1/execute)
 
 ## Core Paths
 
-- CLI entrypoint: `cmd/servez/main.go`
-- Join flow: `cmd/servez/join.go`
-- Control plane entrypoint: `cmd/servez-control/main.go`
-- Agent entrypoint: `cmd/servez-agent/main.go`
-- TUI entrypoint: `cmd/servez-tui/main.go`
-- Autoscale entrypoint: `cmd/servez-autoscale/main.go`
+- CLI entrypoint: [[cmd/servez/main.go]]
+- Join flow: [[cmd/servez/join.go]]
+- Control plane entrypoint: [[cmd/servez-control/main.go]]
+- Agent entrypoint: [[cmd/servez-agent/main.go]]
+- TUI entrypoint: [[cmd/servez-tui/main.go]]
+- Autoscale entrypoint: [[cmd/servez-autoscale/main.go]]
 
 ## Shared Contract
 
-- `internal/api/types.go` is the single wire contract for both sides.
+- [[internal/api/types.go]] is the single wire contract for both sides.
 - Every report, command, workload/status object, forecast, and simulation result uses those types.
 
 ## Related Notes

@@ -21,15 +21,18 @@ priority: high
 
 ## Main Packages
 
-- `internal/apiserver` exposes the HTTP API (incl. MCP + predict routes).
-- `internal/state` persists typed objects.
-- `internal/audit` stores append-only action history.
-- `internal/orchestrator` schedules workloads and reconciles status.
-- `internal/apiclient` is the CLI read path to the control plane.
-- `internal/mcp` exposes the AI tool surface (read/write/simulate/subscribe/audit/predict).
-- `internal/simulate` implements the dry-run sandbox.
-- `internal/history` records and queries the time-series store.
-- `internal/predictor` produces scale forecasts.
+- [[internal/apiserver/server.go]] exposes the HTTP API (incl. MCP + predict + cost routes).
+- [[internal/apiserver/mcp.go]] adapts the apiserver to the MCP tool surface.
+- [[internal/apiserver/cost.go]] serves the cost-comparison route.
+- [[internal/state/store.go]] persists typed objects.
+- [[internal/audit/audit.go]] stores append-only action history.
+- [[internal/orchestrator/scheduler.go]] schedules workloads and reconciles status.
+- [[internal/apiclient/client.go]] is the CLI read path to the control plane.
+- [[internal/mcp/server.go]] exposes the AI tool surface (read/write/simulate/subscribe/audit/predict).
+- [[internal/simulate/simulate.go]] implements the dry-run sandbox.
+- [[internal/history/history.go]] records and queries the time-series store.
+- [[internal/predictor/predictor.go]] produces scale forecasts.
+- [[internal/cost/cost.go]] compares multi-cloud pricing.
 
 ## Important Endpoints
 
@@ -43,6 +46,7 @@ priority: high
 - `GET /v1/audit`
 - `POST /v1/simulate`
 - `GET /v1/predict?workload=<name>`
+- `POST /v1/cost/compare`
 - `GET /v1/mcp/tools`
 - `POST /v1/mcp/call`
 

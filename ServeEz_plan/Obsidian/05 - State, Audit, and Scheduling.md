@@ -12,19 +12,19 @@ priority: high
 
 ## State Store
 
-- `internal/state/store.go` defines the typed object store interface.
-- `internal/state/sqlite.go` is the embedded persistence backend.
+- [[internal/state/store.go]] defines the typed object store interface.
+- [[internal/state/sqlite.go]] is the embedded persistence backend.
 - Store objects are wrapped in `api.Object`.
 - Object kinds are validated through the registry.
 
 ## Audit Log
 
-- `internal/audit/audit.go` keeps an append-only action log.
+- [[internal/audit/audit.go]] keeps an append-only action log.
 - Every action should leave an audit trail with before/after context.
 
 ## Scheduler
 
-- `internal/orchestrator/scheduler.go` picks a node for a workload.
+- [[internal/orchestrator/scheduler.go]] picks a node for a workload.
 - The scheduler uses current reported usage and node capacity.
 - The reconciler watches store changes and updates workload assignment.
 

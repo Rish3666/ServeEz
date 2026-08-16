@@ -44,48 +44,52 @@ This note is the navigation hub for the current implementation structure.
 
 ## Code Map
 
-- `cmd/servez/main.go` (command registry + dispatch)
-- `cmd/servez/init.go`
-- `cmd/servez/join.go`
-- `cmd/servez/status.go`
-- `cmd/servez/deploy.go`
-- `cmd/servez/scale.go`
-- `cmd/servez/token.go`
-- `cmd/servez-control/main.go`
-- `cmd/servez-agent/main.go`
-- `cmd/servez-tui/main.go`
-- `cmd/servez-autoscale/main.go`
-- `internal/api/types.go`
-- `internal/apiserver/server.go`
-- `internal/apiserver/mcp.go`
-- `internal/apiclient/client.go`
-- `internal/agent/agent.go`
-- `internal/agent/register.go`
-- `internal/agent/tls.go`
-- `internal/agentnet/client.go`
-- `internal/state/store.go`
-- `internal/state/sqlite.go`
-- `internal/audit/audit.go`
-- `internal/orchestrator/scheduler.go`
-- `internal/container/manager.go`
-- `internal/container/docker.go`
-- `internal/metrics/collector.go`
-- `internal/metrics/buffer.go`
-- `internal/metrics/capacity.go`
-- `internal/mcp/server.go`
-- `internal/simulate/engine.go`
-- `internal/history/history.go`
-- `internal/predictor/predictor.go`
-- `internal/prewarm/leadtime.go`
-- `internal/cost/cost.go`
-- `internal/tui/app.go`
-- `internal/tui/panel.go`
-- `internal/tui/cluster.go`
-- `internal/tui/services.go`
-- `internal/tui/status.go`
-- `internal/tui/chat.go`
-- `internal/tui/alerts.go`
-- `internal/config/config.go`
+> Code files live inside the vault (repo root). Click any link to open the source.
+
+- [[cmd/servez/main.go]] (command registry + dispatch)
+- [[cmd/servez/init.go]]
+- [[cmd/servez/join.go]]
+- [[cmd/servez/status.go]]
+- [[cmd/servez/deploy.go]] (deploy + scale commands)
+- [[cmd/servez/cost.go]]
+- [[cmd/servez/token.go]]
+- [[cmd/servez/cost.go]]
+- [[cmd/servez-control/main.go]]
+- [[cmd/servez-agent/main.go]]
+- [[cmd/servez-tui/main.go]]
+- [[cmd/servez-autoscale/main.go]]
+- [[internal/api/types.go]]
+- [[internal/apiserver/server.go]]
+- [[internal/apiserver/mcp.go]]
+- [[internal/apiserver/cost.go]]
+- [[internal/apiclient/client.go]]
+- [[internal/agent/agent.go]]
+- [[internal/agent/register.go]]
+- [[internal/agent/tls.go]]
+- [[internal/agentnet/client.go]]
+- [[internal/state/store.go]]
+- [[internal/state/sqlite.go]]
+- [[internal/audit/audit.go]]
+- [[internal/orchestrator/scheduler.go]]
+- [[internal/container/manager.go]]
+- [[internal/container/docker.go]]
+- [[internal/metrics/collector.go]]
+- [[internal/metrics/buffer.go]]
+- [[internal/metrics/capacity.go]]
+- [[internal/mcp/server.go]]
+- [[internal/simulate/simulate.go]]
+- [[internal/history/history.go]]
+- [[internal/predictor/predictor.go]]
+- [[internal/prewarm/leadtime.go]]
+- [[internal/cost/cost.go]]
+- [[internal/tui/app.go]]
+- [[internal/tui/panel.go]]
+- [[internal/tui/cluster.go]]
+- [[internal/tui/services.go]]
+- [[internal/tui/status.go]]
+- [[internal/tui/chat.go]]
+- [[internal/tui/alerts.go]]
+- [[internal/config/config.go]]
 
 ## How To Read The System
 

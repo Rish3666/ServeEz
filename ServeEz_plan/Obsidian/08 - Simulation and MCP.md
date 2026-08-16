@@ -14,8 +14,8 @@ The AI surface of ServeEz. Every operation is a discoverable tool the agent can 
 
 ## MCP Tool Surface
 
-- `internal/mcp/server.go` defines the `Server`, `Tool`, and `Predictor`/`Simulator` interfaces.
-- `internal/apiserver/mcp.go` adapts the apiserver to `Simulator` and `Predictor` so tools share the same engine as the REST endpoints.
+- [[internal/mcp/server.go]] defines the `Server`, `Tool`, and `Predictor`/`Simulator` interfaces.
+- [[internal/apiserver/mcp.go]] adapts the apiserver to `Simulator` and `Predictor` so tools share the same engine as the REST endpoints.
 - HTTP surface: `GET /v1/mcp/tools` (discovery) and `POST /v1/mcp/call` (invocation).
 - Wire: `apiserver.WithMCP(...)`; `mcp.NewWithPredictor(store, audit, simulator, predictor)`.
 
@@ -32,7 +32,7 @@ The AI surface of ServeEz. Every operation is a discoverable tool the agent can 
 
 ## Simulation Engine
 
-- `internal/simulate/engine.go` implements a two-tier sandbox:
+- [[internal/simulate/simulate.go]] implements a two-tier sandbox:
   - **Tier 1** — statistical sanity check of the proposed action.
   - **Tier 2** — constraint validation against live cluster state.
 - Returns a `SimulationResult` with a `Recommendation` (approve / reject / requires_approval).

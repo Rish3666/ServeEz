@@ -15,12 +15,12 @@ The fast tier of the native control loop ([[AI Control/07 - Native Control Loop]
 ## Components
 
 ### `internal/history` — time-series store
-- SQLite-backed; `internal/history/history.go`.
+- SQLite-backed; [[internal/history/history.go]].
 - Every node report records a CPU% sample into the node's series (`"node:"+nodeID`).
 - `Record`, `Recent`, `Count`, `Prune`, `Close`.
 
 ### `internal/predictor` — forecast engine
-- `internal/predictor/predictor.go`.
+- [[internal/predictor/predictor.go]].
 - Least-squares linear-trend fit + r² confidence score.
 - Cold-start guard: needs `MinSamples=12` before forecasting.
 - Compares the 1h forecast against `TargetCPUPercent=80` and derives `recommended_replicas` (up-only).
@@ -33,10 +33,10 @@ The fast tier of the native control loop ([[AI Control/07 - Native Control Loop]
 - `available:false` = cold start or unscheduled — the autoscale loop must skip.
 
 ### `internal/prewarm` — lead time
-- `internal/prewarm/leadtime.go`: `LeadTime(runtime)` estimate (image pull + startup) used to decide how far ahead to scale.
+- [[internal/prewarm/leadtime.go]]: `LeadTime(runtime)` estimate (image pull + startup) used to decide how far ahead to scale.
 
 ### `cmd/servez-autoscale` — the loop
-- Standing process: every `--interval` (default 60s):
+- [[cmd/servez-autoscale/main.go]]: standing process, every `--interval` (default 60s):
   1. `Predict` each workload.
   2. Skip if `available:false`.
   3. If `recommended_replicas > current_replicas`: dry-run `/v1/simulate`, check decision gate (confidence ≥ 0.70, simulation not "reject"), then execute scale.

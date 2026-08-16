@@ -11,34 +11,34 @@ priority: high
 
 ## `cmd/servez`
 
-- `main.go` contains the command registry and dispatch loop.
-- `init.go` implements control-plane bootstrap config creation.
-- `join.go` implements node bootstrap and registration.
-- `status.go` reads cluster state from the control plane.
-- `deploy.go` handles workload deployment.
-- `scale.go` handles replica scaling.
-- `token.go` handles join token retrieval.
+- [[cmd/servez/main.go]] contains the command registry and dispatch loop.
+- [[cmd/servez/init.go]] implements control-plane bootstrap config creation.
+- [[cmd/servez/join.go]] implements node bootstrap and registration.
+- [[cmd/servez/status.go]] reads cluster state from the control plane.
+- [[cmd/servez/deploy.go]] handles workload deployment and scaling.
+- [[cmd/servez/cost.go]] handles multi-cloud cost comparison.
+- [[cmd/servez/token.go]] handles join token retrieval.
 
 ## `cmd/servez-control`
 
-- Boots the control plane and serves the HTTP API.
-- Loads config from `internal/config`.
+- [[cmd/servez-control/main.go]] boots the control plane and serves the HTTP API.
+- Loads config from [[internal/config/config.go]].
 - Wires state, audit, scheduler, history store, MCP server, and handler stack.
 
 ## `cmd/servez-agent`
 
-- Boots the node daemon.
+- [[cmd/servez-agent/main.go]] boots the node daemon.
 - Installs the metrics collector, buffer, and container manager.
 - Starts the agent run loop.
 
 ## `cmd/servez-tui`
 
-- Boots the live terminal dashboard (Bubble Tea).
+- [[cmd/servez-tui/main.go]] boots the live terminal dashboard (Bubble Tea).
 - Polls `/v1/state` every 2s and renders panes.
 
 ## `cmd/servez-autoscale`
 
-- Boots the standing fast-tier scaling loop.
+- [[cmd/servez-autoscale/main.go]] boots the standing fast-tier scaling loop.
 - Polls `/v1/predict`, dry-runs `/v1/simulate`, executes up-only scale with cooldown.
 
 ## CLI Behavior

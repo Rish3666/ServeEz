@@ -20,10 +20,10 @@ priority: high
 
 ## Main Packages
 
-- `internal/agent/agent.go`
-- `internal/agent/register.go`
-- `internal/agent/tls.go`
-- `internal/agentnet/client.go`
+- [[internal/agent/agent.go]]
+- [[internal/agent/register.go]]
+- [[internal/agent/tls.go]]
+- [[internal/agentnet/client.go]]
 
 ## Agent Loop
 

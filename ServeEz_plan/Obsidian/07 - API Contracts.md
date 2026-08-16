@@ -9,7 +9,7 @@ priority: critical
 
 # API Contracts
 
-`internal/api/types.go` is the shared contract for:
+[[internal/api/types.go]] is the shared contract for:
 
 - agent <-> control plane communication
 - object store payloads

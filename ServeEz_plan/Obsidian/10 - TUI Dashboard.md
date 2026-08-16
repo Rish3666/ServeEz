@@ -13,23 +13,23 @@ Live terminal dashboard (`servez-tui`) — Bubble Tea + Lipgloss. Polls the cont
 
 ## Entrypoint
 
-- `cmd/servez-tui/main.go` — enters the alt screen and starts the app.
+- [[cmd/servez-tui/main.go]] — enters the alt screen and starts the app.
 
 ## Shell
 
-- `internal/tui/app.go` — Bubble Tea model: ticker (2s poll), tab/q keys, generic 2-column grid for any pane count.
-- `internal/tui/panel.go` — `Panel` interface + `RegisterPanel` + `Env{Client, ControlURL, Logger}`.
-- `internal/tui/snapshot.go` — `Snapshot`/`NodeRow`/`WorkloadRow` + lenient map accessors for the `/v1/state` JSON.
+- [[internal/tui/app.go]] — Bubble Tea model: ticker (2s poll), tab/q keys, generic 2-column grid for any pane count.
+- [[internal/tui/panel.go]] — `Panel` interface + `RegisterPanel` + `Env{Client, ControlURL, Logger}`.
+- [[internal/tui/snapshot.go]] — `Snapshot`/`NodeRow`/`WorkloadRow` + lenient map accessors for the `/v1/state` JSON.
 
 ## Panes
 
 | Pane | File | Content |
 |------|------|---------|
-| Cluster | `cluster.go` | Node health map (healthy/degraded/unhealthy) |
-| Services | `services.go` | Workload list with replicas |
-| Status | `status.go` | Control-plane / system status |
-| Chat | `chat.go` | Natural-language intent parsing: deploy/scale/restart/stop/remove/migrate/kill/status/help; simulate-then-confirm gating for risky actions |
-| Alerts | `alerts.go` | Severity-derived alerts, scrollable, capped at 20 |
+| Cluster | [[internal/tui/cluster.go]] | Node health map (healthy/degraded/unhealthy) |
+| Services | [[internal/tui/services.go]] | Workload list with replicas |
+| Status | [[internal/tui/status.go]] | Control-plane / system status |
+| Chat | [[internal/tui/chat.go]] | Natural-language intent parsing: deploy/scale/restart/stop/remove/migrate/kill/status/help; simulate-then-confirm gating for risky actions |
+| Alerts | [[internal/tui/alerts.go]] | Severity-derived alerts, scrollable, capped at 20 |
 
 ## Verified Live
 
