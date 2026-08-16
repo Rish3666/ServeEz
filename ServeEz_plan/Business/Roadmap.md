@@ -64,12 +64,12 @@ priority: critical
 | Month 6  | First paying enterprise customer      | $10k MRR                              |
 | Month 8  | Multi-cloud GA                        | 50+ clusters managed                  |
 
-## Immediate Next Steps
-1. ==GUI dashboard (cluster view + cost comparison + AI chat)==
-2. Blue-green pre-warm wiring for scale-down
-3. AI chat: move from read-only to executed actions (with confirm)
-4. Live cloud pricing scraping (replace static catalog)
-5. Add regression + e2e coverage across CLI/API/MCP/TUI
+## Immediate Next Steps (Sprint 8 — split: primary agent + Antigravity)
+1. ==Blue-green pre-warm wiring (Predictive Duplicate Container)== — primary agent (`orchestrator`/`container`/`prewarm`/`agent`)
+2. ==AI chat: executed actions (with confirm)== — primary agent (`apiserver`/`mcp`; `simulate` → `execute` via confidence gate)
+3. ==Live cloud pricing scraping (replace static catalog)== — Antigravity (`internal/cost/`)
+4. ==Regression + e2e coverage across CLI/API/MCP/TUI== — Antigravity (incl. fix flaky `TestAgentEndToEnd`)
+5. Mobile app (later phase)
 
 ## Build Status (2026-08-16)
 | Area | Status | Notes |
