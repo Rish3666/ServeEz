@@ -25,7 +25,7 @@ priority: critical
 - [x] **Own orchestrator** — Lightweight container lifecycle (Docker-compatible API)
 - [x] **Predictive Scaling (fast tier)** — Statistical forecast engine + autoscale control loop (Sprint 5)
 - [x] **Multi-cloud cost comparison** — AWS/Azure/GCP pricing engine + savings report (Sprint 6)
-- [ ] **Predictive Duplicate Container** — Blue-green pre-warm for zero-downtime ops (prewarm lead-time measured)
+- [x] **Predictive Duplicate Container** — Blue-green pre-warm for zero-downtime ops (`prewarm.Swapper` + `replace` action, Sprint 8)
 - [x] **AI Chat Mode (read-only baseline)** — TUI chat pane with intent parsing + simulate-then-confirm gating
 - [x] **GUI** — Stitch-designed dashboard: cluster view + cost comparison + AI chat (Sprint 7)
 - [x] **One-command cluster additions** — [[Core Features/07 - One-Command Cluster Additions]]
