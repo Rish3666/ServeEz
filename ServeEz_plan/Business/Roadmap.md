@@ -27,7 +27,7 @@ priority: critical
 - [x] **Multi-cloud cost comparison** — AWS/Azure/GCP pricing engine + savings report (Sprint 6)
 - [ ] **Predictive Duplicate Container** — Blue-green pre-warm for zero-downtime ops (prewarm lead-time measured)
 - [x] **AI Chat Mode (read-only baseline)** — TUI chat pane with intent parsing + simulate-then-confirm gating
-- [ ] **GUI** — Basic dashboard with cluster view + cost comparison + AI chat
+- [x] **GUI** — Stitch-designed dashboard: cluster view + cost comparison + AI chat (Sprint 7)
 - [x] **One-command cluster additions** — [[Core Features/07 - One-Command Cluster Additions]]
 - [x] **Real-time monitoring dashboard** — TUI cluster/services/status/alerts panes ([[Core Features/09 - Real-Time Monitoring & AI Suggestions]])
 
@@ -82,6 +82,6 @@ priority: critical
 | TUI (`servez-tui`) | ✅ Live | cluster/services/status/chat/alerts panes |
 | Predictive scaling | ✅ Live | history store + linear-trend forecast + /v1/predict + autoscale loop |
 | Cost comparison | ✅ Live | /v1/cost/compare + `servez cost` CLI (baseline 2026 catalog) |
-| GUI | 🚧 Next | — |
+| GUI | ✅ Live | Stitch-designed SPA in `cmd/servez-gui` (overview/nodes/workloads/cost/alerts/AI) |
 
 ← [[Index]]
