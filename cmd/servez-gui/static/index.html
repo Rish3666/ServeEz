@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ServeEz — Cluster Overview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<!-- Sidebar -->
+<nav class="sidebar">
+  <div class="sidebar-brand">
+    <h1>ServeEz</h1>
+    <p>Orchestrator v1.0</p>
+  </div>
+  <div class="nav">
+    <a class="nav-item" data-view="overview"><span class="ic">◧</span><span>Dashboard</span></a>
+    <a class="nav-item" data-view="nodes"><span class="ic">▦</span><span>Nodes</span></a>
+    <a class="nav-item" data-view="services"><span class="ic">▤</span><span>Workloads</span></a>
+    <a class="nav-item" data-view="cost"><span class="ic">$</span><span>Cost</span></a>
+    <a class="nav-item" data-view="alerts"><span class="ic">⚠</span><span>Alerts</span></a>
+    <a class="nav-item" data-view="ai"><span class="ic">✦</span><span>AI Control</span></a>
+  </div>
+  <div class="sidebar-foot">
+    <div class="status"><span class="dot ok" id="foot-dot"></span><span id="foot-status">connecting…</span></div>
+  </div>
+</nav>
+
+<!-- Shell -->
+<div class="shell">
+  <header class="header">
+    <div class="header-left">
+      <h2 class="h-md" id="page-title">Cluster Overview</h2>
+      <span class="env-tag">prod</span>
+    </div>
+    <div class="header-right">
+      <div class="search">
+        <span class="ic">⌕</span>
+        <input type="text" placeholder="Search resources…" id="global-search">
+      </div>
+      <button class="icon-btn" title="Refresh" id="refresh-btn">↻</button>
+      <button class="icon-btn" title="Notifications">◔</button>
+      <button class="icon-btn" title="Account">○</button>
+    </div>
+  </header>
+
+  <main class="main">
+
+    <!-- VIEW: OVERVIEW -->
+    <section class="view active" id="view-overview" data-title="Cluster Overview">
+      <div class="metrics">
+        <div class="card metric">
+          <span class="label">Nodes</span>
+          <span class="value" id="ov-nodes">—</span>
+          <span class="sub" id="ov-nodes-sub">loading…</span>
+        </div>
+        <div class="card metric">
+          <span class="label">Workloads</span>
+          <span class="value" id="ov-workloads">—</span>
+          <span class="sub" id="ov-workloads-sub">…</span>
+        </div>
+        <div class="card metric">
+          <span class="label">Uptime</span>
+          <span class="value">99.98%</span>
+          <span class="sub">30 day rolling</span>
+        </div>
+        <div class="card metric">
+          <span class="label">Est. Cost</span>
+          <span class="value" id="ov-cost">—</span>
+          <span class="sub" id="ov-cost-sub">3 clouds · 5 regions</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <h3 class="caps">Node Health</h3>
+          <div class="b-sm muted" style="display:flex;align-items:center;gap:8px;">
+            <span style="display:flex;align-items:center;gap:4px;"><span class="dot ok"></span> healthy</span>
+            <span>·</span>
+            <span style="display:flex;align-items:center;gap:4px;"><span class="dot warn"></span> degraded</span>
+            <span>·</span>
+            <span style="display:flex;align-items:center;gap:4px;"><span class="dot bad"></span> down</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="node-grid" id="node-grid"><div class="empty"><i>Waiting for control plane…</i></div></div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+        <div class="card">
+          <div class="card-head"><h3 class="caps">Recent Activity</h3></div>
+          <ul class="vlist" id="activity-list"><li class="empty"><i>No activity yet</i></li></ul>
+        </div>
+        <div class="card">
+          <div class="card-head"><h3 class="caps">Active Alerts</h3></div>
+          <ul class="vlist" id="alert-list"><li class="empty"><i>No active alerts</i></li></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW: NODES -->
+    <section class="view" id="view-nodes" data-title="Nodes">
+      <div class="toolbar">
+        <div class="left"><h3 class="caps" style="padding-top:2px;">All Nodes</h3></div>
+        <div class="right">
+          <div class="filters">
+            <button class="filter-chip active" data-filter="all">All</button>
+            <button class="filter-chip" data-filter="healthy">Healthy</button>
+            <button class="filter-chip" data-filter="degraded">Degraded</button>
+            <button class="filter-chip" data-filter="unhealthy">Unhealthy</button>
+          </div>
+        </div>
+      </div>
+      <div class="card" style="overflow:hidden;">
+        <div class="overflow-wrap" style="overflow-x:auto;">
+        <table class="tbl">
+          <thead><tr>
+            <th>Node</th><th>Role</th><th>State</th><th class="num">CPU</th>
+            <th class="num">Memory</th><th class="num">Disk</th><th class="num">Net</th><th>Last Seen</th>
+          </tr></thead>
+          <tbody id="nodes-table-body"><tr><td colspan="8" class="empty"><i>Waiting for control plane…</i></td></tr></tbody>
+        </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW: SERVICES / WORKLOADS -->
+    <section class="view" id="view-services" data-title="Workloads">
+      <div class="toolbar">
+        <div class="left"><button class="btn primary" id="deploy-btn">+ Deploy Service</button></div>
+        <div class="right">
+          <div class="filters">
+            <button class="filter-chip active" data-wfilter="all">All</button>
+            <button class="filter-chip" data-wfilter="running">Running</button>
+            <button class="filter-chip" data-wfilter="degraded">Degraded</button>
+            <button class="filter-chip" data-wfilter="scaled">Scaled</button>
+          </div>
+        </div>
+      </div>
+      <div class="card" style="overflow:hidden;">
+        <div class="overflow-wrap" style="overflow-x:auto;">
+        <table class="tbl">
+          <thead><tr>
+            <th>Name</th><th>Image</th><th class="num">Replicas</th><th>Node</th>
+            <th class="num">CPU</th><th class="num">Memory</th><th>State</th>
+          </tr></thead>
+          <tbody id="services-table-body"><tr><td colspan="7" class="empty"><i>Waiting for control plane…</i></td></tr></tbody>
+        </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW: COST -->
+    <section class="view" id="view-cost" data-title="Cost Comparison">
+      <div class="card">
+        <div class="card-head"><h3 class="caps">Compute Profile</h3></div>
+        <div class="card-body">
+          <div class="form-row">
+            <div class="field"><label>vCPU</label><input type="number" id="cost-vcpu" value="4" min="1"></div>
+            <div class="field"><label>Memory (GB)</label><input type="number" id="cost-mem" value="16" min="1"></div>
+            <div class="field"><label>Run Hours/mo</label><input type="number" id="cost-hours" value="730" min="1" max="744"></div>
+            <button class="btn primary" id="cost-compare-btn">⟳ Compare</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="summary-grid" id="cost-summary">
+        <div class="card metric"><span class="label">Best Provider</span><span class="value" id="cost-best-provider">—</span></div>
+        <div class="card metric"><span class="label">Est. Monthly</span><span class="value" id="cost-best-monthly">—</span></div>
+        <div class="card metric"><span class="label">Spot Savings</span><span class="value" id="cost-spot-savings" style="color:var(--secondary);">—</span></div>
+        <div class="card metric"><span class="label">Providers</span><span class="value" id="cost-providers" style="font-size:15px;padding-top:4px;">—</span></div>
+      </div>
+
+      <div class="card" style="overflow:hidden;">
+        <div class="card-head"><h3 class="caps" id="cost-table-title">Instances</h3></div>
+        <div class="overflow-wrap" style="overflow-x:auto;">
+        <table class="tbl">
+          <thead><tr>
+            <th>Provider</th><th>Instance</th><th>Region</th><th class="num">On-Demand $/mo</th>
+            <th class="num">Spot $/mo</th><th class="num">Savings</th><th>Recommend</th>
+          </tr></thead>
+          <tbody id="cost-table-body"><tr><td colspan="7" class="empty"><i>Run a comparison to see pricing across AWS · GCP · Azure</i></td></tr></tbody>
+        </table>
+        </div>
+        <div class="card-body" style="padding:12px 16px;border-top:1px solid var(--outline-soft);">
+          <p class="b-sm muted">* Prices are baseline 2026 list. Spot shown where ≥15% cheaper than on-demand.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW: ALERTS -->
+    <section class="view" id="view-alerts" data-title="Alerts">
+      <div class="toolbar">
+        <div class="left"><h3 class="caps" id="alert-count" style="padding-top:2px;">Active Alerts</h3></div>
+        <div class="right">
+          <div class="filters">
+            <button class="filter-chip active" data-afilter="all">All</button>
+            <button class="filter-chip" data-afilter="warning">Warning</button>
+            <button class="filter-chip" data-afilter="critical">Critical</button>
+          </div>
+        </div>
+      </div>
+      <div class="card" id="alerts-card" style="overflow:hidden;">
+        <div id="alerts-list"><div class="empty"><i>No alerts yet</i></div></div>
+        <div class="card-body" style="text-align:center;border-top:1px solid var(--outline-soft);padding:10px;">
+          <span class="b-sm dim">Older alerts are archived after 24h.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW: AI CONTROL -->
+    <section class="view" id="view-ai" data-title="AI Control">
+      <div class="ai-layout">
+        <div class="card ai-chat">
+          <div class="ai-thread" id="ai-thread">
+            <div class="msg assistant">
+              <div class="body">I'm watching the cluster. Describe an action or ask about any workload — I'll propose a change for review before it executes.</div>
+            </div>
+          </div>
+          <div class="ai-input">
+            <input type="text" id="ai-input" placeholder="Describe an action or ask about the cluster…">
+            <button id="ai-send">➤</button>
+          </div>
+        </div>
+        <aside class="card ai-rail">
+          <h2 class="caps muted" style="margin-bottom:16px;">Proposed Action</h2>
+          <div class="intents">
+            <span class="intent on" id="intent-tag">SCALE</span>
+            <span class="intent off">MIGRATE</span>
+            <span class="intent off">RESTART</span>
+          </div>
+          <div class="action-title" id="action-title">—</div>
+          <div id="action-kv">
+            <div class="kv"><span class="k">Target node</span><span class="v" id="kv-node">—</span></div>
+            <div class="kv"><span class="k">Forecast confidence</span><span class="v" id="kv-conf">—</span></div>
+            <div class="kv"><span class="k">Est. impact</span><span class="v good" id="kv-impact">—</span></div>
+          </div>
+          <div class="conf-meter">
+            <div class="row">
+              <span class="caps muted">Confidence</span>
+              <span class="mono-sm" id="conf-value">—</span>
+            </div>
+            <div class="conf-track"><div class="conf-fill" id="conf-fill" style="width:0%;"></div></div>
+          </div>
+          <div class="rail-actions">
+            <button class="btn primary block" id="exec-btn">Execute</button>
+            <button class="btn ghost block" id="sim-btn">Simulate first</button>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script src="/static/app.js"></script>
+</body>
+</html>

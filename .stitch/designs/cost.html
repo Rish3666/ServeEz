@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cost Comparison - ServeEz</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-error": "#690005",
+                      "primary-container": "#4e8eff",
+                      "on-secondary": "#00390d",
+                      "on-surface-variant": "#c2c6d6",
+                      "on-primary-container": "#00275d",
+                      "on-background": "#e1e2e9",
+                      "surface-dim": "#111319",
+                      "on-primary-fixed-variant": "#004395",
+                      "on-secondary-container": "#00320a",
+                      "surface-container-low": "#191c21",
+                      "inverse-on-surface": "#2e3036",
+                      "tertiary": "#fabc45",
+                      "secondary-fixed": "#83fc89",
+                      "on-secondary-fixed-variant": "#005317",
+                      "tertiary-container": "#bd8708",
+                      "primary": "#aec6ff",
+                      "inverse-primary": "#005ac3",
+                      "on-primary": "#002e6a",
+                      "on-primary-fixed": "#001a42",
+                      "error-container": "#93000a",
+                      "surface-tint": "#aec6ff",
+                      "primary-fixed": "#d8e2ff",
+                      "inverse-surface": "#e1e2e9",
+                      "secondary": "#67df70",
+                      "primary-fixed-dim": "#aec6ff",
+                      "surface-container-lowest": "#0b0e13",
+                      "on-tertiary-fixed-variant": "#5f4100",
+                      "surface-container-highest": "#32353a",
+                      "surface-bright": "#36393f",
+                      "surface-variant": "#32353a",
+                      "surface-container-high": "#272a30",
+                      "background": "#111319",
+                      "surface": "#111319",
+                      "error": "#ffb4ab",
+                      "on-surface": "#e1e2e9",
+                      "on-tertiary": "#422c00",
+                      "secondary-container": "#27a640",
+                      "surface-container": "#1d2025",
+                      "on-error-container": "#ffdad6",
+                      "secondary-fixed-dim": "#67df70",
+                      "on-tertiary-fixed": "#271900",
+                      "outline-variant": "#424753",
+                      "outline": "#8c909f",
+                      "on-secondary-fixed": "#002105",
+                      "tertiary-fixed": "#ffdeaa",
+                      "on-tertiary-container": "#392600",
+                      "tertiary-fixed-dim": "#fabc45"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "header-height": "48px",
+                      "gap-tight": "8px",
+                      "gap-xs": "4px",
+                      "gap-base": "16px",
+                      "sidebar-width": "220px",
+                      "padding-container": "24px"
+              },
+              "fontFamily": {
+                      "label-caps": [
+                              "Inter"
+                      ],
+                      "body-sm": [
+                              "Inter"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "headline-md": [
+                              "Inter"
+                      ],
+                      "headline-lg": [
+                              "Inter"
+                      ],
+                      "data-mono-sm": [
+                              "JetBrains Mono"
+                      ],
+                      "data-mono": [
+                              "JetBrains Mono"
+                      ]
+              },
+              "fontSize": {
+                      "label-caps": [
+                              "11px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.06em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-sm": [
+                              "13px",
+                              {
+                                      "lineHeight": "18px",
+                                      "letterSpacing": "0px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "letterSpacing": "0px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg": [
+                              "20px",
+                              {
+                                      "lineHeight": "28px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "data-mono-sm": [
+                              "11px",
+                              {
+                                      "lineHeight": "14px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "data-mono": [
+                              "13px",
+                              {
+                                      "lineHeight": "18px",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+            },
+          }
+        }
+      </script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=JetBrains+Mono:wght@400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+      </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md h-screen flex overflow-hidden">
+<!-- SideNavBar -->
+<nav class="fixed left-0 top-0 h-full w-[220px] bg-surface-container dark:bg-surface-container text-primary dark:text-primary border-r border-outline flex flex-col py-4 z-20">
+<div class="px-6 mb-8">
+<h1 class="font-headline-md text-headline-md font-bold text-on-surface">ServeEz</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Orchestrator v1.0</p>
+</div>
+<div class="flex-1 overflow-y-auto">
+<ul class="space-y-1">
+<li>
+<a class="flex items-center h-[36px] text-on-surface-variant px-4 hover:bg-surface-container-high transition-colors cursor-pointer active:opacity-80" href="#">
+<span class="material-symbols-outlined mr-3 text-[20px]" data-icon="dashboard">dashboard</span>
+<span class="font-label-caps text-label-caps">Dashboard</span>
+</a>
+</li>
+<li>
+<a class="flex items-center h-[36px] text-on-surface-variant px-4 hover:bg-surface-container-high transition-colors cursor-pointer active:opacity-80" href="#">
+<span class="material-symbols-outlined mr-3 text-[20px]" data-icon="developer_board">developer_board</span>
+<span class="font-label-caps text-label-caps">Nodes</span>
+</a>
+</li>
+<li>
+<a class="flex items-center h-[36px] text-on-surface-variant px-4 hover:bg-surface-container-high transition-colors cursor-pointer active:opacity-80" href="#">
+<span class="material-symbols-outlined mr-3 text-[20px]" data-icon="deployed_code">deployed_code</span>
+<span class="font-label-caps text-label-caps">Workloads</span>
+</a>
+</li>
+<li>
+<a class="flex items-center h-[36px] bg-primary-container/20 text-primary border-l-[3px] border-primary px-4 hover:bg-surface-container-high transition-colors cursor-pointer active:opacity-80" href="#">
+<span class="material-symbols-outlined mr-3 text-[20px]" data-icon="payments">payments</span>
+<span class="font-label-caps text-label-caps">Cost</span>
+</a>
+</li>
+<li>
+<a class="flex items-center h-[36px] text-on-surface-variant px-4 hover:bg-surface-container-high transition-colors cursor-pointer active:opacity-80" href="#">
+<span class="material-symbols-outlined mr-3 text-[20px]" data-icon="storage">storage</span>
+<span class="font-label-caps text-label-caps">Storage</span>
+</a>
+</li>
+<li>
+<a class="flex items-center h-[36px] text-on-surface-variant px-4 hover:bg-surface-container-high transition-colors cursor-pointer active:opacity-80" href="#">
+<span class="material-symbols-outlined mr-3 text-[20px]" data-icon="settings">settings</span>
+<span class="font-label-caps text-label-caps">Settings</span>
+</a>
+</li>
+</ul>
+</div>
+<div class="px-6 mt-auto">
+<div class="flex items-center text-on-surface-variant">
+<span class="material-symbols-outlined mr-2 text-[16px] text-secondary" data-icon="check_circle">check_circle</span>
+<span class="font-label-caps text-label-caps">3 nodes · healthy</span>
+</div>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="ml-[220px] flex-1 flex flex-col h-full bg-surface relative z-10">
+<!-- TopNavBar -->
+<header class="flex items-center justify-between w-full px-6 h-[48px] bg-surface dark:bg-surface border-b border-outline z-10">
+<div class="flex items-center gap-4">
+<h2 class="font-headline-md text-headline-md font-bold text-on-surface">Cost Comparison</h2>
+<span class="bg-surface-container-high border border-outline text-on-surface font-label-caps text-label-caps px-2 py-0.5 rounded">prod</span>
+</div>
+<div class="flex items-center gap-4 text-on-surface-variant">
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-2 top-1/2 -translate-y-1/2 text-[16px]" data-icon="search">search</span>
+<input class="w-48 h-7 bg-surface-container-high border border-outline rounded pl-8 pr-2 text-body-sm font-body-sm text-on-surface focus:outline-none focus:border-primary transition-colors placeholder:text-on-surface-variant/50" placeholder="Search resources..." type="text"/>
+</div>
+<button class="hover:text-on-surface transition-colors cursor-pointer active:opacity-80"><span class="material-symbols-outlined text-[20px]" data-icon="notifications">notifications</span></button>
+<button class="hover:text-on-surface transition-colors cursor-pointer active:opacity-80"><span class="material-symbols-outlined text-[20px]" data-icon="account_circle">account_circle</span></button>
+</div>
+</header>
+<!-- Canvas -->
+<main class="flex-1 overflow-y-auto p-6 flex flex-col gap-base">
+<!-- COMPUTE PROFILE Card -->
+<section class="bg-surface-container-high border border-outline rounded p-4 flex flex-col gap-4">
+<h3 class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Compute Profile</h3>
+<div class="flex flex-wrap items-end gap-4">
+<div class="flex flex-col gap-1 w-32">
+<label class="font-label-caps text-label-caps text-on-surface-variant">vCPU</label>
+<input class="h-8 bg-surface border border-outline rounded px-3 text-data-mono font-data-mono text-on-surface focus:outline-none focus:border-primary transition-colors" type="number" value="4"/>
+</div>
+<div class="flex flex-col gap-1 w-32">
+<label class="font-label-caps text-label-caps text-on-surface-variant">Memory (GB)</label>
+<input class="h-8 bg-surface border border-outline rounded px-3 text-data-mono font-data-mono text-on-surface focus:outline-none focus:border-primary transition-colors" type="number" value="16"/>
+</div>
+<div class="flex flex-col gap-1 w-32">
+<label class="font-label-caps text-label-caps text-on-surface-variant">Run Hours/mo</label>
+<input class="h-8 bg-surface border border-outline rounded px-3 text-data-mono font-data-mono text-on-surface focus:outline-none focus:border-primary transition-colors" type="number" value="730"/>
+</div>
+<button class="h-8 bg-primary text-on-primary font-body-sm text-body-sm font-semibold rounded px-4 hover:bg-primary-container transition-colors active:opacity-80 ml-auto flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]" data-icon="sync">sync</span> Compare
+                    </button>
+</div>
+</section>
+<!-- Summary Strip -->
+<section class="grid grid-cols-4 gap-4">
+<div class="bg-surface-container-high border border-outline rounded p-4 flex flex-col gap-1">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Best Provider</span>
+<span class="font-headline-lg text-headline-lg text-on-surface">GCP</span>
+</div>
+<div class="bg-surface-container-high border border-outline rounded p-4 flex flex-col gap-1">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Est. Monthly</span>
+<span class="font-headline-lg text-headline-lg text-on-surface font-data-mono text-data-mono">$36.50</span>
+</div>
+<div class="bg-surface-container-high border border-outline rounded p-4 flex flex-col gap-1">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Spot Savings</span>
+<span class="font-headline-lg text-headline-lg text-secondary font-data-mono text-data-mono">+$7.15/mo</span>
+</div>
+<div class="bg-surface-container-high border border-outline rounded p-4 flex flex-col gap-1">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Providers</span>
+<span class="font-body-md text-body-md text-on-surface mt-1">AWS · GCP · Azure</span>
+</div>
+</section>
+<!-- INSTANCES Table -->
+<section class="bg-surface-container border border-outline rounded flex flex-col overflow-hidden">
+<div class="p-4 border-b border-outline flex justify-between items-center bg-surface-container-high">
+<h3 class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Instances (4 vCPU, 16GB)</h3>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-outline bg-surface-container-high/50">
+<th class="font-label-caps text-label-caps text-on-surface-variant py-2 px-4 uppercase tracking-wider w-32">Provider</th>
+<th class="font-label-caps text-label-caps text-on-surface-variant py-2 px-4 uppercase tracking-wider">Instance</th>
+<th class="font-label-caps text-label-caps text-on-surface-variant py-2 px-4 uppercase tracking-wider">Region</th>
+<th class="font-label-caps text-label-caps text-on-surface-variant py-2 px-4 uppercase tracking-wider w-24">Type</th>
+<th class="font-label-caps text-label-caps text-on-surface-variant py-2 px-4 uppercase tracking-wider text-right">On-Demand $/mo</th>
+<th class="font-label-caps text-label-caps text-on-surface-variant py-2 px-4 uppercase tracking-wider text-right">Spot $/mo</th>
+<th class="font-label-caps text-label-caps text-on-surface-variant py-2 px-4 uppercase tracking-wider text-right">Savings</th>
+<th class="font-label-caps text-label-caps text-on-surface-variant py-2 px-4 uppercase tracking-wider text-center w-32">Recommend</th>
+</tr>
+</thead>
+<tbody class="font-body-sm text-body-sm">
+<tr class="border-b border-outline hover:bg-surface-container-high transition-colors">
+<td class="py-3 px-4 font-semibold text-on-surface">AWS</td>
+<td class="py-3 px-4 font-data-mono text-data-mono text-on-surface-variant">m6g.xlarge</td>
+<td class="py-3 px-4 text-on-surface-variant">us-east-1</td>
+<td class="py-3 px-4"><span class="bg-surface-container-high border border-outline text-on-surface-variant px-2 py-0.5 rounded font-data-mono-sm text-data-mono-sm">ARM</span></td>
+<td class="py-3 px-4 font-data-mono text-data-mono text-on-surface text-right">$112.42</td>
+<td class="py-3 px-4 font-data-mono text-data-mono text-on-surface text-right">$48.18</td>
+<td class="py-3 px-4 font-data-mono text-data-mono text-secondary text-right">57%</td>
+<td class="py-3 px-4 text-center"></td>
+</tr>
+<!-- Highlighted GCP Row -->
+<tr class="border-b border-outline bg-primary-container/10 border-l-[3px] border-l-primary hover:bg-primary-container/20 transition-colors relative">
+<td class="py-3 pl-[13px] pr-4 font-semibold text-on-surface">GCP</td>
+<td class="py-3 px-4 font-data-mono text-data-mono text-on-surface-variant">e2-standard-4</td>
+<td class="py-3 px-4 text-on-surface-variant">us-central1</td>
+<td class="py-3 px-4"><span class="bg-surface-container-high border border-outline text-on-surface-variant px-2 py-0.5 rounded font-data-mono-sm text-data-mono-sm">x86</span></td>
+<td class="py-3 px-4 font-data-mono text-data-mono text-on-surface text-right">$97.82</td>
+<td class="py-3 px-4 font-data-mono text-data-mono text-primary text-right font-bold">$36.50</td>
+<td class="py-3 px-4 font-data-mono text-data-mono text-secondary text-right">62%</td>
+<td class="py-3 px-4 text-center">
+<span class="inline-flex items-center gap-1 bg-primary/10 text-primary border border-primary/20 px-2 py-1 rounded-full font-label-caps text-label-caps">
+<span class="material-symbols-outlined text-[12px]" data-icon="star">star</span> Recommended
+                                    </span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-high transition-colors">
+<td class="py-3 px-4 font-semibold text-on-surface">Azure</td>
+<td class="py-3 px-4 font-data-mono text-data-mono text-on-surface-variant">D4s_v4</td>
+<td class="py-3 px-4 text-on-surface-variant">eastus</td>
+<td class="py-3 px-4"><span class="bg-surface-container-high border border-outline text-on-surface-variant px-2 py-0.5 rounded font-data-mono-sm text-data-mono-sm">x86</span></td>
+<td class="py-3 px-4 font-data-mono text-data-mono text-on-surface text-right">$140.16</td>
+<td class="py-3 px-4 font-data-mono text-data-mono text-on-surface-variant text-right">N/A*</td>
+<td class="py-3 px-4 font-data-mono text-data-mono text-on-surface-variant text-right">-</td>
+<td class="py-3 px-4 text-center"></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-3 bg-surface-container-lowest border-t border-outline flex items-center">
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+<span class="font-bold">*</span> Prices are baseline 2026 list. Spot shown where ≥15% cheaper than on-demand. Azure spot capacity low in selected region.
+                    </p>
+</div>
+</section>
+</main>
+</div>
+</body></html>
