@@ -156,19 +156,24 @@ func (a *App) View() string {
 	)
 
 	var body strings.Builder
-	// Render panes in a 2x2 grid (left: first half, right: second half).
-	left := a.renderPane(0)
-	right := a.renderPane(1)
-	if len(a.panels) > 2 {
-		left = lipgloss.JoinVertical(lipgloss.Left, left, a.renderPane(2))
+	// Render panes in a two-column grid, alternating left/right so any number
+	// of registered panes is laid out (panes register in a stable order: the
+	// shell's own Status pane is always last, hence the 2x2 look).
+	left, right := []string{}, []string{}
+	for i := range a.panels {
+		rendered := a.renderPane(i)
+		if i%2 == 0 {
+			left = append(left, rendered)
+		} else {
+			right = append(right, rendered)
+		}
 	}
-	if len(a.panels) > 3 {
-		right = lipgloss.JoinVertical(lipgloss.Left, right, a.renderPane(3))
-	}
-	if len(a.panels) == 1 {
-		body.WriteString(left)
+	leftCol := lipgloss.JoinVertical(lipgloss.Left, left...)
+	rightCol := lipgloss.JoinVertical(lipgloss.Left, right...)
+	if len(right) > 0 {
+		body.WriteString(lipgloss.JoinHorizontal(lipgloss.Top, leftCol, rightCol))
 	} else {
-		body.WriteString(lipgloss.JoinHorizontal(lipgloss.Top, left, right))
+		body.WriteString(leftCol)
 	}
 
 	status := a.statusLine()
