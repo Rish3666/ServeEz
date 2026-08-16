@@ -12,7 +12,7 @@ import (
 	"errors"
 	"fmt"
 	"sort"
-
+	"time"
 	"github.com/Rish3666/ServeEz/internal/api"
 )
 
@@ -39,12 +39,16 @@ type PriceCatalog struct {
 // Engine implements api.CostComparer over a static price catalog.
 type Engine struct {
 	catalog PriceCatalog
+	fetcher PriceFetcher // live fetcher with fallback
 }
 
 // New builds an engine with the default baseline catalog.
 func New() *Engine {
-	return NewWithCatalog(PriceCatalog{Offers: defaultCatalog()})
+	 e := NewWithCatalog(PriceCatalog{Offers: defaultCatalog()})
+	e.fetcher = NewCachedFetcher(NewCombinedFetcher(), 24*time.Hour)
+	return e
 }
+
 
 // NewWithCatalog builds an engine over a caller-provided catalog.
 func NewWithCatalog(catalog PriceCatalog) *Engine {
@@ -66,10 +70,17 @@ func (e *Engine) Compare(ctx context.Context, req api.CostCompareRequest) (api.C
 		region = "us-east-1"
 	}
 
+	// Attempt live pricing fetch, fallback to static catalog on error or nil fetcher
+	offers := e.catalog.Offers
+	if e.fetcher != nil {
+		if liveOffers, err := e.fetcher.Fetch(ctx); err == nil && len(liveOffers) > 0 {
+			offers = liveOffers
+		}
+	}
 	// Best (cheapest) matching offer per provider.
 	byProvider := map[string]*api.CostRecommendation{}
 	for _, prov := range []string{"aws", "azure", "gcp"} {
-		rec, ok := bestOffer(e.catalog.Offers, prov, region, req.VCPU, req.MemGB, runtime)
+		rec, ok := bestOffer(offers, prov, region, req.VCPU, req.MemGB, runtime)
 		if !ok {
 			continue
 		}
